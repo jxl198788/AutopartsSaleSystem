@@ -17,13 +17,13 @@ import org.junit.BeforeClass;
  */
 public class MyBatisOnlyTestBase {
 
-    public static SqlSessionFactory sqlSessionFactory;
+	public static SqlSessionFactory sqlSessionFactory;
 
-    @BeforeClass
-    public static void setup() throws Exception {
-        // 根据存放在classpath下的配置文件尝试构建SqlSession工厂
-        InputStream config = Thread.currentThread().getContextClassLoader().getResourceAsStream("mybatis-only-configuration.xml");
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-        config.close();
-    }
+	@BeforeClass
+	public static void setup() throws Exception {
+		// 根据存放在classpath下的配置文件尝试构建SqlSession工厂
+		InputStream config = Thread.currentThread().getContextClassLoader().getResourceAsStream("mybatis-only-configuration.xml");
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+		config.close();
+	}
 }

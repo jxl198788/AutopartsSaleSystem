@@ -1,5 +1,5 @@
 // 本地化
-window['w2utils'] && w2utils.locale('static/w2ui/zh-cn.json');
+window['w2utils'] && w2utils.locale('./static/w2ui/zh-cn.json');
 
 $(document).ready(function(){
 	// 主要容器
