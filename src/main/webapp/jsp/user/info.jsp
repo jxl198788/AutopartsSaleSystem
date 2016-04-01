@@ -19,7 +19,7 @@
                 <form role="form">
                     <div class="form-group" style="width: 450px">
                         <label for="disabledSelect">头像:</label>&nbsp;&nbsp;&nbsp;
-                        <img style="width: 120px;height: 80px" src="th.jpg">
+                        <img style="width: 120px;height: 80px" src="../../static/image/th.jpg">
 
                     </div>
                     <div class="form-group" style="width: 450px">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group" style="width: 450px">
                         <label for="disabledSelect">营业执照:</label>&nbsp;&nbsp;&nbsp;
-                        <img style="width: 120px;height: 80px" src="th.jpg">
+                        <img style="width: 120px;height: 80px" src="../../static/image/th.jpg">
                     </div>
                     <div class="form-group" style="width: 800px">
                         <label for="disabledSelect">所属区域</label><br/>

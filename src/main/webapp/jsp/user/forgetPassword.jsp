@@ -41,7 +41,7 @@
                     <div class="form-group input-group" style="width: 225px">
                         <span class="input-group-addon">验证码</span>
                         <input type="text" class="form-control">
-                        <span class="input-group-addon" style="padding: 0px"><img style="height: 28px;margin: 2px;" src="29223320_OpWP%20(1).png"></span>
+                        <span class="input-group-addon" style="padding: 0px"><img style="height: 28px;margin: 2px;" src="../../static/image/29223320_OpWP%20(1).png"></span>
                     </div>
                     <input type="submit" class="btn btn-primary" value="提交"/>
 
