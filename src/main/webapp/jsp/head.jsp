@@ -21,6 +21,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- JQuery Easy UI-->
+    <link rel="stylesheet" type="text/css" href="${ctx }/static/jquery-easy-ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="${ctx }/static/jquery-easy-ui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="${ctx }/static/jquery-easy-ui/demo.css">
     <!-- jQuery -->
     <script src="${ctx }/static/jquery/jquery-2.1.0.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -29,5 +33,7 @@
     <script src="${ctx }/static/bootstrap/metisMenu.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="${ctx }/static/bootstrap/sb-admin-2.js"></script>
+    <!-- JQuery Easy UI-->
+    <script type="text/javascript" src="${ctx }/static/jquery-easy-ui/jquery.easyui.min.js"></script>
 
 

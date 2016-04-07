@@ -1,0 +1,84 @@
+[{
+	"id":1,
+	"text":"壳牌供应商",
+    "attributes":{
+        "isDirectory":"true"
+    },
+	"children":[{
+		"id":11,
+		"text":"壳牌二级分销商",
+        "attributes":{
+            "isDirectory":"true"
+        },
+		"state":"closed",
+		"children":[{
+			"id":111,
+			"text":"张三 13905915518 supperAdmin",
+            "attributes":{
+                "isDirectory":"false"
+            }
+		},{
+			"id":112,
+			"text":"李四 13905915218 admin",
+            "attributes":{
+                "isDirectory":"false"
+            }
+		},{
+			"id":113,
+			"text":"王五 13905915418 user",
+            "attributes":{
+                "isDirectory":"false"
+            }
+		}]
+	},{
+		"id":12,
+		"text":"壳牌维修厂",
+        "attributes":{
+            "isDirectory":"true"
+        },
+		"children":[{
+			"id":121,
+			"text":"赵六 13905915218 admin",
+            "attributes":{
+                "isDirectory":"false"
+            }
+		},{
+			"id":122,
+			"text":"小明 13905915218 admin",
+            "attributes":{
+                "isDirectory":"false"
+            }
+		},{
+			"id":123,
+			"text":"小红 13905915218 admin",
+            "attributes":{
+                "isDirectory":"false"
+            }
+		},{
+			"id":124,
+			"text":"小红明 13905915218 admin",
+			"checked":true,
+            "attributes":{
+                "isDirectory":"false"
+            }
+		}]
+	},{
+		"id":13,
+		"text":"小白",
+        "attributes":{
+            "isDirectory":"false"
+        }
+	},{
+		"id":14,
+		"text":"小黄",
+        "attributes":{
+            "isDirectory":"false"
+        }
+	},{
+		"id":15,
+		"text":"小汪",
+        "attributes":{
+            "isDirectory":"false"
+        }
+	}]
+}]
