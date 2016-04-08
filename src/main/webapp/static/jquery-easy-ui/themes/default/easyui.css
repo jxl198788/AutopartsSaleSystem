@@ -1,4 +1,3 @@
-/*与bootstrap的样式冲突*/
 /* .panel {
   overflow: hidden;
   text-align: left;
@@ -140,7 +139,7 @@
 }
 .panel-footer-noborder {
   border-width: 1px 0 0 0;
-} */
+}
 .accordion {
   overflow: hidden;
   border-width: 1px;
@@ -2508,7 +2507,7 @@
 }
 .window-thinborder .messager-button {
   padding-bottom: 8px;
-}
+} */
 .tree {
   margin: 0;
   padding: 0;
@@ -2670,7 +2669,7 @@
 .tree-node-hidden {
   display: none;
 }
-.validatebox-invalid {
+/* .validatebox-invalid {
   border-color: #ffa8a8;
   background-color: #fff3f3;
   color: #000;
@@ -2855,3 +2854,4 @@
 .switchbutton-readonly {
   cursor: default;
 }
+ */
