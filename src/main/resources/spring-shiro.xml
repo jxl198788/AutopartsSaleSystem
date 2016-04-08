@@ -122,11 +122,12 @@
         </property>
         <property name="filterChainDefinitions">
             <value> 
-                /login = authc 
+<!--            /login = authc 
                 /logout = logout 
                 /static/** = anon
                 /authenticated = authc 
-                /** = user,forceLogout
+                /** = user,forceLogout -->
+                /** = anon
             </value>
         </property>
     </bean>
