@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fjsaas.web.dao.SupplierEpcDao">
+	<resultMap id="supplierEpc" type="SupplierEpc">
+		<result property="id" column="id" />
+		<result property="oeCode" column="oe_code" />
+		<result property="productName" column="product_name" />
+		<result property="type" column="type" />
+		<result property="size" column="size" />
+		<result property="attributes" column="attributes" />
+		<result property="partSortId" column="part_sort_id" />
+		<result property="supplierId" column="supplier_id" />
+		<result property="typeId" column="type_id" />
+		<result property="status" column="status" />
+		<result property="platformStatus" column="platform_status" />
+		<result property="createDate" column="create_date" />
+		<result property="creatorId" column="creator_id" />
+		<result property="updateDate" column="update_date" />
+		<result property="updatorId" column="updator_id" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+	<!-- Select SQL -->
+	<sql id="supplierEpcSelector">
+		SELECT
+			<if test="fields != null">
+			 	${fields}
+			</if>
+			<if test="fields == null">
+				id,oe_code,product_name,type,size,attributes,part_sort_id,supplier_id,type_id,status,platform_status,create_date,creator_id,update_date,updator_id,is_del	
+			</if>
+		FROM ass_supplier_epc
+	</sql>
+	
+	<sql id="supplierEpcListWhere">
+		<where>
+				<if test="id != null">
+					and id=#{id}
+				</if>
+				<if test="oeCode != null">
+					<if test="oeCodeLike == false">
+						and oe_code=#{oeCode}
+					</if>
+					<if test="oeCodeLike == true">
+						and  oe_code like CONCAT("%",#{ oeCode },"%")
+					</if>
+				</if>
+				
+				
+				<if test="productName != null">
+					<if test="productNameLike == false">
+						and product_name=#{productName}
+					</if>
+					<if test="productNameLike == true">
+						and  product_name like CONCAT("%",#{ productName },"%")
+					</if>
+				</if>
+				
+				
+				<if test="type != null">
+					<if test="typeLike == false">
+						and type=#{type}
+					</if>
+					<if test="typeLike == true">
+						and  type like CONCAT("%",#{ type },"%")
+					</if>
+				</if>
+				
+				
+				<if test="size != null">
+					<if test="sizeLike == false">
+						and size=#{size}
+					</if>
+					<if test="sizeLike == true">
+						and  size like CONCAT("%",#{ size },"%")
+					</if>
+				</if>
+				
+				
+				<if test="attributes != null">
+					<if test="attributesLike == false">
+						and attributes=#{attributes}
+					</if>
+					<if test="attributesLike == true">
+						and  attributes like CONCAT("%",#{ attributes },"%")
+					</if>
+				</if>
+				
+				
+				<if test="partSortId != null">
+					and part_sort_id=#{partSortId}
+				</if>
+				<if test="supplierId != null">
+					and supplier_id=#{supplierId}
+				</if>
+				<if test="typeId != null">
+					and type_id=#{typeId}
+				</if>
+				<if test="status != null">
+					<if test="statusLike == false">
+						and status=#{status}
+					</if>
+					<if test="statusLike == true">
+						and  status like CONCAT("%",#{ status },"%")
+					</if>
+				</if>
+				
+				
+				<if test="platformStatus != null">
+					<if test="platformStatusLike == false">
+						and platform_status=#{platformStatus}
+					</if>
+					<if test="platformStatusLike == true">
+						and  platform_status like CONCAT("%",#{ platformStatus },"%")
+					</if>
+				</if>
+				
+				
+				<if test="createDate != null">
+					and create_date=#{createDate}
+				</if>
+				
+				
+				<if test="creatorId != null">
+					and creator_id=#{creatorId}
+				</if>
+				<if test="updateDate != null">
+					and update_date=#{updateDate}
+				</if>
+				
+				
+				<if test="updatorId != null">
+					and updator_id=#{updatorId}
+				</if>
+				<if test="isDel != null">
+					and is_del=#{isDel}
+				</if>
+				<if test="isDel == null">
+					and is_del=0
+				</if>
+				
+				
+		</where>
+	</sql>
+	<sql id="supplierEpcListOrder">
+		<if test="orderFields != null and orderFields.size >0">
+		order by 
+			<foreach collection="orderFields" separator="," item="orderField">
+				${orderField.fieldName} ${orderField.order}
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="supplierEpcListLimit">
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询 -->
+	<select id="getSupplierEpcByKey" resultMap="supplierEpc" parameterType="hashMap">
+		SELECT id,oe_code,product_name,type,size,attributes,part_sort_id,supplier_id,type_id,status,platform_status,create_date,creator_id,update_date,updator_id,is_del	 
+		FROM ass_supplier_epc
+		WHERE
+		id=#{id}
+		and is_del = 0
+	</select>
+	<select id="getSupplierEpcsByKeys" resultMap="supplierEpc" parameterType="ArrayList">
+		SELECT id,oe_code,product_name,type,size,attributes,part_sort_id,supplier_id,type_id,status,platform_status,create_date,creator_id,update_date,updator_id,is_del 
+		FROM ass_supplier_epc
+		WHERE
+		id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+		and is_del = 0
+	</select>
+
+	<!-- 根据主键删除 -->
+	<update id="deleteByKey" parameterType="hashMap">
+		UPDATE ass_supplier_epc set is_del = 1 where id=#{id}
+	</update>
+
+	<!-- 根据主键批量删除 -->
+	<update id="deleteByKeys">
+		UPDATE ass_supplier_epc set is_del = 1 
+		where id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<!-- 根据主键更新 -->
+	<update id="updateSupplierEpcByKey" parameterType="SupplierEpc">
+		UPDATE ass_supplier_epc
+		<set>
+			<trim suffixOverrides=",">
+				<if test="id != null">
+					id = #{id},
+				</if>
+				<if test="oeCode != null">
+					oe_code = #{oeCode},
+				</if>
+				<if test="productName != null">
+					product_name = #{productName},
+				</if>
+				<if test="type != null">
+					type = #{type},
+				</if>
+				<if test="size != null">
+					size = #{size},
+				</if>
+				<if test="attributes != null">
+					attributes = #{attributes},
+				</if>
+				<if test="partSortId != null">
+					part_sort_id = #{partSortId},
+				</if>
+				<if test="supplierId != null">
+					supplier_id = #{supplierId},
+				</if>
+				<if test="typeId != null">
+					type_id = #{typeId},
+				</if>
+				<if test="status != null">
+					status = #{status},
+				</if>
+				<if test="platformStatus != null">
+					platform_status = #{platformStatus},
+				</if>
+				<if test="createDate != null">
+					create_date = #{createDate},
+				</if>
+				<if test="creatorId != null">
+					creator_id = #{creatorId},
+				</if>
+				<if test="updateDate != null">
+					update_date = #{updateDate},
+				</if>
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+				<if test="isDel != null">
+					is_del = #{isDel},
+				</if>
+			</trim>
+		</set>
+		WHERE
+		id=#{id}
+	</update>
+	<!-- 分页 -->
+	<select id="getSupplierEpcListWithPage" parameterType="SupplierEpcQuery" resultMap="supplierEpc">
+		<include refid="supplierEpcSelector" />
+		<include refid="supplierEpcListWhere" />
+		<include refid="supplierEpcListOrder" />
+		<include refid="supplierEpcListLimit" />
+	</select>
+	<!-- 数据总数 -->
+	<select id="getSupplierEpcListCount" parameterType="SupplierEpcQuery" resultType="int">
+		SELECT count(1) FROM ass_supplier_epc
+		<include refid="supplierEpcListWhere" />
+	</select>
+	<!-- 数据集合 -->
+	<select id="getSupplierEpcList" parameterType="SupplierEpcQuery" resultMap="supplierEpc">
+		<include refid="supplierEpcSelector" />
+		<include refid="supplierEpcListWhere" />
+		<include refid="supplierEpcListOrder" />
+	</select>
+	<!-- 添加 -->
+	<insert id="addSupplierEpc" parameterType="SupplierEpc">
+		INSERT INTO ass_supplier_epc
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="id != null">
+					id,
+				</if>
+				
+				<if test="oeCode != null">
+					oe_code,
+				</if>
+				
+				<if test="productName != null">
+					product_name,
+				</if>
+				
+				<if test="type != null">
+					type,
+				</if>
+				
+				<if test="size != null">
+					size,
+				</if>
+				
+				<if test="attributes != null">
+					attributes,
+				</if>
+				
+				<if test="partSortId != null">
+					part_sort_id,
+				</if>
+				
+				<if test="supplierId != null">
+					supplier_id,
+				</if>
+				
+				<if test="typeId != null">
+					type_id,
+				</if>
+				
+				<if test="status != null">
+					status,
+				</if>
+				
+				<if test="platformStatus != null">
+					platform_status,
+				</if>
+				
+				<if test="createDate != null">
+					create_date,
+				</if>
+				
+				<if test="creatorId != null">
+					creator_id,
+				</if>
+				
+				<if test="updateDate != null">
+					update_date,
+				</if>
+				
+				<if test="updatorId != null">
+					updator_id,
+				</if>
+				
+					is_del,
+				
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+					
+					<if test="id != null">
+						#{id},
+					</if>
+					
+					
+					<if test="oeCode != null">
+						#{oeCode},
+					</if>
+					
+					
+					<if test="productName != null">
+						#{productName},
+					</if>
+					
+					
+					<if test="type != null">
+						#{type},
+					</if>
+					
+					
+					<if test="size != null">
+						#{size},
+					</if>
+					
+					
+					<if test="attributes != null">
+						#{attributes},
+					</if>
+					
+					
+					<if test="partSortId != null">
+						#{partSortId},
+					</if>
+					
+					
+					<if test="supplierId != null">
+						#{supplierId},
+					</if>
+					
+					
+					<if test="typeId != null">
+						#{typeId},
+					</if>
+					
+					
+					<if test="status != null">
+						#{status},
+					</if>
+					
+					
+					<if test="platformStatus != null">
+						#{platformStatus},
+					</if>
+					
+					
+					<if test="createDate != null">
+						#{createDate},
+					</if>
+					
+					
+					<if test="creatorId != null">
+						#{creatorId},
+					</if>
+					
+					
+					<if test="updateDate != null">
+						#{updateDate},
+					</if>
+					
+					
+					<if test="updatorId != null">
+						#{updatorId},
+					</if>
+					
+					
+					<if test="isDel != null">
+						#{isDel},
+					</if>
+					<if test="isDel == null">
+						0
+					</if>
+					
+		</trim>
+	</insert>
+</mapper>

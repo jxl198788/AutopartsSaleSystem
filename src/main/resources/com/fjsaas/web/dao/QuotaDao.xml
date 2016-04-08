@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fjsaas.web.dao.QuotaDao">
+	<resultMap id="quota" type="Quota">
+		<result property="id" column="id" />
+		<result property="quota" column="quota" />
+		<result property="supplierId" column="supplier_id" />
+		<result property="permissionId" column="permission_id" />
+		<result property="createDate" column="create_date" />
+		<result property="creatorId" column="creator_id" />
+		<result property="updateDate" column="update_date" />
+		<result property="updatorId" column="updator_id" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+	<!-- Select SQL -->
+	<sql id="quotaSelector">
+		SELECT
+			<if test="fields != null">
+			 	${fields}
+			</if>
+			<if test="fields == null">
+				id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	
+			</if>
+		FROM ass_quota
+	</sql>
+	
+	<sql id="quotaListWhere">
+		<where>
+				<if test="id != null">
+					and id=#{id}
+				</if>
+				<if test="quota != null">
+					and quota=#{quota}
+				</if>
+				
+				
+				<if test="supplierId != null">
+					and supplier_id=#{supplierId}
+				</if>
+				<if test="permissionId != null">
+					and permission_id=#{permissionId}
+				</if>
+				<if test="createDate != null">
+					and create_date=#{createDate}
+				</if>
+				
+				
+				<if test="creatorId != null">
+					and creator_id=#{creatorId}
+				</if>
+				<if test="updateDate != null">
+					and update_date=#{updateDate}
+				</if>
+				
+				
+				<if test="updatorId != null">
+					and updator_id=#{updatorId}
+				</if>
+				<if test="isDel != null">
+					and is_del=#{isDel}
+				</if>
+				<if test="isDel == null">
+					and is_del=0
+				</if>
+				
+				
+		</where>
+	</sql>
+	<sql id="quotaListOrder">
+		<if test="orderFields != null and orderFields.size >0">
+		order by 
+			<foreach collection="orderFields" separator="," item="orderField">
+				${orderField.fieldName} ${orderField.order}
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="quotaListLimit">
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询 -->
+	<select id="getQuotaByKey" resultMap="quota" parameterType="hashMap">
+		SELECT id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	 
+		FROM ass_quota
+		WHERE
+		id=#{id}
+		and is_del = 0
+	</select>
+	<select id="getQuotasByKeys" resultMap="quota" parameterType="ArrayList">
+		SELECT id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del 
+		FROM ass_quota
+		WHERE
+		id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+		and is_del = 0
+	</select>
+
+	<!-- 根据主键删除 -->
+	<update id="deleteByKey" parameterType="hashMap">
+		UPDATE ass_quota set is_del = 1 where id=#{id}
+	</update>
+
+	<!-- 根据主键批量删除 -->
+	<update id="deleteByKeys">
+		UPDATE ass_quota set is_del = 1 
+		where id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<!-- 根据主键更新 -->
+	<update id="updateQuotaByKey" parameterType="Quota">
+		UPDATE ass_quota
+		<set>
+			<trim suffixOverrides=",">
+				<if test="id != null">
+					id = #{id},
+				</if>
+				<if test="quota != null">
+					quota = #{quota},
+				</if>
+				<if test="supplierId != null">
+					supplier_id = #{supplierId},
+				</if>
+				<if test="permissionId != null">
+					permission_id = #{permissionId},
+				</if>
+				<if test="createDate != null">
+					create_date = #{createDate},
+				</if>
+				<if test="creatorId != null">
+					creator_id = #{creatorId},
+				</if>
+				<if test="updateDate != null">
+					update_date = #{updateDate},
+				</if>
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+				<if test="isDel != null">
+					is_del = #{isDel},
+				</if>
+			</trim>
+		</set>
+		WHERE
+		id=#{id}
+	</update>
+	<!-- 分页 -->
+	<select id="getQuotaListWithPage" parameterType="QuotaQuery" resultMap="quota">
+		<include refid="quotaSelector" />
+		<include refid="quotaListWhere" />
+		<include refid="quotaListOrder" />
+		<include refid="quotaListLimit" />
+	</select>
+	<!-- 数据总数 -->
+	<select id="getQuotaListCount" parameterType="QuotaQuery" resultType="int">
+		SELECT count(1) FROM ass_quota
+		<include refid="quotaListWhere" />
+	</select>
+	<!-- 数据集合 -->
+	<select id="getQuotaList" parameterType="QuotaQuery" resultMap="quota">
+		<include refid="quotaSelector" />
+		<include refid="quotaListWhere" />
+		<include refid="quotaListOrder" />
+	</select>
+	<!-- 添加 -->
+	<insert id="addQuota" parameterType="Quota">
+		INSERT INTO ass_quota
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="id != null">
+					id,
+				</if>
+				
+				<if test="quota != null">
+					quota,
+				</if>
+				
+				<if test="supplierId != null">
+					supplier_id,
+				</if>
+				
+				<if test="permissionId != null">
+					permission_id,
+				</if>
+				
+				<if test="createDate != null">
+					create_date,
+				</if>
+				
+				<if test="creatorId != null">
+					creator_id,
+				</if>
+				
+				<if test="updateDate != null">
+					update_date,
+				</if>
+				
+				<if test="updatorId != null">
+					updator_id,
+				</if>
+				
+					is_del,
+				
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+					
+					<if test="id != null">
+						#{id},
+					</if>
+					
+					
+					<if test="quota != null">
+						#{quota},
+					</if>
+					
+					
+					<if test="supplierId != null">
+						#{supplierId},
+					</if>
+					
+					
+					<if test="permissionId != null">
+						#{permissionId},
+					</if>
+					
+					
+					<if test="createDate != null">
+						#{createDate},
+					</if>
+					
+					
+					<if test="creatorId != null">
+						#{creatorId},
+					</if>
+					
+					
+					<if test="updateDate != null">
+						#{updateDate},
+					</if>
+					
+					
+					<if test="updatorId != null">
+						#{updatorId},
+					</if>
+					
+					
+					<if test="isDel != null">
+						#{isDel},
+					</if>
+					<if test="isDel == null">
+						0
+					</if>
+					
+		</trim>
+	</insert>
+</mapper>

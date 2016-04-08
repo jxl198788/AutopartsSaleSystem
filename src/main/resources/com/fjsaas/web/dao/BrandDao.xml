@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fjsaas.web.dao.BrandDao">
+	<resultMap id="brand" type="Brand">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="imgUrl" column="img_url" />
+		<result property="description" column="description" />
+		<result property="createDate" column="create_date" />
+		<result property="creatorId" column="creator_id" />
+		<result property="updateDate" column="update_date" />
+		<result property="updatorId" column="updator_id" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+	<!-- Select SQL -->
+	<sql id="brandSelector">
+		SELECT
+			<if test="fields != null">
+			 	${fields}
+			</if>
+			<if test="fields == null">
+				id,name,img_url,description,create_date,creator_id,update_date,updator_id,is_del	
+			</if>
+		FROM ass_brand
+	</sql>
+	
+	<sql id="brandListWhere">
+		<where>
+				<if test="id != null">
+					and id=#{id}
+				</if>
+				<if test="name != null">
+					<if test="nameLike == false">
+						and name=#{name}
+					</if>
+					<if test="nameLike == true">
+						and  name like CONCAT("%",#{ name },"%")
+					</if>
+				</if>
+				
+				
+				<if test="imgUrl != null">
+					<if test="imgUrlLike == false">
+						and img_url=#{imgUrl}
+					</if>
+					<if test="imgUrlLike == true">
+						and  img_url like CONCAT("%",#{ imgUrl },"%")
+					</if>
+				</if>
+				
+				
+				<if test="description != null">
+					<if test="descriptionLike == false">
+						and description=#{description}
+					</if>
+					<if test="descriptionLike == true">
+						and  description like CONCAT("%",#{ description },"%")
+					</if>
+				</if>
+				
+				
+				<if test="createDate != null">
+					and create_date=#{createDate}
+				</if>
+				
+				
+				<if test="creatorId != null">
+					and creator_id=#{creatorId}
+				</if>
+				<if test="updateDate != null">
+					and update_date=#{updateDate}
+				</if>
+				
+				
+				<if test="updatorId != null">
+					and updator_id=#{updatorId}
+				</if>
+				<if test="isDel != null">
+					and is_del=#{isDel}
+				</if>
+				<if test="isDel == null">
+					and is_del=0
+				</if>
+				
+				
+		</where>
+	</sql>
+	<sql id="brandListOrder">
+		<if test="orderFields != null and orderFields.size >0">
+		order by 
+			<foreach collection="orderFields" separator="," item="orderField">
+				${orderField.fieldName} ${orderField.order}
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="brandListLimit">
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询 -->
+	<select id="getBrandByKey" resultMap="brand" parameterType="hashMap">
+		SELECT id,name,img_url,description,create_date,creator_id,update_date,updator_id,is_del	 
+		FROM ass_brand
+		WHERE
+		id=#{id}
+		and is_del = 0
+	</select>
+	<select id="getBrandsByKeys" resultMap="brand" parameterType="ArrayList">
+		SELECT id,name,img_url,description,create_date,creator_id,update_date,updator_id,is_del 
+		FROM ass_brand
+		WHERE
+		id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+		and is_del = 0
+	</select>
+
+	<!-- 根据主键删除 -->
+	<update id="deleteByKey" parameterType="hashMap">
+		UPDATE ass_brand set is_del = 1 where id=#{id}
+	</update>
+
+	<!-- 根据主键批量删除 -->
+	<update id="deleteByKeys">
+		UPDATE ass_brand set is_del = 1 
+		where id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<!-- 根据主键更新 -->
+	<update id="updateBrandByKey" parameterType="Brand">
+		UPDATE ass_brand
+		<set>
+			<trim suffixOverrides=",">
+				<if test="id != null">
+					id = #{id},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="imgUrl != null">
+					img_url = #{imgUrl},
+				</if>
+				<if test="description != null">
+					description = #{description},
+				</if>
+				<if test="createDate != null">
+					create_date = #{createDate},
+				</if>
+				<if test="creatorId != null">
+					creator_id = #{creatorId},
+				</if>
+				<if test="updateDate != null">
+					update_date = #{updateDate},
+				</if>
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+				<if test="isDel != null">
+					is_del = #{isDel},
+				</if>
+			</trim>
+		</set>
+		WHERE
+		id=#{id}
+	</update>
+	<!-- 分页 -->
+	<select id="getBrandListWithPage" parameterType="BrandQuery" resultMap="brand">
+		<include refid="brandSelector" />
+		<include refid="brandListWhere" />
+		<include refid="brandListOrder" />
+		<include refid="brandListLimit" />
+	</select>
+	<!-- 数据总数 -->
+	<select id="getBrandListCount" parameterType="BrandQuery" resultType="int">
+		SELECT count(1) FROM ass_brand
+		<include refid="brandListWhere" />
+	</select>
+	<!-- 数据集合 -->
+	<select id="getBrandList" parameterType="BrandQuery" resultMap="brand">
+		<include refid="brandSelector" />
+		<include refid="brandListWhere" />
+		<include refid="brandListOrder" />
+	</select>
+	<!-- 添加 -->
+	<insert id="addBrand" parameterType="Brand">
+		INSERT INTO ass_brand
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="id != null">
+					id,
+				</if>
+				
+				<if test="name != null">
+					name,
+				</if>
+				
+				<if test="imgUrl != null">
+					img_url,
+				</if>
+				
+				<if test="description != null">
+					description,
+				</if>
+				
+				<if test="createDate != null">
+					create_date,
+				</if>
+				
+				<if test="creatorId != null">
+					creator_id,
+				</if>
+				
+				<if test="updateDate != null">
+					update_date,
+				</if>
+				
+				<if test="updatorId != null">
+					updator_id,
+				</if>
+				
+					is_del,
+				
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+					
+					<if test="id != null">
+						#{id},
+					</if>
+					
+					
+					<if test="name != null">
+						#{name},
+					</if>
+					
+					
+					<if test="imgUrl != null">
+						#{imgUrl},
+					</if>
+					
+					
+					<if test="description != null">
+						#{description},
+					</if>
+					
+					
+					<if test="createDate != null">
+						#{createDate},
+					</if>
+					
+					
+					<if test="creatorId != null">
+						#{creatorId},
+					</if>
+					
+					
+					<if test="updateDate != null">
+						#{updateDate},
+					</if>
+					
+					
+					<if test="updatorId != null">
+						#{updatorId},
+					</if>
+					
+					
+					<if test="isDel != null">
+						#{isDel},
+					</if>
+					<if test="isDel == null">
+						0
+					</if>
+					
+		</trim>
+	</insert>
+</mapper>

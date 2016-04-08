@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fjsaas.web.dao.ProducerDao">
+	<resultMap id="producer" type="Producer">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="fax" column="fax" />
+		<result property="telephone" column="telephone" />
+		<result property="website" column="website" />
+		<result property="description" column="description" />
+		<result property="imgUrl" column="img_url" />
+		<result property="address" column="address" />
+		<result property="createDate" column="create_date" />
+		<result property="creatorId" column="creator_id" />
+		<result property="updateDate" column="update_date" />
+		<result property="updatorId" column="updator_id" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+	<!-- Select SQL -->
+	<sql id="producerSelector">
+		SELECT
+			<if test="fields != null">
+			 	${fields}
+			</if>
+			<if test="fields == null">
+				id,name,email,phone,fax,telephone,website,description,img_url,address,create_date,creator_id,update_date,updator_id,is_del	
+			</if>
+		FROM ass_producer
+	</sql>
+	
+	<sql id="producerListWhere">
+		<where>
+				<if test="id != null">
+					and id=#{id}
+				</if>
+				<if test="name != null">
+					<if test="nameLike == false">
+						and name=#{name}
+					</if>
+					<if test="nameLike == true">
+						and  name like CONCAT("%",#{ name },"%")
+					</if>
+				</if>
+				
+				
+				<if test="email != null">
+					<if test="emailLike == false">
+						and email=#{email}
+					</if>
+					<if test="emailLike == true">
+						and  email like CONCAT("%",#{ email },"%")
+					</if>
+				</if>
+				
+				
+				<if test="phone != null">
+					<if test="phoneLike == false">
+						and phone=#{phone}
+					</if>
+					<if test="phoneLike == true">
+						and  phone like CONCAT("%",#{ phone },"%")
+					</if>
+				</if>
+				
+				
+				<if test="fax != null">
+					<if test="faxLike == false">
+						and fax=#{fax}
+					</if>
+					<if test="faxLike == true">
+						and  fax like CONCAT("%",#{ fax },"%")
+					</if>
+				</if>
+				
+				
+				<if test="telephone != null">
+					<if test="telephoneLike == false">
+						and telephone=#{telephone}
+					</if>
+					<if test="telephoneLike == true">
+						and  telephone like CONCAT("%",#{ telephone },"%")
+					</if>
+				</if>
+				
+				
+				<if test="website != null">
+					<if test="websiteLike == false">
+						and website=#{website}
+					</if>
+					<if test="websiteLike == true">
+						and  website like CONCAT("%",#{ website },"%")
+					</if>
+				</if>
+				
+				
+				<if test="description != null">
+					<if test="descriptionLike == false">
+						and description=#{description}
+					</if>
+					<if test="descriptionLike == true">
+						and  description like CONCAT("%",#{ description },"%")
+					</if>
+				</if>
+				
+				
+				<if test="imgUrl != null">
+					<if test="imgUrlLike == false">
+						and img_url=#{imgUrl}
+					</if>
+					<if test="imgUrlLike == true">
+						and  img_url like CONCAT("%",#{ imgUrl },"%")
+					</if>
+				</if>
+				
+				
+				<if test="address != null">
+					<if test="addressLike == false">
+						and address=#{address}
+					</if>
+					<if test="addressLike == true">
+						and  address like CONCAT("%",#{ address },"%")
+					</if>
+				</if>
+				
+				
+				<if test="createDate != null">
+					and create_date=#{createDate}
+				</if>
+				
+				
+				<if test="creatorId != null">
+					and creator_id=#{creatorId}
+				</if>
+				<if test="updateDate != null">
+					and update_date=#{updateDate}
+				</if>
+				
+				
+				<if test="updatorId != null">
+					and updator_id=#{updatorId}
+				</if>
+				<if test="isDel != null">
+					and is_del=#{isDel}
+				</if>
+				<if test="isDel == null">
+					and is_del=0
+				</if>
+				
+				
+		</where>
+	</sql>
+	<sql id="producerListOrder">
+		<if test="orderFields != null and orderFields.size >0">
+		order by 
+			<foreach collection="orderFields" separator="," item="orderField">
+				${orderField.fieldName} ${orderField.order}
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="producerListLimit">
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询 -->
+	<select id="getProducerByKey" resultMap="producer" parameterType="hashMap">
+		SELECT id,name,email,phone,fax,telephone,website,description,img_url,address,create_date,creator_id,update_date,updator_id,is_del	 
+		FROM ass_producer
+		WHERE
+		id=#{id}
+		and is_del = 0
+	</select>
+	<select id="getProducersByKeys" resultMap="producer" parameterType="ArrayList">
+		SELECT id,name,email,phone,fax,telephone,website,description,img_url,address,create_date,creator_id,update_date,updator_id,is_del 
+		FROM ass_producer
+		WHERE
+		id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+		and is_del = 0
+	</select>
+
+	<!-- 根据主键删除 -->
+	<update id="deleteByKey" parameterType="hashMap">
+		UPDATE ass_producer set is_del = 1 where id=#{id}
+	</update>
+
+	<!-- 根据主键批量删除 -->
+	<update id="deleteByKeys">
+		UPDATE ass_producer set is_del = 1 
+		where id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<!-- 根据主键更新 -->
+	<update id="updateProducerByKey" parameterType="Producer">
+		UPDATE ass_producer
+		<set>
+			<trim suffixOverrides=",">
+				<if test="id != null">
+					id = #{id},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="email != null">
+					email = #{email},
+				</if>
+				<if test="phone != null">
+					phone = #{phone},
+				</if>
+				<if test="fax != null">
+					fax = #{fax},
+				</if>
+				<if test="telephone != null">
+					telephone = #{telephone},
+				</if>
+				<if test="website != null">
+					website = #{website},
+				</if>
+				<if test="description != null">
+					description = #{description},
+				</if>
+				<if test="imgUrl != null">
+					img_url = #{imgUrl},
+				</if>
+				<if test="address != null">
+					address = #{address},
+				</if>
+				<if test="createDate != null">
+					create_date = #{createDate},
+				</if>
+				<if test="creatorId != null">
+					creator_id = #{creatorId},
+				</if>
+				<if test="updateDate != null">
+					update_date = #{updateDate},
+				</if>
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+				<if test="isDel != null">
+					is_del = #{isDel},
+				</if>
+			</trim>
+		</set>
+		WHERE
+		id=#{id}
+	</update>
+	<!-- 分页 -->
+	<select id="getProducerListWithPage" parameterType="ProducerQuery" resultMap="producer">
+		<include refid="producerSelector" />
+		<include refid="producerListWhere" />
+		<include refid="producerListOrder" />
+		<include refid="producerListLimit" />
+	</select>
+	<!-- 数据总数 -->
+	<select id="getProducerListCount" parameterType="ProducerQuery" resultType="int">
+		SELECT count(1) FROM ass_producer
+		<include refid="producerListWhere" />
+	</select>
+	<!-- 数据集合 -->
+	<select id="getProducerList" parameterType="ProducerQuery" resultMap="producer">
+		<include refid="producerSelector" />
+		<include refid="producerListWhere" />
+		<include refid="producerListOrder" />
+	</select>
+	<!-- 添加 -->
+	<insert id="addProducer" parameterType="Producer">
+		INSERT INTO ass_producer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="id != null">
+					id,
+				</if>
+				
+				<if test="name != null">
+					name,
+				</if>
+				
+				<if test="email != null">
+					email,
+				</if>
+				
+				<if test="phone != null">
+					phone,
+				</if>
+				
+				<if test="fax != null">
+					fax,
+				</if>
+				
+				<if test="telephone != null">
+					telephone,
+				</if>
+				
+				<if test="website != null">
+					website,
+				</if>
+				
+				<if test="description != null">
+					description,
+				</if>
+				
+				<if test="imgUrl != null">
+					img_url,
+				</if>
+				
+				<if test="address != null">
+					address,
+				</if>
+				
+				<if test="createDate != null">
+					create_date,
+				</if>
+				
+				<if test="creatorId != null">
+					creator_id,
+				</if>
+				
+				<if test="updateDate != null">
+					update_date,
+				</if>
+				
+				<if test="updatorId != null">
+					updator_id,
+				</if>
+				
+					is_del,
+				
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+					
+					<if test="id != null">
+						#{id},
+					</if>
+					
+					
+					<if test="name != null">
+						#{name},
+					</if>
+					
+					
+					<if test="email != null">
+						#{email},
+					</if>
+					
+					
+					<if test="phone != null">
+						#{phone},
+					</if>
+					
+					
+					<if test="fax != null">
+						#{fax},
+					</if>
+					
+					
+					<if test="telephone != null">
+						#{telephone},
+					</if>
+					
+					
+					<if test="website != null">
+						#{website},
+					</if>
+					
+					
+					<if test="description != null">
+						#{description},
+					</if>
+					
+					
+					<if test="imgUrl != null">
+						#{imgUrl},
+					</if>
+					
+					
+					<if test="address != null">
+						#{address},
+					</if>
+					
+					
+					<if test="createDate != null">
+						#{createDate},
+					</if>
+					
+					
+					<if test="creatorId != null">
+						#{creatorId},
+					</if>
+					
+					
+					<if test="updateDate != null">
+						#{updateDate},
+					</if>
+					
+					
+					<if test="updatorId != null">
+						#{updatorId},
+					</if>
+					
+					
+					<if test="isDel != null">
+						#{isDel},
+					</if>
+					<if test="isDel == null">
+						0
+					</if>
+					
+		</trim>
+	</insert>
+</mapper>
