@@ -24,7 +24,6 @@
     <!-- JQuery Easy UI-->
     <link rel="stylesheet" type="text/css" href="${ctx }/static/jquery-easy-ui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="${ctx }/static/jquery-easy-ui/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="${ctx }/static/jquery-easy-ui/demo.css">
     <!-- jQuery -->
     <script src="${ctx }/static/jquery/jquery-2.1.0.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
