@@ -1,0 +1,102 @@
+/***供应商管理页面样式--add by lyn 2016.04.05**/
+body{
+	width: 1366px;
+	height:100%;
+	overflow:scroll;
+}
+.margin{ margin: 0px 0px 15px 0px;}
+
+.left{ float:left;}
+
+.center{ float:center;}
+
+.right{ float:right;}
+
+.div-scroll{
+	height:300px;
+	margin:25px 0px 0 0;
+	overflow:scroll;
+	overflow-y:false;
+}
+
+.tree_font li{
+	font-size:16px;
+}
+.tree_font label{
+	font-weight:normal;
+	float:right;
+	margin-right:-13px;
+}
+.tree_font li{
+  margin: 1%;
+  padding: 1%;
+  margin-bottom:0px;
+}
+.tree_font li ul {
+  margin: 1%;
+  padding: 1%;
+  margin-bottom:0px;
+}
+.quotas_form{ 
+	width:75%;
+	height:auto;
+	position:absolute;
+	display:none;
+}
+.quotas_info_div{ 
+	display:none;
+	width:40%;
+	position:absolute;
+	margin-top:-35%;
+	margin-left:15%;
+}
+.tree-scroll{
+	overflow:hidden;
+	scroll:true;
+	margin-bottom:5px;
+}
+.quotas_detail_form{ 
+	width:75%;
+	height:auto;
+	position:absolute;
+	display:none;
+}
+.quotas_info_close{
+	background-color:gray;
+	border-color:gray;
+}
+.select-css {
+  width: 100%;
+  height: 25px;
+  padding: 1px 0px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.form-group-input{
+	width:45px;
+	height:25px;
+	float:left;
+	margin:0px 0px 0px 5px;
+	padding:2px 2px 2px 2px;
+}
+
+.table-div{ margin-top:-25px;}
+.page-div{ margin:-15px 0 0 0;}
+
+.td-a1{
+	margin-left:15px;
+}
+.td-a2{
+	margin-left:3px;
+}

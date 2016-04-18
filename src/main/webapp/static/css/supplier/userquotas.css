@@ -1,0 +1,178 @@
+/***供应商管理页面样式--add by lyn 2016.04.05**/
+body{
+	width: 1366px;
+	height: 100%;
+	overflow: scroll;
+}
+.margin{ margin: 0px 0px 15px 0px;}
+
+.left{ float:left;}
+
+.center{ float:center;}
+
+.right{ float:right;}
+
+.display_none{
+	display:none;
+}
+.div-scroll{
+	height:300px;
+	margin:25px 0px 0 0;
+	overflow:scroll;
+	overflow-y:false;
+}
+
+.tree_font li{
+	font-size:16px;
+}
+.tree_font label{
+	font-weight:normal;
+	float:right;
+	margin-right:-13px;
+}
+.tree_font li{
+  margin: 1%;
+  padding: 1%;
+  margin-bottom:0px;
+}
+.tree_font li ul {
+  margin: 1%;
+  padding: 1%;
+  margin-bottom:0px;
+}
+.quotas_form{ 
+	margin:-10px -10px -10px -10px;
+}
+.quotas_info_div{ 
+	display:none;
+	width:40%;
+	position:absolute;
+	margin-top:-35%;
+	margin-left:15%;
+}
+.tree-scroll{
+	overflow:hidden;
+	scroll:true;
+	margin-bottom:5px;
+}
+.quotas_detail_form{ 
+	width:75%;
+	height:auto;
+	position:absolute;
+	display:none;
+}
+.quotas_info_close{
+	background-color:gray;
+	border-color:gray;
+}
+.select-css {
+  width: 100%;
+  height: 25px;
+  padding: 1px 0px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.form-group-input{
+	width:45px;
+	height:25px;
+	float:left;
+	margin:0px 0px 0px 5px;
+	padding:2px 2px 2px 2px;
+}
+
+.table-div{ margin-top:-25px;}
+.page-div{ margin:-15px 0 0 0;}
+
+.td-a1{
+	margin-left:5px;
+}
+.td-a2{
+	margin-left:3px;
+}
+.ul-first{
+	float:right;
+	margin-right:88px;
+	margin-left:-35px;
+}
+.ul-second{
+	float:right;
+	margin-left:-50px;
+	margin-right:5px;
+	margin-bottom:-5px;
+    padding:0px; 
+    list-style: none;
+}
+
+.ul-first ul{ 
+    height:25px; 
+} 
+.ul-second li{ 
+    width:95px; 
+    height:25px; 
+    border-radius:5px 5px 5px 5px; 
+    border:1px solid #ccc; 
+    text-align: center; 
+    valign:center;
+    line-height: 25px; 
+    background-color:#EEEEEE; 
+    float: left; 
+    color:black; 
+    font-weight: 800; 
+    margin-top:3px; 
+    margin-right:-5px; 
+} 
+.ul-second li:hover{ 
+    height:25px; 
+    background-color: white; 
+    color:#FDE7D2; 
+    cursor:pointer; 
+}
+.rise_pack_div{
+	width:30%;
+	margin-left:10px;
+}
+.rise_pack_div h4{
+	margin-left:40px;
+}
+.rise_pack_div p{
+	margin-left:35px;
+}
+.rise_pack_div button{
+	margin-left:40px;
+}
+.rise_warning{
+	position:absolute;
+	width:250px;
+	margin:-190px 50px 0px 155px;
+}
+.rise_warning button{
+	width:125px;
+}
+.rise_head{
+	height:45px;
+	margin-left:32px;
+}
+.rise_margin1{
+	margin:-10px 0px 0px -16px;
+}
+.rise_margin2{
+	margin:-10px -15px 0px -5px;
+}
+.rise_item{
+	font-size:16px;
+	font-weight:bold;
+}
+.rise_pack_div button :select{
+	disabled:true;
+}

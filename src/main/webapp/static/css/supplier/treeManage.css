@@ -1,0 +1,18 @@
+/***供应商管理页面样式--add by lyn 2016.04.05**/
+body{
+	width: 1366px;
+	height:100%;
+	overflow:scroll;
+}
+.tree-scroll{
+	overflow:hidden;
+	scroll:true;
+	margin-bottom:5px;
+}
+.div-scroll{
+	height:300px;
+	margin:0px 15px 0px 15px;
+	overflow:scroll;
+	overflow-y:false;
+}
+.page-div{ margin:-15px 0 0 0;}
