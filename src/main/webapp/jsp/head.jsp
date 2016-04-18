@@ -34,5 +34,7 @@
     <script src="${ctx }/static/bootstrap/sb-admin-2.js"></script>
     <!-- JQuery Easy UI-->
     <script type="text/javascript" src="${ctx }/static/jquery-easy-ui/jquery.easyui.min.js"></script>
+    <!-- JQuery Form -->
+    <script type="text/javascript" src="${ctx }/static/jquery/jquery.form.js"></script>
 
 

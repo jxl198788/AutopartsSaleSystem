@@ -6,6 +6,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@ include file="/jsp/head.jsp" %> 
+<script type="text/javascript">
+$(function(){
+    $("#importCSV").on("change",function(){
+       alert("aa");
+       $("#importFile").ajaxSubmit();
+    })
+})
+</script>
 </head>
 <body>
 	<%@ include file="/jsp/nav.jsp" %>
@@ -16,7 +24,7 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <div style="margin-left: auto;margin-right: auto;width: 400px">
+            <div style="margin-left: auto;margin-right: auto;width: 400px" >
                 <button type="button" class="btn btn-outline btn-primary btn-sm">关键字</button>
                 <button type="button" class="btn btn-outline btn-primary btn-sm">OE</button>
             </div>
@@ -54,8 +62,11 @@
             <div style="position: relative;top: 13px;">
                 <input type="button" class="btn btn-default" value="csv导入" onclick='javascript:$("#importCSV").trigger("click")' />
                 <input type="button" class="btn btn-default" value="csv导出" onclick='javascript:$("#outputCSV").trigger("click")' />
-                <input type="file" id="importCSV" style="display: none" name="importCSV" />
-                <input type="file" id="outputCSV" style="display: none" name="outputCSV" />
+                <form id="importFile" action="${ctx }/business/import.do" method="post" enctype="multipart/form-data">         
+                	<input type="file" id="importCSV" style="display: none" name="importCSV" />
+                 </form>
+                	<input type="file" id="outputCSV" style="display: none" name="outputCSV" />
+               
                 <a href="" class="btn btn-default">导出模板</a>
             </div>
             <div style="margin-left: 855px;">
@@ -67,7 +78,7 @@
                 <thead>
                 <tr>
                     <th><input type="checkbox" name="all" id="all" >全选</th>
-                    <th>品牌</th>
+                    <th>品牌${pager.total })</th>
                     <th>配件名称</th>
                     <th>配件编码</th>
                     <th>编码类型</th>
@@ -81,22 +92,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                
+                <c:forEach  items="${pager.list }" var="c">
+                	<tr>
                     <td><input type="checkbox" name="single" id="single" ></td>
-                    <td>爱尔兰</td>
-                    <td>刹车片</td>
-                    <td>X001</td>
+                    <td>${c.productBrand }</td>
+                    <td>${c.productName }</td>
+                    <td>${c.productCode }</td>
                     <td>
                         <select disabled>
-                            <option value="">参照编码</option>
-                            <option value="">OE码</option>
+                            <option <c:if test="${c.referenceCode!=null }">selected = "selected"</c:if> value="0">参照编码</option>
+                            <option <c:if test="${c.oeCode!=null }">selected = "selected"</c:if> value="1">OE码</option>
                         </select>
                     </td>
-                    <td>X002</td>
-                    <td>博士</td>
-                    <td>110</td>
-                    <td>140</td>
-                    <td>170</td>
+                    <td>${c.referenceCode }</td>
+                    <td>${c.referenceBrand }</td>
+                    <td>${c.firstPrice }</td>
+                    <td>${c.secondPrice }</td>
+                    <td>${c.thirdPrice }</td>
                     <td>新增</td>
                     <td>
                         <a href="#message">详情</a>
@@ -105,56 +118,7 @@
                         &nbsp;&nbsp;<a href="#apply">删除</a>
                     </td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" name="single" id="single" ></td>
-                    <td>爱尔兰</td>
-                    <td>刹车片</td>
-                    <td>X001</td>
-                    <td>
-                        <select disabled>
-                            <option value="">参照编码</option>
-                            <option value="">OE码</option>
-                        </select>
-                    </td>
-                    <td>X002</td>
-                    <td>博士</td>
-                    <td>110</td>
-                    <td>140</td>
-                    <td>170</td>
-                    <td>新增</td>
-                    <td>
-                        <a href="#message">详情</a>
-                        &nbsp;&nbsp;<a href="#apply">编辑</a>
-                        &nbsp;&nbsp;<a href="#apply">禁用</a>
-                        &nbsp;&nbsp;<a href="#apply">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" name="single" id="single" ></td>
-                    <td>爱尔兰</td>
-                    <td>刹车片</td>
-                    <td>X001</td>
-                    <td>
-                        <select disabled>
-                            <option value="">参照编码</option>
-                            <option value="">OE码</option>
-                        </select>
-                    </td>
-                    <td>X002</td>
-                    <td>博士</td>
-                    <td>110</td>
-                    <td>140</td>
-                    <td>170</td>
-                    <td>新增</td>
-                    <td>
-                        <a href="#message">详情</a>
-                        &nbsp;&nbsp;<a href="#apply">编辑</a>
-                        &nbsp;&nbsp;<a href="#apply">禁用</a>
-                        &nbsp;&nbsp;<a href="#apply">删除</a>
-                    </td>
-                </tr>
-
-
+                </c:forEach>
                 </tbody>
             </table>
         </div>
