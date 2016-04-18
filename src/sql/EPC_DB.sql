@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/4/8 16:09:23                            */
+/* Created on:     2016/4/15 10:44:33                           */
 /*==============================================================*/
 
 
@@ -16,6 +16,8 @@ drop table if exists ass_exception_log;
 
 drop table if exists ass_image;
 
+drop table if exists ass_mapping_index;
+
 drop table if exists ass_operate_log;
 
 drop table if exists ass_part;
@@ -27,6 +29,8 @@ drop table if exists ass_permission;
 drop table if exists ass_producer;
 
 drop table if exists ass_producer_part;
+
+drop table if exists ass_productCode_OE;
 
 drop table if exists ass_province;
 
@@ -42,9 +46,11 @@ drop table if exists ass_supplier;
 
 drop table if exists ass_supplier_epc;
 
-drop table if exists ass_supplier_orm;
+drop table if exists ass_supplier_mapping;
 
 drop table if exists ass_supplier_relative;
+
+drop table if exists ass_supplier_task;
 
 drop table if exists ass_task;
 
@@ -63,6 +69,7 @@ drop table if exists ass_user_role;
 /*==============================================================*/
 create table ass_OE
 (
+   id                   int not null auto_increment,
    oe_code              varchar(80) not null comment 'oe码',
    name                 varchar(40) not null comment '名称',
    type                 varchar(80) not null comment '型号',
@@ -76,7 +83,7 @@ create table ass_OE
    update_date          datetime,
    updator_id           int,
    is_del               char(1) not null default '0',
-   primary key (oe_code)
+   primary key (id)
 );
 
 alter table ass_OE comment 'OE';
@@ -176,6 +183,36 @@ create table ass_image
 );
 
 alter table ass_image comment '图片';
+
+/*==============================================================*/
+/* Table: ass_mapping_index                                     */
+/*==============================================================*/
+create table ass_mapping_index
+(
+   id                   int not null auto_increment comment 'id',
+   product_brand        varchar(80) comment '厂商品牌',
+   product_name         varchar(40) comment '配件名称',
+   product_code         varchar(80) comment '配件编码',
+   reference_code       varchar(80) comment '参照编码',
+   reference_brand      varchar(80) comment '参照品牌',
+   oe_code              varchar(80) comment 'oe码',
+   first_price          float comment '一级价格',
+   second_price         float comment '二级价格',
+   third_price          float comment '三级价格',
+   status               char(1) comment '状态 0：新增 1：修改 2：禁用',
+   supplier_id          int comment '企业id',
+   type_ids             varchar(2048) comment '车型集 以，分割',
+   extra_name           varchar(40) comment 'OE对应的配件名称',
+   extra_brand          varchar(80) comment 'OE对应的品牌名称',
+   create_date          datetime,
+   creator_id           int,
+   update_date          datetime,
+   updator_id           int,
+   is_del               char(1) not null default '0',
+   primary key (id)
+);
+
+alter table ass_mapping_index comment '企业映射索引';
 
 /*==============================================================*/
 /* Table: ass_operate_log                                       */
@@ -293,8 +330,7 @@ alter table ass_producer comment '汽车配件厂';
 create table ass_producer_part
 (
    id                   int not null auto_increment comment 'id',
-   product_code         varchar(80) comment '参照编码',
-   oe_code              varchar(80) comment 'OE码',
+   product_code         varchar(80) comment '厂商编码',
    producer_id          int comment '汽车配件厂Id',
    part_id              int comment '汽车配件id',
    create_date          datetime,
@@ -306,6 +342,25 @@ create table ass_producer_part
 );
 
 alter table ass_producer_part comment '原厂配件表';
+
+/*==============================================================*/
+/* Table: ass_productCode_OE                                    */
+/*==============================================================*/
+create table ass_productCode_OE
+(
+   id                   int not null auto_increment comment 'id',
+   reference_code       varchar(80) comment '参照编码',
+   oe_code              varchar(80) comment 'oe码',
+   product_code         varchar(80) not null comment '厂商编码',
+   create_date          datetime,
+   creator_id           int,
+   update_date          datetime,
+   updator_id           int,
+   is_del               char(1) not null default '0',
+   primary key (id)
+);
+
+alter table ass_productCode_OE comment '厂商编码-OE关系表';
 
 /*==============================================================*/
 /* Table: ass_province                                          */
@@ -449,22 +504,22 @@ create table ass_supplier_epc
 alter table ass_supplier_epc comment '企业epc';
 
 /*==============================================================*/
-/* Table: ass_supplier_orm                                      */
+/* Table: ass_supplier_mapping                                  */
 /*==============================================================*/
-create table ass_supplier_orm
+create table ass_supplier_mapping
 (
    id                   int not null auto_increment comment 'id',
-   supplier_no          varchar(80) comment '供应商编码',
+   product_brand        varchar(80) comment '厂商品牌',
+   product_name         varchar(40) comment '配件名称',
+   product_code         varchar(80) comment '配件编码',
+   reference_code       varchar(80) comment '参照编码',
+   reference_brand      varchar(80) comment '参照品牌',
    oe_code              varchar(80) comment 'oe码',
-   big_product_no       varchar(80) comment '大厂编码',
-   small_product_no     varchar(80) comment '小厂编码',
-   produer_name         varchar(40) comment '供应商品牌',
-   part_name            varchar(40) comment '配件名称',
    first_price          float comment '一级价格',
    second_price         float comment '二级价格',
    third_price          float comment '三级价格',
+   status               char(1) comment '状态 0：新增 1：修改 2：禁用',
    supplier_id          int comment '企业id',
-   status               char(1) comment '状态',
    create_date          datetime,
    creator_id           int,
    update_date          datetime,
@@ -473,7 +528,7 @@ create table ass_supplier_orm
    primary key (id)
 );
 
-alter table ass_supplier_orm comment '企业orm';
+alter table ass_supplier_mapping comment '企业导入映射';
 
 /*==============================================================*/
 /* Table: ass_supplier_relative                                 */
@@ -493,6 +548,29 @@ create table ass_supplier_relative
 );
 
 alter table ass_supplier_relative comment '企业关系';
+
+/*==============================================================*/
+/* Table: ass_supplier_task                                     */
+/*==============================================================*/
+create table ass_supplier_task
+(
+   id                   int not null auto_increment comment 'id',
+   name                 varchar(40) comment '任务名称',
+   content              varchar(255) comment '任务内容',
+   total                int comment '总条数',
+   success_num          int comment '成功条数',
+   fail_num             int comment '失败条数',
+   status               char(1) comment '任务状态',
+   create_date          datetime,
+   end_date             datetime,
+   creator_id           int,
+   update_date          datetime,
+   updator_id           int,
+   is_del               char(1) not null default '0',
+   primary key (id)
+);
+
+alter table ass_supplier_task comment '企业任务';
 
 /*==============================================================*/
 /* Table: ass_task                                              */
@@ -566,8 +644,8 @@ alter table ass_type comment '车型';
 /*==============================================================*/
 create table ass_type_oe
 (
-   id                   int not null auto_increment comment 'id',
-   oe_code              varchar(80) not null comment 'oe编码',
+   id                   int not null comment 'id',
+   oe_code              varchar(80) not null comment 'oe码',
    type_id              int not null comment '车型Id',
    create_date          datetime,
    creator_id           int,
@@ -634,6 +712,9 @@ alter table ass_domain add constraint FK_FK_supplier_domain foreign key (supplie
 alter table ass_domain add constraint FK_FK_user_domain foreign key (user_id)
       references ass_user (id) on delete restrict on update restrict;
 
+alter table ass_mapping_index add constraint FK_FK_supplier_mappingIndex foreign key (supplier_id)
+      references ass_supplier (id) on delete restrict on update restrict;
+
 alter table ass_operate_log add constraint FK_FK_user_operateLog foreign key (user_id)
       references ass_user (id) on delete restrict on update restrict;
 
@@ -670,7 +751,7 @@ alter table ass_supplier_epc add constraint FK_FK_series_EPC foreign key (type_i
 alter table ass_supplier_epc add constraint FK_FK_supplier_EPC foreign key (supplier_id)
       references ass_supplier (id) on delete restrict on update restrict;
 
-alter table ass_supplier_orm add constraint FK_FK_supplier_ORM foreign key (id)
+alter table ass_supplier_mapping add constraint FK_FK_supplier_mapping foreign key (supplier_id)
       references ass_supplier (id) on delete restrict on update restrict;
 
 alter table ass_supplier_relative add constraint FK_FK_quota foreign key (supplier_id)
@@ -689,7 +770,7 @@ alter table ass_type add constraint FK_FK_series_type foreign key (series_id)
       references ass_series (id) on delete restrict on update restrict;
 
 alter table ass_type_oe add constraint FK_FK_OE_typeOE foreign key (oe_code)
-      references ass_OE (oe_code) on delete restrict on update restrict;
+      references ass_OE (id) on delete restrict on update restrict;
 
 alter table ass_type_oe add constraint FK_FK_type_TypeOE foreign key (type_id)
       references ass_type (id) on delete restrict on update restrict;
