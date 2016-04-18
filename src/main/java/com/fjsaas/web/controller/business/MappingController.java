@@ -24,6 +24,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fjsaas.web.bean.SupplierMapping;
 import com.fjsaas.web.constants.Constants;
 import com.fjsaas.web.pagination.Pager;
+import com.fjsaas.web.pagination.html.PageTagImpl;
 import com.fjsaas.web.query.SupplierMappingQuery;
 import com.fjsaas.web.service.SupplierMappingService;
 import com.fjsaas.web.service.custom.MappingImportServiceImpl;
@@ -43,17 +44,24 @@ public class MappingController {
 	private SxlsxOptRows sxlsxOptRows;
 	
 	@RequestMapping("mappingIndex.do")
-	public String mappingIndex(String search,String status,ModelMap model){
+	public String mappingIndex(String search,String status,Integer pageNo,ModelMap model,HttpServletRequest request){
+		String appName = request.getContextPath();
 		SupplierMappingQuery mappingQuery = new SupplierMappingQuery();
-		
+		StringBuffer params = new StringBuffer();
 		if(!StringUtils.isEmpty(status)){
 			mappingQuery.setStatus(status);
+			params.append("&status=").append(status);
 		}
 		
 		if(!StringUtils.isEmpty(search)){
 			mappingQuery.setProductName(search);
 			mappingQuery.setProductCode(search);
 			mappingQuery.setProductBrand(search);
+			params.append("&search=").append(search);
+		}
+		
+		if(pageNo != null){
+			mappingQuery.setPageNo(pageNo);
 		}
 		
 		Pager pager = supplierMappingService.getSupplierMappingListWithPageByMulCondition(mappingQuery);
@@ -61,6 +69,8 @@ public class MappingController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("search", search);
 		model.addAttribute("status", status);
+		
+		pager.pageView(appName+"/business/mappingIndex.do", params.toString(),new PageTagImpl());
 		return "business/mappingManage";
 	}
 	

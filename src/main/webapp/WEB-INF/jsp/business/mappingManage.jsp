@@ -147,21 +147,14 @@ $(function(){
                     </td>
                 </tr>
                 </c:forEach>
-
-
                 </tbody>
             </table>
-            	<ul class="pagination">
-            	<li class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><a href="#">Previous</a></li>
-            	<li class="paginate_button active" aria-controls="dataTables-example" tabindex="0"><a href="#">1</a></li>
-            	<li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">2</a></li>
-            	<li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">3</a></li>
-            	<li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">4</a></li>
-            	<li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">5</a></li>
-            	<li class="paginate_button " aria-controls="dataTables-example" tabindex="0"><a href="#">6</a></li>
-            	<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><a href="#">Next</a></li>
-            	</ul>
-				<ul class='pagination'><li class='paginate_button previous disabled' aria-controls='dataTables-example' tabindex='0' id='dataTables-example_previous'><a href='#'>首页</a></li><li class='paginate_button previous disabled' aria-controls='dataTables-example' tabindex='0' id='dataTables-example_previous'><a href='#'>上一页</a></li><li class='paginate_button active' aria-controls='dataTables-example' tabindex='0' id='dataTables-example_previous'><a href='#'>1</a></li><li class='paginate_button next disabled' aria-controls='dataTables-example' tabindex='0' id='dataTables-example_previous'><a href='#'>下一页</a></li><li class='paginate_button next disabled' aria-controls='dataTables-example' tabindex='0' id='dataTables-example_previous'><a href='#'>尾页</a></li>&nbsp;&nbsp;<span>共1页</span></div>
+            <div class="col-sm-6" style="position:relative;margin-left: 600px;margin-top: -15px;">
+            <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+           		${pager.pageView }
+            </div>
+            </div>
+        
 				
             <div id="myModal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="apply">
                 <div class="modal-dialog" style="width: 450px;" role="document">
