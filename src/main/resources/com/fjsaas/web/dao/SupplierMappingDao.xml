@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fjsaas.web.dao.SupplierMappingDao">
+	<resultMap id="supplierMapping" type="SupplierMapping">
+		<result property="id" column="id" />
+		<result property="productBrand" column="product_brand" />
+		<result property="productName" column="product_name" />
+		<result property="productCode" column="product_code" />
+		<result property="referenceCode" column="reference_code" />
+		<result property="referenceBrand" column="reference_brand" />
+		<result property="oeCode" column="oe_code" />
+		<result property="firstPrice" column="first_price" />
+		<result property="secondPrice" column="second_price" />
+		<result property="thirdPrice" column="third_price" />
+		<result property="status" column="status" />
+		<result property="supplierId" column="supplier_id" />
+		<result property="createDate" column="create_date" />
+		<result property="creatorId" column="creator_id" />
+		<result property="updateDate" column="update_date" />
+		<result property="updatorId" column="updator_id" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+	<!-- Select SQL -->
+	<sql id="supplierMappingSelector">
+		SELECT
+			<if test="fields != null">
+			 	${fields}
+			</if>
+			<if test="fields == null">
+				id,product_brand,product_name,product_code,reference_code,reference_brand,oe_code,first_price,second_price,third_price,status,supplier_id,create_date,creator_id,update_date,updator_id,is_del	
+			</if>
+		FROM ass_supplier_mapping
+	</sql>
+	
+	<sql id="supplierMappingListWhere">
+		<where>
+				<if test="id != null">
+					and id=#{id}
+				</if>
+				<if test="productBrand != null">
+					<if test="productBrandLike == false">
+						and product_brand=#{productBrand}
+					</if>
+					<if test="productBrandLike == true">
+						and  product_brand like CONCAT("%",#{ productBrand },"%")
+					</if>
+				</if>
+				
+				
+				<if test="productName != null">
+					<if test="productNameLike == false">
+						and product_name=#{productName}
+					</if>
+					<if test="productNameLike == true">
+						and  product_name like CONCAT("%",#{ productName },"%")
+					</if>
+				</if>
+				
+				
+				<if test="productCode != null">
+					<if test="productCodeLike == false">
+						and product_code=#{productCode}
+					</if>
+					<if test="productCodeLike == true">
+						and  product_code like CONCAT("%",#{ productCode },"%")
+					</if>
+				</if>
+				
+				
+				<if test="referenceCode != null">
+					<if test="referenceCodeLike == false">
+						and reference_code=#{referenceCode}
+					</if>
+					<if test="referenceCodeLike == true">
+						and  reference_code like CONCAT("%",#{ referenceCode },"%")
+					</if>
+				</if>
+				
+				
+				<if test="referenceBrand != null">
+					<if test="referenceBrandLike == false">
+						and reference_brand=#{referenceBrand}
+					</if>
+					<if test="referenceBrandLike == true">
+						and  reference_brand like CONCAT("%",#{ referenceBrand },"%")
+					</if>
+				</if>
+				
+				
+				<if test="oeCode != null">
+					<if test="oeCodeLike == false">
+						and oe_code=#{oeCode}
+					</if>
+					<if test="oeCodeLike == true">
+						and  oe_code like CONCAT("%",#{ oeCode },"%")
+					</if>
+				</if>
+				
+				
+				<if test="firstPrice != null">
+					and first_price=#{firstPrice}
+				</if>
+				
+				
+				<if test="secondPrice != null">
+					and second_price=#{secondPrice}
+				</if>
+				
+				
+				<if test="thirdPrice != null">
+					and third_price=#{thirdPrice}
+				</if>
+				
+				
+				<if test="status != null">
+					<if test="statusLike == false">
+						and status=#{status}
+					</if>
+					<if test="statusLike == true">
+						and  status like CONCAT("%",#{ status },"%")
+					</if>
+				</if>
+				
+				
+				<if test="supplierId != null">
+					and supplier_id=#{supplierId}
+				</if>
+				<if test="createDate != null">
+					and create_date=#{createDate}
+				</if>
+				
+				
+				<if test="creatorId != null">
+					and creator_id=#{creatorId}
+				</if>
+				<if test="updateDate != null">
+					and update_date=#{updateDate}
+				</if>
+				
+				
+				<if test="updatorId != null">
+					and updator_id=#{updatorId}
+				</if>
+				<if test="isDel != null">
+					and is_del=#{isDel}
+				</if>
+				<if test="isDel == null">
+					and is_del=0
+				</if>
+				
+				
+		</where>
+	</sql>
+	<sql id="supplierMappingListOrder">
+		<if test="orderFields != null and orderFields.size >0">
+		order by 
+			<foreach collection="orderFields" separator="," item="orderField">
+				${orderField.fieldName} ${orderField.order}
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="supplierMappingListLimit">
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</sql>
+
+	<!-- 根据主键查询 -->
+	<select id="getSupplierMappingByKey" resultMap="supplierMapping" parameterType="hashMap">
+		SELECT id,product_brand,product_name,product_code,reference_code,reference_brand,oe_code,first_price,second_price,third_price,status,supplier_id,create_date,creator_id,update_date,updator_id,is_del	 
+		FROM ass_supplier_mapping
+		WHERE
+		id=#{id}
+		and is_del = 0
+	</select>
+	<select id="getSupplierMappingsByKeys" resultMap="supplierMapping" parameterType="ArrayList">
+		SELECT id,product_brand,product_name,product_code,reference_code,reference_brand,oe_code,first_price,second_price,third_price,status,supplier_id,create_date,creator_id,update_date,updator_id,is_del 
+		FROM ass_supplier_mapping
+		WHERE
+		id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+		and is_del = 0
+	</select>
+
+	<!-- 根据主键删除 -->
+	<update id="deleteByKey" parameterType="hashMap">
+		UPDATE ass_supplier_mapping set is_del = 1 where id=#{id}
+	</update>
+
+	<!-- 根据主键批量删除 -->
+	<update id="deleteByKeys">
+		UPDATE ass_supplier_mapping set is_del = 1 
+		where id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<!-- 根据主键更新 -->
+	<update id="updateSupplierMappingByKey" parameterType="SupplierMapping">
+		UPDATE ass_supplier_mapping
+		<set>
+			<trim suffixOverrides=",">
+				<if test="id != null">
+					id = #{id},
+				</if>
+				<if test="productBrand != null">
+					product_brand = #{productBrand},
+				</if>
+				<if test="productName != null">
+					product_name = #{productName},
+				</if>
+				<if test="productCode != null">
+					product_code = #{productCode},
+				</if>
+				<if test="referenceCode != null">
+					reference_code = #{referenceCode},
+				</if>
+				<if test="referenceBrand != null">
+					reference_brand = #{referenceBrand},
+				</if>
+				<if test="oeCode != null">
+					oe_code = #{oeCode},
+				</if>
+				<if test="firstPrice != null">
+					first_price = #{firstPrice},
+				</if>
+				<if test="secondPrice != null">
+					second_price = #{secondPrice},
+				</if>
+				<if test="thirdPrice != null">
+					third_price = #{thirdPrice},
+				</if>
+				<if test="status != null">
+					status = #{status},
+				</if>
+				<if test="supplierId != null">
+					supplier_id = #{supplierId},
+				</if>
+				<if test="createDate != null">
+					create_date = #{createDate},
+				</if>
+				<if test="creatorId != null">
+					creator_id = #{creatorId},
+				</if>
+				<if test="updateDate != null">
+					update_date = #{updateDate},
+				</if>
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+				<if test="isDel != null">
+					is_del = #{isDel},
+				</if>
+			</trim>
+		</set>
+		WHERE
+		id=#{id}
+	</update>
+	<!-- 分页 -->
+	<select id="getSupplierMappingListWithPage" parameterType="SupplierMappingQuery" resultMap="supplierMapping">
+		<include refid="supplierMappingSelector" />
+		<include refid="supplierMappingListWhere" />
+		<include refid="supplierMappingListOrder" />
+		<include refid="supplierMappingListLimit" />
+	</select>
+	<!-- 数据总数 -->
+	<select id="getSupplierMappingListCount" parameterType="SupplierMappingQuery" resultType="int">
+		SELECT count(1) FROM ass_supplier_mapping
+		<include refid="supplierMappingListWhere" />
+	</select>
+	<!-- 数据集合 -->
+	<select id="getSupplierMappingList" parameterType="SupplierMappingQuery" resultMap="supplierMapping">
+		<include refid="supplierMappingSelector" />
+		<include refid="supplierMappingListWhere" />
+		<include refid="supplierMappingListOrder" />
+	</select>
+	<!-- 添加 -->
+	<insert id="addSupplierMapping" parameterType="SupplierMapping">
+		INSERT INTO ass_supplier_mapping
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="id != null">
+					id,
+				</if>
+				
+				<if test="productBrand != null">
+					product_brand,
+				</if>
+				
+				<if test="productName != null">
+					product_name,
+				</if>
+				
+				<if test="productCode != null">
+					product_code,
+				</if>
+				
+				<if test="referenceCode != null">
+					reference_code,
+				</if>
+				
+				<if test="referenceBrand != null">
+					reference_brand,
+				</if>
+				
+				<if test="oeCode != null">
+					oe_code,
+				</if>
+				
+				<if test="firstPrice != null">
+					first_price,
+				</if>
+				
+				<if test="secondPrice != null">
+					second_price,
+				</if>
+				
+				<if test="thirdPrice != null">
+					third_price,
+				</if>
+				
+				<if test="status != null">
+					status,
+				</if>
+				
+				<if test="supplierId != null">
+					supplier_id,
+				</if>
+				
+				<if test="createDate != null">
+					create_date,
+				</if>
+				
+				<if test="creatorId != null">
+					creator_id,
+				</if>
+				
+				<if test="updateDate != null">
+					update_date,
+				</if>
+				
+				<if test="updatorId != null">
+					updator_id,
+				</if>
+				
+					is_del,
+				
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+					
+					<if test="id != null">
+						#{id},
+					</if>
+					
+					
+					<if test="productBrand != null">
+						#{productBrand},
+					</if>
+					
+					
+					<if test="productName != null">
+						#{productName},
+					</if>
+					
+					
+					<if test="productCode != null">
+						#{productCode},
+					</if>
+					
+					
+					<if test="referenceCode != null">
+						#{referenceCode},
+					</if>
+					
+					
+					<if test="referenceBrand != null">
+						#{referenceBrand},
+					</if>
+					
+					
+					<if test="oeCode != null">
+						#{oeCode},
+					</if>
+					
+					
+					<if test="firstPrice != null">
+						#{firstPrice},
+					</if>
+					
+					
+					<if test="secondPrice != null">
+						#{secondPrice},
+					</if>
+					
+					
+					<if test="thirdPrice != null">
+						#{thirdPrice},
+					</if>
+					
+					
+					<if test="status != null">
+						#{status},
+					</if>
+					
+					
+					<if test="supplierId != null">
+						#{supplierId},
+					</if>
+					
+					
+					<if test="createDate != null">
+						#{createDate},
+					</if>
+					
+					
+					<if test="creatorId != null">
+						#{creatorId},
+					</if>
+					
+					
+					<if test="updateDate != null">
+						#{updateDate},
+					</if>
+					
+					
+					<if test="updatorId != null">
+						#{updatorId},
+					</if>
+					
+					
+					<if test="isDel != null">
+						#{isDel},
+					</if>
+					<if test="isDel == null">
+						0
+					</if>
+					
+		</trim>
+	</insert>
+</mapper>

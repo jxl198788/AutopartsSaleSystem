@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fjsaas.web.dao.SupplierMappingCustomDao">
+	<resultMap id="supplierMapping" type="SupplierMapping">
+		<result property="id" column="id" />
+		<result property="productBrand" column="product_brand" />
+		<result property="productName" column="product_name" />
+		<result property="productCode" column="product_code" />
+		<result property="referenceCode" column="reference_code" />
+		<result property="referenceBrand" column="reference_brand" />
+		<result property="oeCode" column="oe_code" />
+		<result property="firstPrice" column="first_price" />
+		<result property="secondPrice" column="second_price" />
+		<result property="thirdPrice" column="third_price" />
+		<result property="status" column="status" />
+		<result property="supplierId" column="supplier_id" />
+		<result property="createDate" column="create_date" />
+		<result property="creatorId" column="creator_id" />
+		<result property="updateDate" column="update_date" />
+		<result property="updatorId" column="updator_id" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+	<!-- Select SQL -->
+	<sql id="supplierMappingSelector">
+		SELECT
+			<if test="fields != null">
+			 	${fields}
+			</if>
+			<if test="fields == null">
+				id,product_brand,product_name,product_code,reference_code,reference_brand,oe_code,first_price,second_price,third_price,status,supplier_id,create_date,creator_id,update_date,updator_id,is_del	
+			</if>
+		FROM ass_supplier_mapping
+	</sql>
+	
+	<sql id="supplierMappingListOrder">
+		<if test="orderFields != null and orderFields.size >0">
+		order by 
+			<foreach collection="orderFields" separator="," item="orderField">
+				${orderField.fieldName} ${orderField.order}
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="supplierMappingListLimit">
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</sql>
+
+	<!-- 分页 -->
+	<select id="getSupplierMappingListWithPageByMulCondition" parameterType="SupplierMappingQuery" resultMap="supplierMapping">
+		<include refid="supplierMappingSelector" />
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="or">
+				<if test="productBrand!=null">
+					or product_brand = #{productBrand}
+				</if>
+				<if test="productName!=null">
+					or product_name = #{productName}
+				</if>
+				<if test="productCode!=null">
+					or product_code = #{productCode}
+				</if>
+			</trim>
+			<if test="status!=null">
+				and status=#{status}
+			</if>
+			<if test="isDel != null">
+				and is_del=#{isDel}
+			</if>
+			<if test="isDel == null">
+				and is_del=0
+			</if>	
+		</where>
+		<include refid="supplierMappingListOrder" />
+		<include refid="supplierMappingListLimit" />
+	</select>
+	<!-- 数据总数 -->
+	<select id="getSupplierMappingListCountByMulCondition" parameterType="SupplierMappingQuery" resultType="int">
+		SELECT count(1) FROM ass_supplier_mapping
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="or">
+				<if test="productBrand!=null">
+					or product_brand=#{productBrand}
+				</if>
+				<if test="productName!=null">
+					or product_name=#{productName}
+				</if>
+				<if test="productCode!=null">
+					or product_code=#{productCode}
+				</if>
+			</trim>
+			<if test="status!=null">
+				and status=#{status}
+			</if>
+			<if test="isDel != null">
+				and is_del=#{isDel}
+			</if>
+			<if test="isDel == null">
+				and is_del=0
+			</if>	
+		</where>
+	</select>
+
+</mapper>
