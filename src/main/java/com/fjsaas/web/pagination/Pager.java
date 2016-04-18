@@ -8,7 +8,7 @@ public class Pager {
 
 	private List<?> list; //对象记录结果集
     private int total = 0; // 总记录数
-    private int pageSize = 20; // 每页显示记录数
+    private int pageSize = 10; // 每页显示记录数
     private int pages = 1; // 总页数
   
     private int pageNo = 1; // 当前页
