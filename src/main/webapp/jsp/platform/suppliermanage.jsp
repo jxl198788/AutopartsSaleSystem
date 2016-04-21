@@ -9,14 +9,24 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>供应商管理页面</title>
-<%@ include file="/jsp/head.jsp" %> 
+<%@ include file="/jsp/head.jsp" %>  
 <link href="${pageContext.request.contextPath}/static/css/platform/suppliermanage.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.responsive.css" rel="stylesheet">
-
+<script src="${pageContext.request.contextPath}/static/bootstrap/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/json.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/json2.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/common/city.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/platform/suppliermanage.js"></script>
+<script type="text/javascript">
+var path = "${pageContext.request.contextPath}";
+</script>
 </head>
 <body style="height:100%">
 	<%@ include file="/jsp/nav.jsp" %>
+	<form id="suppliersForm" action="${ctx }/platform/getSupplierInfos.do" method="post" enctype="multipart/form-data">
+	</form>
 	<div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12 page-div">
@@ -36,103 +46,21 @@
 				            <th>操作</th>
 			        	</tr>
 			        </thead>
-			        <tbody id="movies">
+			        <tbody id="tbody_data">
+			        <c:forEach items="${supplierList }" var="c">
 			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
+			        		<td><a href="#supplier_form_div" data-toggle="modal">${c.name }</a></td>
+	                        <td><a href="#supplier_form_div" data-toggle="modal">${c.telphone }</a></td>
+	                        <td><a href="#supplier_form_div" data-toggle="modal">${c.groupId }</a></td>
+	                        <td>${c.addr }</td>
+	                        <td>${c.businessLicenseUrl }</td>
+	                        <td>
+		                        <a id="active" name="" style="margin-left:5px;">激活</a>
+		                        <a id="lock" name="" style="margin-left:3px;">锁定</a>
+		                        <a id="delete" name="" style="margin-left:3px;">删除</a>
+	                        </td>
 			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><a href="#supplier_form_div" data-toggle="modal">565@163.com</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#supplier_form_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td>kangzhong.inquiry.com</td>
-	                        <td><a id="active" name="" style="margin-left:5px;">激活</a><a id="lock" name="" style="margin-left:3px;">锁定</a><a id="delete" name="" style="margin-left:3px;">删除</a></td>
-			        	</tr>
+			        </c:forEach>
 			        </tbody>
 			      </table>
 	        </div>
@@ -148,7 +76,7 @@
 			                <button type="button" id="supplier_form_close" data-dismiss="modal" aria-label="Close" class="btn btn-success close-btn">X</button>
 			            </div>
 			            <div>
-			                <form class="panel-body-form">
+			                <form class="panel-body-form" action="${ctx }/platform/getSupplierDetail.do" method="post" enctype="multipart/form-data">
 					            <div class="form-group panel-body-div1">
 					                <label class="left panel-body-label1">用户名</label>
 					                <input class="form-control form-group-input left" id="username" type="text" placeholder="用户名" disabled>
@@ -199,9 +127,5 @@
         <!-- modal  end  -->
     </div>
     <!-- /#page-wrapper -->
-<script src="${pageContext.request.contextPath}/static/bootstrap/jquery.dataTables.min.js"></script>
-<script src="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/platform/suppliermanage.js"></script>
-    
 </body>
 </html>
