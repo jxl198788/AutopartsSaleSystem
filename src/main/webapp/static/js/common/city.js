@@ -10,7 +10,7 @@ $(function(){
     	   getCities(data);//市级
        },
        onLoadSuccess:function(){
-    	   alert(1);
+//    	   alert(1);
        }
    }); 
 
