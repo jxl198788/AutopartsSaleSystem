@@ -1,6 +1,6 @@
 //页面初始化
 $(function(){
-//    $("#suppliersForm").ajaxSubmit(); 
+//    $("#suppliersForm").ajaxSubmit();
 	$('#dataTables-example').DataTable({
 	    responsive: true,
 	    ordering:false//排序控件
