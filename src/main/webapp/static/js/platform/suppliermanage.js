@@ -1,88 +1,16 @@
-var towndata = {"591":[{ "id":101,
-							"text":"鼓楼区",
-					   		"group":350000
-					   	},{"id":102,
-					   		"text":"台江区",
-					   		"group":350000
-					   	},{"id":103,
-					   		"text":"晋安区",
-					   		"group":350000
-					   	},{"id":104,
-					   		"text":"马尾区",
-					   		"group":350000
-					   	},{"id":105,
-					   		"text":"苍山区",
-					   		"group":350000
-					   	},{"id":106,
-					   		"text":"闽侯县",
-					   		"group":350000
-					   	},{"id":107,
-					   		"text":"长乐县",
-					   		"group":350000
-					   	},{"id":108,
-					   		"text":"福清",
-					   		"group":350000
-					   	}],
-			   	"594":[{ "id":401,
-							"text":"莆田市区"
-					   	},{"id":402,
-					   		"text":"城乡区"
-					   	},{"id":403,
-					   		"text":"荔城区"
-					   	},{"id":404,
-					   		"text":"仙游县"
-					   	}]
-};
-var citydata = {"350000":[{ "id":591,
-	"text":"福州市",
-		"group":350000
-	},{"id":592,
-		"text":"厦门市",
-		"group":350000
-	},{"id":593,
-		"text":"宁德市",
-		"group":350000
-	},{"id":594,
-		"text":"莆田市",
-		"group":350000
-	},{"id":595,
-		"text":"泉州市",
-		"group":350000
-	},{"id":596,
-		"text":"漳州市",
-		"group":350000
-	},{"id":597,
-		"text":"龙岩市",
-		"group":350000
-	},{"id":598,
-		"text":"三明市",
-		"group":350000
-	},{"id":599,
-		"text":"南平市",
-		"group":350000
-	}],
-"360000":[{ "id":691,
-	"text":"吉安市"
-	},{"id":692,
-		"text":"其他市"
-	}]
-};
-var provincedata = [{	"id":350000,
-						"text":"福建省"
-					},{"id":360000,
-						"text":"江西省"
-					}];
 
 //页面初始化
 $(function(){
+    $("#suppliersForm").ajaxSubmit();
 	$('#dataTables-example').DataTable({
 	    responsive: true,
 	    ordering:false//排序控件
 	});
 	$('#dataTables-example_length').hide();//每页显示条数下拉框
 	$('#dataTables-example_info').hide();//分页显示提示信息
-
-	getProvinces();//省份初始化
+	$("#submit").on("click",function(){
+	       $(".panel-body-form").ajaxSubmit();
+    });
 });
 
 //营业执照图片选择实时显示
@@ -166,48 +94,3 @@ $("#supplier_form #cancel").click(function(){
 	}
 });
 
-/******************省市区三级联动***************************************/
-//获取省份下拉框
-function getProvinces(){
-	$('#province').combobox({  
-       valueField:'id',  
-       textField:'text', 
-       data:provincedata,
-       //url:'../broadbandInfoQuery/guangTongAction.do?operate=getProvinces&service_name=GET_PROVINCES',  
-       onSelect:function(data){
-       	getCitys(data.id);
-		 },
-		 onLoadSuccess:function(){
-        	var dataArr = $('#province').combobox("getData");
-        	if(dataArr.length==1){
-        		var data = dataArr[0];
-        		$('#province').combobox("select",data.id);
-        	}
-       }
-   }); 
-}
-
-//获取城市下拉框
-function getCitys(provinceid){
-	$('#city').combobox({  
-     valueField:'id',  
-     textField:'text', 
-     data:citydata[provinceid],
-//     url:'../broadbandInfoQuery/guangTongAction.do?operate=getCitys&service_name=GET_CITIES&params_name=stateCode&params_value='+provinceId,  
-      onSelect:function(data){
-      	getDist(data.id);
-		}
- }); 
-}
-
-//获取区域下拉框
-function getDist(cityId){
-	$('#town').combobox({  
-     valueField:'id',  
-     textField:'text', 
-     data:towndata[cityId],
-//     url:'../broadbandInfoQuery/guangTongAction.do?operate=getDist&service_name=GET_DIST&params_name=cityCode&params_value='+cityId,  
-     onSelect:function(data){
-	   }
- }); 
-}
