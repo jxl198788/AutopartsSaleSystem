@@ -1,17 +1,24 @@
-
 //页面初始化
 $(function(){
-    $("#suppliersForm").ajaxSubmit();
+//    $("#suppliersForm").ajaxSubmit();
 	$('#dataTables-example').DataTable({
 	    responsive: true,
 	    ordering:false//排序控件
 	});
 	$('#dataTables-example_length').hide();//每页显示条数下拉框
 	$('#dataTables-example_info').hide();//分页显示提示信息
-	$("#submit").on("click",function(){
-	       $(".panel-body-form").ajaxSubmit();
-    });
 });
+
+function toForm(obj,id){
+	 var ajax_option={
+			 data:{"id":id},
+			 success:function(data){
+             }
+     };
+	$("#supplierDetail").ajaxSubmit(ajax_option);
+	$("#name").val("${supplier.name }");
+	obj.href="#supplier_form_div";
+}
 
 //营业执照图片选择实时显示
 function setImagePreview() { 
@@ -48,49 +55,32 @@ function setImagePreview() {
 } 
 
 //供应商信息修改
-$("#supplier_form #update").click(function(){
-	$("#supplier_form #update").hide();
-	$("#supplier_form #submit").show();
+function updateDetail(){
+	$("#update").hide();
+	$("#submit").show();
+	province();
 	//表单中所有的文本框
-	$("#supplier_form input").each(function(){
+	$("#supplier_form_div input").each(function(){
 		$(this).attr("disabled",false);//移除不可编辑属性
 	}, {});
 	//表单中所有的下拉框
-	$("#supplier_form select").each(function(){
+	$("#supplier_form_div select").each(function(){
 		$(this).attr("disabled",false);
 	}, {});
-});
+}
 
 //供应商信息保存
-$("#supplier_form #submit").click(function(){
-	$("#supplier_form #submit").hide();
-	$("#supplier_form #update").show();
+function submitDetail(){
+    $("#panel-body-form").ajaxSubmit();
+	$("#submit").hide();
+	$("#update").show();
 	//表单中所有的文本框
-	$("#supplier_form input").each(function(){
+	$("#supplier_form_div input").each(function(){
 		$(this).attr("disabled",true);
 	}, {});
 	//表单中所有的下拉框
-	$("#supplier_form select").each(function(){
+	$("#supplier_form_div select").each(function(){
 		$(this).attr("disabled",true);
 	}, {});
-});
-
-//供应商信息取消
-$("#supplier_form #cancel").click(function(){
-//	alert($("#supplier_form #update").is(":hidden"));//is()函数用于判断对象的可视化，返回true/false
-	if(!$("#supplier_form #update").is(":hidden")){
-		$("#supplier_form").hide();
-	}else{
-		$("#supplier_form #submit").hide();
-		$("#supplier_form #update").show();
-		//表单中所有的文本框
-		$("#supplier_form input").each(function(){
-			$(this).attr("disabled",true);
-		}, {});
-		//表单中所有的下拉框
-		$("#supplier_form select").each(function(){
-			$(this).attr("disabled",true);
-		}, {});
-	}
-});
+}
 
