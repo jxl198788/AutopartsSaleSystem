@@ -72,7 +72,7 @@ var path = "${pageContext.request.contextPath}";
 	    <div id="supplier_form_div" class="modal fade">
             <div class="modal-dialog">
                    <div class="modal-body">
-                   <!-- body  begin 只要修改这里的内容即可 -->
+                   <!-- body begin 只要修改这里的内容即可 -->
 				    <div class="panel panel-success supplier_form" id="supplier_form">
 			            <div class="panel-heading">供应商详细信息
 			                <button type="button" id="supplier_form_close" data-dismiss="modal" aria-label="Close" class="btn btn-success close-btn">X</button>
