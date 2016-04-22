@@ -7,21 +7,24 @@
 		<result property="productBrand" column="product_brand" />
 		<result property="productName" column="product_name" />
 		<result property="productCode" column="product_code" />
+		<result property="productSize" column="product_size" />
 		<result property="referenceCode" column="reference_code" />
 		<result property="referenceBrand" column="reference_brand" />
-		<result property="oeCode" column="oe_code" />
 		<result property="firstPrice" column="first_price" />
 		<result property="secondPrice" column="second_price" />
 		<result property="thirdPrice" column="third_price" />
+		<result property="oeCode" column="oe_code" />
+		<result property="autoTypeId" column="auto_type_id" />
+		<result property="partSortId" column="part_sort_id" />
 		<result property="status" column="status" />
 		<result property="supplierId" column="supplier_id" />
-		<result property="typeIds" column="type_ids" />
-		<result property="extraName" column="extra_name" />
-		<result property="extraBrand" column="extra_brand" />
+		<result property="mappingId" column="mapping_id" />
 		<result property="createDate" column="create_date" />
 		<result property="creatorId" column="creator_id" />
 		<result property="updateDate" column="update_date" />
 		<result property="updatorId" column="updator_id" />
+		<result property="mappingCreateDate" column="mapping_create_date" />
+		<result property="mappingUpdateDate" column="mapping_update_date" />
 		<result property="isDel" column="is_del" />
 	</resultMap>
 	<!-- Select SQL -->
@@ -31,7 +34,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,product_brand,product_name,product_code,reference_code,reference_brand,oe_code,first_price,second_price,third_price,status,supplier_id,type_ids,extra_name,extra_brand,create_date,creator_id,update_date,updator_id,is_del	
+				id,product_brand,product_name,product_code,product_size,reference_code,reference_brand,first_price,second_price,third_price,oe_code,auto_type_id,part_sort_id,status,supplier_id,mapping_id,create_date,creator_id,update_date,updator_id,mapping_create_date,mapping_update_date,is_del	
 			</if>
 		FROM ass_mapping_index
 	</sql>
@@ -49,8 +52,6 @@
 						and  product_brand like CONCAT("%",#{ productBrand },"%")
 					</if>
 				</if>
-				
-				
 				<if test="productName != null">
 					<if test="productNameLike == false">
 						and product_name=#{productName}
@@ -59,8 +60,6 @@
 						and  product_name like CONCAT("%",#{ productName },"%")
 					</if>
 				</if>
-				
-				
 				<if test="productCode != null">
 					<if test="productCodeLike == false">
 						and product_code=#{productCode}
@@ -69,8 +68,14 @@
 						and  product_code like CONCAT("%",#{ productCode },"%")
 					</if>
 				</if>
-				
-				
+				<if test="productSize != null">
+					<if test="productSizeLike == false">
+						and product_size=#{productSize}
+					</if>
+					<if test="productSizeLike == true">
+						and  product_size like CONCAT("%",#{ productSize },"%")
+					</if>
+				</if>
 				<if test="referenceCode != null">
 					<if test="referenceCodeLike == false">
 						and reference_code=#{referenceCode}
@@ -79,8 +84,6 @@
 						and  reference_code like CONCAT("%",#{ referenceCode },"%")
 					</if>
 				</if>
-				
-				
 				<if test="referenceBrand != null">
 					<if test="referenceBrandLike == false">
 						and reference_brand=#{referenceBrand}
@@ -89,8 +92,15 @@
 						and  reference_brand like CONCAT("%",#{ referenceBrand },"%")
 					</if>
 				</if>
-				
-				
+				<if test="firstPrice != null">
+					and first_price=#{firstPrice}
+				</if>
+				<if test="secondPrice != null">
+					and second_price=#{secondPrice}
+				</if>
+				<if test="thirdPrice != null">
+					and third_price=#{thirdPrice}
+				</if>
 				<if test="oeCode != null">
 					<if test="oeCodeLike == false">
 						and oe_code=#{oeCode}
@@ -99,23 +109,12 @@
 						and  oe_code like CONCAT("%",#{ oeCode },"%")
 					</if>
 				</if>
-				
-				
-				<if test="firstPrice != null">
-					and first_price=#{firstPrice}
+				<if test="autoTypeId != null">
+					and auto_type_id=#{autoTypeId}
 				</if>
-				
-				
-				<if test="secondPrice != null">
-					and second_price=#{secondPrice}
+				<if test="partSortId != null">
+					and part_sort_id=#{partSortId}
 				</if>
-				
-				
-				<if test="thirdPrice != null">
-					and third_price=#{thirdPrice}
-				</if>
-				
-				
 				<if test="status != null">
 					<if test="statusLike == false">
 						and status=#{status}
@@ -124,49 +123,29 @@
 						and  status like CONCAT("%",#{ status },"%")
 					</if>
 				</if>
-				
-				
 				<if test="supplierId != null">
 					and supplier_id=#{supplierId}
 				</if>
-				<if test="typeIds != null">
-					and type_ids=#{typeIds}
+				<if test="mappingId != null">
+					and mapping_id=#{mappingId}
 				</if>
-				<if test="extraName != null">
-					<if test="extraNameLike == false">
-						and extra_name=#{extraName}
-					</if>
-					<if test="extraNameLike == true">
-						and  extra_name like CONCAT("%",#{ extraName },"%")
-					</if>
-				</if>
-				
-				
-				<if test="extraBrand != null">
-					<if test="extraBrandLike == false">
-						and extra_brand=#{extraBrand}
-					</if>
-					<if test="extraBrandLike == true">
-						and  extra_brand like CONCAT("%",#{ extraBrand },"%")
-					</if>
-				</if>
-				
-				
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
+				</if>
+				<if test="mappingCreateDate != null">
+					and mapping_create_date=#{mappingCreateDate}
+				</if>
+				<if test="mappingUpdateDate != null">
+					and mapping_update_date=#{mappingUpdateDate}
 				</if>
 				<if test="isDel != null">
 					and is_del=#{isDel}
@@ -174,8 +153,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="mappingIndexListOrder">
@@ -195,14 +172,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getMappingIndexByKey" resultMap="mappingIndex" parameterType="hashMap">
-		SELECT id,product_brand,product_name,product_code,reference_code,reference_brand,oe_code,first_price,second_price,third_price,status,supplier_id,type_ids,extra_name,extra_brand,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,product_brand,product_name,product_code,product_size,reference_code,reference_brand,first_price,second_price,third_price,oe_code,auto_type_id,part_sort_id,status,supplier_id,mapping_id,create_date,creator_id,update_date,updator_id,mapping_create_date,mapping_update_date,is_del	 
 		FROM ass_mapping_index
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getMappingIndexsByKeys" resultMap="mappingIndex" parameterType="ArrayList">
-		SELECT id,product_brand,product_name,product_code,reference_code,reference_brand,oe_code,first_price,second_price,third_price,status,supplier_id,type_ids,extra_name,extra_brand,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,product_brand,product_name,product_code,product_size,reference_code,reference_brand,first_price,second_price,third_price,oe_code,auto_type_id,part_sort_id,status,supplier_id,mapping_id,create_date,creator_id,update_date,updator_id,mapping_create_date,mapping_update_date,is_del 
 		FROM ass_mapping_index
 		WHERE
 		id in
@@ -243,14 +220,14 @@
 				<if test="productCode != null">
 					product_code = #{productCode},
 				</if>
+				<if test="productSize != null">
+					product_size = #{productSize},
+				</if>
 				<if test="referenceCode != null">
 					reference_code = #{referenceCode},
 				</if>
 				<if test="referenceBrand != null">
 					reference_brand = #{referenceBrand},
-				</if>
-				<if test="oeCode != null">
-					oe_code = #{oeCode},
 				</if>
 				<if test="firstPrice != null">
 					first_price = #{firstPrice},
@@ -261,20 +238,23 @@
 				<if test="thirdPrice != null">
 					third_price = #{thirdPrice},
 				</if>
+				<if test="oeCode != null">
+					oe_code = #{oeCode},
+				</if>
+				<if test="autoTypeId != null">
+					auto_type_id = #{autoTypeId},
+				</if>
+				<if test="partSortId != null">
+					part_sort_id = #{partSortId},
+				</if>
 				<if test="status != null">
 					status = #{status},
 				</if>
 				<if test="supplierId != null">
 					supplier_id = #{supplierId},
 				</if>
-				<if test="typeIds != null">
-					type_ids = #{typeIds},
-				</if>
-				<if test="extraName != null">
-					extra_name = #{extraName},
-				</if>
-				<if test="extraBrand != null">
-					extra_brand = #{extraBrand},
+				<if test="mappingId != null">
+					mapping_id = #{mappingId},
 				</if>
 				<if test="createDate != null">
 					create_date = #{createDate},
@@ -287,6 +267,12 @@
 				</if>
 				<if test="updatorId != null">
 					updator_id = #{updatorId},
+				</if>
+				<if test="mappingCreateDate != null">
+					mapping_create_date = #{mappingCreateDate},
+				</if>
+				<if test="mappingUpdateDate != null">
+					mapping_update_date = #{mappingUpdateDate},
 				</if>
 				<if test="isDel != null">
 					is_del = #{isDel},
@@ -334,16 +320,16 @@
 					product_code,
 				</if>
 				
+				<if test="productSize != null">
+					product_size,
+				</if>
+				
 				<if test="referenceCode != null">
 					reference_code,
 				</if>
 				
 				<if test="referenceBrand != null">
 					reference_brand,
-				</if>
-				
-				<if test="oeCode != null">
-					oe_code,
 				</if>
 				
 				<if test="firstPrice != null">
@@ -358,6 +344,18 @@
 					third_price,
 				</if>
 				
+				<if test="oeCode != null">
+					oe_code,
+				</if>
+				
+				<if test="autoTypeId != null">
+					auto_type_id,
+				</if>
+				
+				<if test="partSortId != null">
+					part_sort_id,
+				</if>
+				
 				<if test="status != null">
 					status,
 				</if>
@@ -366,16 +364,8 @@
 					supplier_id,
 				</if>
 				
-				<if test="typeIds != null">
-					type_ids,
-				</if>
-				
-				<if test="extraName != null">
-					extra_name,
-				</if>
-				
-				<if test="extraBrand != null">
-					extra_brand,
+				<if test="mappingId != null">
+					mapping_id,
 				</if>
 				
 				<if test="createDate != null">
@@ -392,6 +382,14 @@
 				
 				<if test="updatorId != null">
 					updator_id,
+				</if>
+				
+				<if test="mappingCreateDate != null">
+					mapping_create_date,
+				</if>
+				
+				<if test="mappingUpdateDate != null">
+					mapping_update_date,
 				</if>
 				
 					is_del,
@@ -420,6 +418,11 @@
 					</if>
 					
 					
+					<if test="productSize != null">
+						#{productSize},
+					</if>
+					
+					
 					<if test="referenceCode != null">
 						#{referenceCode},
 					</if>
@@ -427,11 +430,6 @@
 					
 					<if test="referenceBrand != null">
 						#{referenceBrand},
-					</if>
-					
-					
-					<if test="oeCode != null">
-						#{oeCode},
 					</if>
 					
 					
@@ -450,6 +448,21 @@
 					</if>
 					
 					
+					<if test="oeCode != null">
+						#{oeCode},
+					</if>
+					
+					
+					<if test="autoTypeId != null">
+						#{autoTypeId},
+					</if>
+					
+					
+					<if test="partSortId != null">
+						#{partSortId},
+					</if>
+					
+					
 					<if test="status != null">
 						#{status},
 					</if>
@@ -460,18 +473,8 @@
 					</if>
 					
 					
-					<if test="typeIds != null">
-						#{typeIds},
-					</if>
-					
-					
-					<if test="extraName != null">
-						#{extraName},
-					</if>
-					
-					
-					<if test="extraBrand != null">
-						#{extraBrand},
+					<if test="mappingId != null">
+						#{mappingId},
 					</if>
 					
 					
@@ -492,6 +495,16 @@
 					
 					<if test="updatorId != null">
 						#{updatorId},
+					</if>
+					
+					
+					<if test="mappingCreateDate != null">
+						#{mappingCreateDate},
+					</if>
+					
+					
+					<if test="mappingUpdateDate != null">
+						#{mappingUpdateDate},
 					</if>
 					
 					

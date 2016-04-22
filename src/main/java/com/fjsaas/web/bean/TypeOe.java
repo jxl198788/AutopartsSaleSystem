@@ -12,8 +12,8 @@ public class TypeOe implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	private String oeCode;
 	private Integer typeId;
+	private String oeCode;
 	private Date createDate;
 	private Integer creatorId;
 	private Date updateDate;
@@ -28,20 +28,20 @@ public class TypeOe implements Serializable {
 		this.id = id;
 	}
 	
-	public String getOeCode() {
-		return oeCode;
-	}
-	
-	public void setOeCode(String oeCode) {
-		this.oeCode = oeCode;
-	}
-	
 	public Integer getTypeId() {
 		return typeId;
 	}
 	
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
+	}
+	
+	public String getOeCode() {
+		return oeCode;
+	}
+	
+	public void setOeCode(String oeCode) {
+		this.oeCode = oeCode;
 	}
 	
 	public Date getCreateDate() {
@@ -85,7 +85,7 @@ public class TypeOe implements Serializable {
 	}
 	
 	public String toString() {
-		return "TypeOe [id=" + id + ",oeCode=" + oeCode + ",typeId=" + typeId + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "TypeOe [id=" + id + ",typeId=" + typeId + ",oeCode=" + oeCode + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
 	
 	

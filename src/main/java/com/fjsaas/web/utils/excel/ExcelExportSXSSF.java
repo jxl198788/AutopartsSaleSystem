@@ -123,13 +123,6 @@ public class ExcelExportSXSSF {
 
 	}
 	
-	/**
-	 * 向导出文件写数据
-	 * 
-	 * @param datalist
-	 *            存放Object对象，仅支持单个自定义对象，不支持对象中嵌套自定义对象
-	 * @return
-	 */
 	public void writeDatasByList(List<List<String>> datalist) throws Exception {
 
 		for (int j = 0; j < datalist.size(); j++) {

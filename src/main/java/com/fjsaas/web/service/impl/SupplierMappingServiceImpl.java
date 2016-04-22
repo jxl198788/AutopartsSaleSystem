@@ -89,4 +89,10 @@ public class SupplierMappingServiceImpl implements SupplierMappingService {
 			SupplierMappingQuery supplierMappingQuery) {
 		return supplierMappingCustomDao.getSupplierMappingListCountByMulCondition(supplierMappingQuery);
 	}
+
+	@Override
+	public List<SupplierMapping> getSupplierMappingListByMulCondition(
+			SupplierMappingQuery supplierMappingQuery) {
+		return supplierMappingCustomDao.getSupplierMappingListByMulCondition(supplierMappingQuery);
+	}
 }

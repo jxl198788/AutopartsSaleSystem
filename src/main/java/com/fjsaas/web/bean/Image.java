@@ -14,6 +14,8 @@ public class Image implements Serializable {
 	private Integer id;
 	private String name;
 	private String url;
+	private String groupId;
+	private String isDef;
 	private Date createDate;
 	private Integer creatorId;
 	private Date updateDate;
@@ -42,6 +44,22 @@ public class Image implements Serializable {
 	
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	public String getGroupId() {
+		return groupId;
+	}
+	
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+	
+	public String getIsDef() {
+		return isDef;
+	}
+	
+	public void setIsDef(String isDef) {
+		this.isDef = isDef;
 	}
 	
 	public Date getCreateDate() {
@@ -85,7 +103,7 @@ public class Image implements Serializable {
 	}
 	
 	public String toString() {
-		return "Image [id=" + id + ",name=" + name + ",url=" + url + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "Image [id=" + id + ",name=" + name + ",url=" + url + ",groupId=" + groupId + ",isDef=" + isDef + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
 	
 	

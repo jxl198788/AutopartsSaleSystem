@@ -13,11 +13,10 @@ public class SupplierTask implements Serializable {
 
 	private Integer id;
 	private String name;
-	private String content;
-	private Integer total;
-	private Integer successNum;
-	private Integer failNum;
+	private String groupName;
+	private String description;
 	private String status;
+	private String type;
 	private Date createDate;
 	private Date endDate;
 	private Integer creatorId;
@@ -41,36 +40,20 @@ public class SupplierTask implements Serializable {
 		this.name = name;
 	}
 	
-	public String getContent() {
-		return content;
+	public String getGroupName() {
+		return groupName;
 	}
 	
-	public void setContent(String content) {
-		this.content = content;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 	
-	public Integer getTotal() {
-		return total;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setTotal(Integer total) {
-		this.total = total;
-	}
-	
-	public Integer getSuccessNum() {
-		return successNum;
-	}
-	
-	public void setSuccessNum(Integer successNum) {
-		this.successNum = successNum;
-	}
-	
-	public Integer getFailNum() {
-		return failNum;
-	}
-	
-	public void setFailNum(Integer failNum) {
-		this.failNum = failNum;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	public String getStatus() {
@@ -79,6 +62,14 @@ public class SupplierTask implements Serializable {
 	
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	public Date getCreateDate() {
@@ -130,7 +121,7 @@ public class SupplierTask implements Serializable {
 	}
 	
 	public String toString() {
-		return "SupplierTask [id=" + id + ",name=" + name + ",content=" + content + ",total=" + total + ",successNum=" + successNum + ",failNum=" + failNum + ",status=" + status + ",createDate=" + createDate + ",endDate=" + endDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "SupplierTask [id=" + id + ",name=" + name + ",groupName=" + groupName + ",description=" + description + ",status=" + status + ",type=" + type + ",createDate=" + createDate + ",endDate=" + endDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
 	
 	

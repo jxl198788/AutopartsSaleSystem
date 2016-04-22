@@ -15,21 +15,24 @@ public class MappingIndex implements Serializable {
 	private String productBrand;
 	private String productName;
 	private String productCode;
+	private String productSize;
 	private String referenceCode;
 	private String referenceBrand;
-	private String oeCode;
 	private Float firstPrice;
 	private Float secondPrice;
 	private Float thirdPrice;
+	private String oeCode;
+	private Integer autoTypeId;
+	private Integer partSortId;
 	private String status;
 	private Integer supplierId;
-	private String typeIds;
-	private String extraName;
-	private String extraBrand;
+	private Integer mappingId;
 	private Date createDate;
 	private Integer creatorId;
 	private Date updateDate;
 	private Integer updatorId;
+	private Date mappingCreateDate;
+	private Date mappingUpdateDate;
 	private String isDel;
 
 	public Integer getId() {
@@ -64,6 +67,14 @@ public class MappingIndex implements Serializable {
 		this.productCode = productCode;
 	}
 	
+	public String getProductSize() {
+		return productSize;
+	}
+	
+	public void setProductSize(String productSize) {
+		this.productSize = productSize;
+	}
+	
 	public String getReferenceCode() {
 		return referenceCode;
 	}
@@ -78,14 +89,6 @@ public class MappingIndex implements Serializable {
 	
 	public void setReferenceBrand(String referenceBrand) {
 		this.referenceBrand = referenceBrand;
-	}
-	
-	public String getOeCode() {
-		return oeCode;
-	}
-	
-	public void setOeCode(String oeCode) {
-		this.oeCode = oeCode;
 	}
 	
 	public Float getFirstPrice() {
@@ -112,6 +115,30 @@ public class MappingIndex implements Serializable {
 		this.thirdPrice = thirdPrice;
 	}
 	
+	public String getOeCode() {
+		return oeCode;
+	}
+	
+	public void setOeCode(String oeCode) {
+		this.oeCode = oeCode;
+	}
+	
+	public Integer getAutoTypeId() {
+		return autoTypeId;
+	}
+	
+	public void setAutoTypeId(Integer autoTypeId) {
+		this.autoTypeId = autoTypeId;
+	}
+	
+	public Integer getPartSortId() {
+		return partSortId;
+	}
+	
+	public void setPartSortId(Integer partSortId) {
+		this.partSortId = partSortId;
+	}
+	
 	public String getStatus() {
 		return status;
 	}
@@ -128,28 +155,12 @@ public class MappingIndex implements Serializable {
 		this.supplierId = supplierId;
 	}
 	
-	public String getTypeIds() {
-		return typeIds;
+	public Integer getMappingId() {
+		return mappingId;
 	}
 	
-	public void setTypeIds(String typeIds) {
-		this.typeIds = typeIds;
-	}
-	
-	public String getExtraName() {
-		return extraName;
-	}
-	
-	public void setExtraName(String extraName) {
-		this.extraName = extraName;
-	}
-	
-	public String getExtraBrand() {
-		return extraBrand;
-	}
-	
-	public void setExtraBrand(String extraBrand) {
-		this.extraBrand = extraBrand;
+	public void setMappingId(Integer mappingId) {
+		this.mappingId = mappingId;
 	}
 	
 	public Date getCreateDate() {
@@ -184,6 +195,22 @@ public class MappingIndex implements Serializable {
 		this.updatorId = updatorId;
 	}
 	
+	public Date getMappingCreateDate() {
+		return mappingCreateDate;
+	}
+	
+	public void setMappingCreateDate(Date mappingCreateDate) {
+		this.mappingCreateDate = mappingCreateDate;
+	}
+	
+	public Date getMappingUpdateDate() {
+		return mappingUpdateDate;
+	}
+	
+	public void setMappingUpdateDate(Date mappingUpdateDate) {
+		this.mappingUpdateDate = mappingUpdateDate;
+	}
+	
 	public String getIsDel() {
 		return isDel;
 	}
@@ -193,7 +220,7 @@ public class MappingIndex implements Serializable {
 	}
 	
 	public String toString() {
-		return "MappingIndex [id=" + id + ",productBrand=" + productBrand + ",productName=" + productName + ",productCode=" + productCode + ",referenceCode=" + referenceCode + ",referenceBrand=" + referenceBrand + ",oeCode=" + oeCode + ",firstPrice=" + firstPrice + ",secondPrice=" + secondPrice + ",thirdPrice=" + thirdPrice + ",status=" + status + ",supplierId=" + supplierId + ",typeIds=" + typeIds + ",extraName=" + extraName + ",extraBrand=" + extraBrand + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "MappingIndex [id=" + id + ",productBrand=" + productBrand + ",productName=" + productName + ",productCode=" + productCode + ",productSize=" + productSize + ",referenceCode=" + referenceCode + ",referenceBrand=" + referenceBrand + ",firstPrice=" + firstPrice + ",secondPrice=" + secondPrice + ",thirdPrice=" + thirdPrice + ",oeCode=" + oeCode + ",autoTypeId=" + autoTypeId + ",partSortId=" + partSortId + ",status=" + status + ",supplierId=" + supplierId + ",mappingId=" + mappingId + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",mappingCreateDate=" + mappingCreateDate + ",mappingUpdateDate=" + mappingUpdateDate + ",isDel=" + isDel + "]";
 	}
 	
 	

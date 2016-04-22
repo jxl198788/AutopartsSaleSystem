@@ -13,6 +13,12 @@
     <link href="${ctx }/static/bootstrap/sb-admin-2.css" rel="stylesheet">
     <!-- Morris Charts CSS -->
     <link href="${ctx }/static/bootstrap/morris.css" rel="stylesheet">
+     <!-- DataTables CSS -->
+    <link href="${ctx }/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="${ctx }/static/dataTables-editor/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet">
+    <link href="${ctx }/static/dataTables-editor/css/buttons.dataTables.min.css" type="text/css" rel="stylesheet">
+    <link href="${ctx }/static/dataTables-editor/css/select.dataTables.min.css" type="text/css" rel="stylesheet">
+    <link href="${ctx }/static/dataTables-editor/css/editor.dataTables.min.css" type="text/css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="${ctx }/static/bootstrap/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -30,6 +36,11 @@
     <script src="${ctx }/static/bootstrap/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="${ctx }/static/bootstrap/metisMenu.min.js"></script>
+    <!-- DataTables JavaScript -->
+    <script src="${ctx }/static/dataTables-editor/jquery.dataTables.min.js"></script>
+    <script src="${ctx }/static/dataTables-editor/dataTables.buttons.min.js"></script>
+    <script src="${ctx }/static/dataTables-editor/dataTables.select.min.js"></script>
+    <script src="${ctx }/static/dataTables-editor/dataTables.editor.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="${ctx }/static/bootstrap/sb-admin-2.js"></script>
     <!-- JQuery Easy UI-->

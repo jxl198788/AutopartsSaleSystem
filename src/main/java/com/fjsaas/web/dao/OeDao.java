@@ -19,25 +19,25 @@ public interface OeDao {
 	 * 根据主键查找
 	 * @param id
 	 */
-	public Oe getOeByKey(Integer id);
+	public Oe getOeByKey(String id);
 
 	/**
 	 * 根据主键批量查找
 	 * @param idList
 	 */
-	public List<Oe> getOesByKeys(List<Integer> idList);
+	public List<Oe> getOesByKeys(List<String> idList);
 
 	/**
 	 * 根据主键删除
 	 * @param id
 	 */
-	public Integer deleteByKey(Integer id);
+	public Integer deleteByKey(String id);
 
 	/**
 	 * 根据主键批量删除
 	 * @param idList
 	 */
-	public Integer deleteByKeys(List<Integer> idList);
+	public Integer deleteByKeys(List<String> idList);
 
 	/**
 	 * 根据主键更新

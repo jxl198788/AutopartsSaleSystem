@@ -18,26 +18,26 @@ public interface OeService {
 	/**
 	 * 根据主键查询
 	 */
-	public Oe getOeByKey(Integer id);
+	public Oe getOeByKey(String id);
 
 	/**
 	 * 根据主键批量查询
 	 */
-	public List<Oe> getOesByKeys(List<Integer> idList);
+	public List<Oe> getOesByKeys(List<String> idList);
 
 	/**
 	 * 根据主键删除
 	 * 
 	 * @return
 	 */
-	public Integer deleteByKey(Integer id);
+	public Integer deleteByKey(String id);
 
 	/**
 	 * 根据主键批量删除
 	 * 
 	 * @return
 	 */
-	public Integer deleteByKeys(List<Integer> idList);
+	public Integer deleteByKeys(List<String> idList);
 
 	/**
 	 * 根据主键更新

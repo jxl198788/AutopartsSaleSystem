@@ -49,6 +49,29 @@ public class ImageQuery extends BaseQuery {
 		return this;
 	}
     
+	private String groupId;
+	public String getGroupId() {
+		return groupId;
+	}
+	public ImageQuery setGroupId(String groupId) {
+		this.groupId = groupId;
+		return this;
+	}
+    
+	private String isDef;
+	public String getIsDef() {
+		return isDef;
+	}
+	public ImageQuery setIsDef(String isDef) {
+		this.isDef = isDef;
+		return this;
+	}
+	private boolean isDefLike;
+	public ImageQuery setIsDefLike(boolean isLike) {
+		this.isDefLike = isLike;
+		return this;
+	}
+    
 	private Date createDate;
 	public Date getCreateDate() {
 		return createDate;
@@ -164,6 +187,28 @@ public class ImageQuery extends BaseQuery {
 	 */
 	public ImageQuery orderbyUrl(boolean isAsc) {
 		orderFields.add(new OrderField("url", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：group_id
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public ImageQuery orderbyGroupId(boolean isAsc) {
+		orderFields.add(new OrderField("group_id", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：is_def
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public ImageQuery orderbyIsDef(boolean isAsc) {
+		orderFields.add(new OrderField("is_def", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

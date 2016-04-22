@@ -6,6 +6,8 @@
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="url" column="url" />
+		<result property="groupId" column="group_id" />
+		<result property="isDef" column="is_def" />
 		<result property="createDate" column="create_date" />
 		<result property="creatorId" column="creator_id" />
 		<result property="updateDate" column="update_date" />
@@ -19,7 +21,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,name,url,create_date,creator_id,update_date,updator_id,is_del	
+				id,name,url,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_image
 	</sql>
@@ -37,8 +39,6 @@
 						and  name like CONCAT("%",#{ name },"%")
 					</if>
 				</if>
-				
-				
 				<if test="url != null">
 					<if test="urlLike == false">
 						and url=#{url}
@@ -47,21 +47,26 @@
 						and  url like CONCAT("%",#{ url },"%")
 					</if>
 				</if>
-				
-				
+				<if test="groupId != null">
+					and group_id=#{groupId}
+				</if>
+				<if test="isDef != null">
+					<if test="isDefLike == false">
+						and is_def=#{isDef}
+					</if>
+					<if test="isDefLike == true">
+						and  is_def like CONCAT("%",#{ isDef },"%")
+					</if>
+				</if>
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -71,8 +76,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="imageListOrder">
@@ -92,14 +95,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getImageByKey" resultMap="image" parameterType="hashMap">
-		SELECT id,name,url,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,name,url,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_image
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getImagesByKeys" resultMap="image" parameterType="ArrayList">
-		SELECT id,name,url,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,name,url,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_image
 		WHERE
 		id in
@@ -136,6 +139,12 @@
 				</if>
 				<if test="url != null">
 					url = #{url},
+				</if>
+				<if test="groupId != null">
+					group_id = #{groupId},
+				</if>
+				<if test="isDef != null">
+					is_def = #{isDef},
 				</if>
 				<if test="createDate != null">
 					create_date = #{createDate},
@@ -191,6 +200,14 @@
 					url,
 				</if>
 				
+				<if test="groupId != null">
+					group_id,
+				</if>
+				
+				<if test="isDef != null">
+					is_def,
+				</if>
+				
 				<if test="createDate != null">
 					create_date,
 				</if>
@@ -225,6 +242,16 @@
 					
 					<if test="url != null">
 						#{url},
+					</if>
+					
+					
+					<if test="groupId != null">
+						#{groupId},
+					</if>
+					
+					
+					<if test="isDef != null">
+						#{isDef},
 					</if>
 					
 					

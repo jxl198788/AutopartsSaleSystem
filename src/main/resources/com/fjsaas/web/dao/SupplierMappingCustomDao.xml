@@ -47,6 +47,36 @@
 			limit #{startRow},#{pageSize}
 		</if>
 	</sql>
+	
+	
+	
+	<!-- List -->
+	<select id="getSupplierMappingListByMulCondition" parameterType="SupplierMappingQuery" resultMap="supplierMapping">
+		<include refid="supplierMappingSelector" />
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="or">
+				<if test="productBrand!=null">
+					or product_brand = #{productBrand}
+				</if>
+				<if test="productName!=null">
+					or product_name = #{productName}
+				</if>
+				<if test="productCode!=null">
+					or product_code = #{productCode}
+				</if>
+			</trim>
+			<if test="status!=null">
+				and status=#{status}
+			</if>
+			<if test="isDel != null">
+				and is_del=#{isDel}
+			</if>
+			<if test="isDel == null">
+				and is_del=0
+			</if>	
+		</where>
+		<include refid="supplierMappingListOrder" />
+	</select>
 
 	<!-- 分页 -->
 	<select id="getSupplierMappingListWithPageByMulCondition" parameterType="SupplierMappingQuery" resultMap="supplierMapping">

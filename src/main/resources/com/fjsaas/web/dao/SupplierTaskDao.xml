@@ -5,11 +5,10 @@
 	<resultMap id="supplierTask" type="SupplierTask">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
-		<result property="content" column="content" />
-		<result property="total" column="total" />
-		<result property="successNum" column="success_num" />
-		<result property="failNum" column="fail_num" />
+		<result property="groupName" column="group_name" />
+		<result property="description" column="description" />
 		<result property="status" column="status" />
+		<result property="type" column="type" />
 		<result property="createDate" column="create_date" />
 		<result property="endDate" column="end_date" />
 		<result property="creatorId" column="creator_id" />
@@ -24,7 +23,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,name,content,total,success_num,fail_num,status,create_date,end_date,creator_id,update_date,updator_id,is_del	
+				id,name,group_name,description,status,type,create_date,end_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_supplier_task
 	</sql>
@@ -42,33 +41,22 @@
 						and  name like CONCAT("%",#{ name },"%")
 					</if>
 				</if>
-				
-				
-				<if test="content != null">
-					<if test="contentLike == false">
-						and content=#{content}
+				<if test="groupName != null">
+					<if test="groupNameLike == false">
+						and group_name=#{groupName}
 					</if>
-					<if test="contentLike == true">
-						and  content like CONCAT("%",#{ content },"%")
+					<if test="groupNameLike == true">
+						and  group_name like CONCAT("%",#{ groupName },"%")
 					</if>
 				</if>
-				
-				
-				<if test="total != null">
-					and total=#{total}
+				<if test="description != null">
+					<if test="descriptionLike == false">
+						and description=#{description}
+					</if>
+					<if test="descriptionLike == true">
+						and  description like CONCAT("%",#{ description },"%")
+					</if>
 				</if>
-				
-				
-				<if test="successNum != null">
-					and success_num=#{successNum}
-				</if>
-				
-				
-				<if test="failNum != null">
-					and fail_num=#{failNum}
-				</if>
-				
-				
 				<if test="status != null">
 					<if test="statusLike == false">
 						and status=#{status}
@@ -77,26 +65,26 @@
 						and  status like CONCAT("%",#{ status },"%")
 					</if>
 				</if>
-				
-				
+				<if test="type != null">
+					<if test="typeLike == false">
+						and type=#{type}
+					</if>
+					<if test="typeLike == true">
+						and  type like CONCAT("%",#{ type },"%")
+					</if>
+				</if>
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="endDate != null">
 					and end_date=#{endDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -106,8 +94,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="supplierTaskListOrder">
@@ -127,14 +113,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getSupplierTaskByKey" resultMap="supplierTask" parameterType="hashMap">
-		SELECT id,name,content,total,success_num,fail_num,status,create_date,end_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,name,group_name,description,status,type,create_date,end_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_supplier_task
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getSupplierTasksByKeys" resultMap="supplierTask" parameterType="ArrayList">
-		SELECT id,name,content,total,success_num,fail_num,status,create_date,end_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,name,group_name,description,status,type,create_date,end_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_supplier_task
 		WHERE
 		id in
@@ -169,20 +155,17 @@
 				<if test="name != null">
 					name = #{name},
 				</if>
-				<if test="content != null">
-					content = #{content},
+				<if test="groupName != null">
+					group_name = #{groupName},
 				</if>
-				<if test="total != null">
-					total = #{total},
-				</if>
-				<if test="successNum != null">
-					success_num = #{successNum},
-				</if>
-				<if test="failNum != null">
-					fail_num = #{failNum},
+				<if test="description != null">
+					description = #{description},
 				</if>
 				<if test="status != null">
 					status = #{status},
+				</if>
+				<if test="type != null">
+					type = #{type},
 				</if>
 				<if test="createDate != null">
 					create_date = #{createDate},
@@ -237,24 +220,20 @@
 					name,
 				</if>
 				
-				<if test="content != null">
-					content,
+				<if test="groupName != null">
+					group_name,
 				</if>
 				
-				<if test="total != null">
-					total,
-				</if>
-				
-				<if test="successNum != null">
-					success_num,
-				</if>
-				
-				<if test="failNum != null">
-					fail_num,
+				<if test="description != null">
+					description,
 				</if>
 				
 				<if test="status != null">
 					status,
+				</if>
+				
+				<if test="type != null">
+					type,
 				</if>
 				
 				<if test="createDate != null">
@@ -293,28 +272,23 @@
 					</if>
 					
 					
-					<if test="content != null">
-						#{content},
+					<if test="groupName != null">
+						#{groupName},
 					</if>
 					
 					
-					<if test="total != null">
-						#{total},
-					</if>
-					
-					
-					<if test="successNum != null">
-						#{successNum},
-					</if>
-					
-					
-					<if test="failNum != null">
-						#{failNum},
+					<if test="description != null">
+						#{description},
 					</if>
 					
 					
 					<if test="status != null">
 						#{status},
+					</if>
+					
+					
+					<if test="type != null">
+						#{type},
 					</if>
 					
 					

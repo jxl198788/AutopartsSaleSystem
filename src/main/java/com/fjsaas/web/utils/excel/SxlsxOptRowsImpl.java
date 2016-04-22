@@ -2,7 +2,7 @@ package com.fjsaas.web.utils.excel;
 
 import java.util.List;
 
-public class SxlsxOptRowsImpl implements SxlsxOptRows{
+public class SxlsxOptRowsImpl implements OptRows{
 
 	private  static final String SUCCESS_FLAG = "success";
 	

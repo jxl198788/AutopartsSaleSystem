@@ -13,5 +13,7 @@ public interface SupplierMappingCustomDao {
 	public List<SupplierMapping> getSupplierMappingListWithPageByMulCondition(SupplierMappingQuery supplierMappingQuery);
 
 	public int getSupplierMappingListCountByMulCondition(SupplierMappingQuery supplierMappingQuery);
+	
+	public List<SupplierMapping> getSupplierMappingListByMulCondition(SupplierMappingQuery supplierMappingQuery);
 
 }

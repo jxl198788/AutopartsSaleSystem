@@ -11,7 +11,6 @@ public class Oe implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
 	private String oeCode;
 	private String name;
 	private String type;
@@ -26,14 +25,6 @@ public class Oe implements Serializable {
 	private Integer updatorId;
 	private String isDel;
 
-	public Integer getId() {
-		return id;
-	}
-	
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
 	public String getOeCode() {
 		return oeCode;
 	}
@@ -139,7 +130,7 @@ public class Oe implements Serializable {
 	}
 	
 	public String toString() {
-		return "Oe [id=" + id + ",oeCode=" + oeCode + ",name=" + name + ",type=" + type + ",size=" + size + ",description=" + description + ",attributes=" + attributes + ",imgs=" + imgs + ",partSortId=" + partSortId + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "Oe [oeCode=" + oeCode + ",name=" + name + ",type=" + type + ",size=" + size + ",description=" + description + ",attributes=" + attributes + ",imgs=" + imgs + ",partSortId=" + partSortId + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
 	
 	

@@ -8,10 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.csvreader.CsvReader;
+import com.fjsaas.web.utils.excel.OptRows;
+import com.fjsaas.web.utils.excel.SxlsxOptRowsImpl;
 
 public class CsvImport {
 
-	private CsvOptRows csvOptRows;
+	private OptRows optRows;
 	private List<List<String>> dataList = new ArrayList<List<String>>();//用来保存数据
 	private List<String> titleRow = new ArrayList<String>();//用來保存表頭
 	//处理数据总数
@@ -29,8 +31,90 @@ public class CsvImport {
 	
 	private int counter = 0;
 	
-	public CsvImport(CsvOptRows csvOptRows){
-		this.csvOptRows = csvOptRows;
+
+
+	public OptRows getOptRows() {
+		return optRows;
+	}
+
+	public void setOptRows(OptRows optRows) {
+		this.optRows = optRows;
+	}
+
+	public List<List<String>> getDataList() {
+		return dataList;
+	}
+
+	public void setDataList(List<List<String>> dataList) {
+		this.dataList = dataList;
+	}
+
+	public List<String> getTitleRow() {
+		return titleRow;
+	}
+
+	public void setTitleRow(List<String> titleRow) {
+		this.titleRow = titleRow;
+	}
+
+	public int getOptRows_sum() {
+		return optRows_sum;
+	}
+
+	public void setOptRows_sum(int optRows_sum) {
+		this.optRows_sum = optRows_sum;
+	}
+
+	public int getOptRows_success() {
+		return optRows_success;
+	}
+
+	public void setOptRows_success(int optRows_success) {
+		this.optRows_success = optRows_success;
+	}
+
+	public int getOptRows_failure() {
+		return optRows_failure;
+	}
+
+	public void setOptRows_failure(int optRows_failure) {
+		this.optRows_failure = optRows_failure;
+	}
+
+	public List<List<String>> getSuccessrows() {
+		return successrows;
+	}
+
+	public void setSuccessrows(List<List<String>> successrows) {
+		this.successrows = successrows;
+	}
+
+	public List<List<String>> getFailrows() {
+		return failrows;
+	}
+
+	public void setFailrows(List<List<String>> failrows) {
+		this.failrows = failrows;
+	}
+
+	public List<String> getFailmsgs() {
+		return failmsgs;
+	}
+
+	public void setFailmsgs(List<String> failmsgs) {
+		this.failmsgs = failmsgs;
+	}
+
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
+	public CsvImport(OptRows optRows){
+		this.optRows = optRows;
 	}
 	
 	public void ReadCSV(String filePath,boolean isReadHeader) throws Exception{
@@ -55,7 +139,7 @@ public class CsvImport {
 	public void processRow(int curRow, List<String> row){
 		optRows_sum++;
 		try {
-			String result = csvOptRows.optRows(curRow, row);
+			String result = optRows.optRows(1,curRow, row);
 			if(result == "success"){
 				optRows_success++;
 				successrows.add(row);
@@ -73,7 +157,7 @@ public class CsvImport {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		CsvImport csvImport = new CsvImport(new CsvOptRowsImpl());
+		CsvImport csvImport = new CsvImport(new SxlsxOptRowsImpl());
 		csvImport.ReadCSV("d:/test.csv", true);
 		System.out.println("Ok");
 	}

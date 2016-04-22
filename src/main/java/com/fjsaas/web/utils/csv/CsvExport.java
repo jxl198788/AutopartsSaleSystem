@@ -5,6 +5,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+
 import com.csvreader.CsvWriter;
 import com.fjsaas.web.utils.MyUtil;
 
@@ -107,6 +110,18 @@ public class CsvExport {
 			}
 
 		}
+		
+		public void writeDatasByList(List<List<String>> datalist) throws Exception {
+
+			for (int j = 0; j < datalist.size(); j++) {
+				rownum = rownum + 1;
+				List<String> row = datalist.get(j);
+				String[] lines = new String[fieldNames.size()];
+				row.toArray(lines);
+				this.dataList.add(lines);
+			}
+		}
+		
 		/**
 		 * 向导出文件写数据
 		 * 

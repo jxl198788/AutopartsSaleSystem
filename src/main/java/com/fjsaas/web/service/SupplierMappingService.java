@@ -68,4 +68,6 @@ public interface SupplierMappingService {
 
 	public int getSupplierMappingListCountByMulCondition(SupplierMappingQuery supplierMappingQuery);
 	
+	public List<SupplierMapping> getSupplierMappingListByMulCondition(SupplierMappingQuery supplierMappingQuery);
+	
 }

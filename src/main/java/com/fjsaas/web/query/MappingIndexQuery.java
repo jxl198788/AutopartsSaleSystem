@@ -63,6 +63,20 @@ public class MappingIndexQuery extends BaseQuery {
 		return this;
 	}
     
+	private String productSize;
+	public String getProductSize() {
+		return productSize;
+	}
+	public MappingIndexQuery setProductSize(String productSize) {
+		this.productSize = productSize;
+		return this;
+	}
+	private boolean productSizeLike;
+	public MappingIndexQuery setProductSizeLike(boolean isLike) {
+		this.productSizeLike = isLike;
+		return this;
+	}
+    
 	private String referenceCode;
 	public String getReferenceCode() {
 		return referenceCode;
@@ -88,20 +102,6 @@ public class MappingIndexQuery extends BaseQuery {
 	private boolean referenceBrandLike;
 	public MappingIndexQuery setReferenceBrandLike(boolean isLike) {
 		this.referenceBrandLike = isLike;
-		return this;
-	}
-    
-	private String oeCode;
-	public String getOeCode() {
-		return oeCode;
-	}
-	public MappingIndexQuery setOeCode(String oeCode) {
-		this.oeCode = oeCode;
-		return this;
-	}
-	private boolean oeCodeLike;
-	public MappingIndexQuery setOeCodeLike(boolean isLike) {
-		this.oeCodeLike = isLike;
 		return this;
 	}
     
@@ -132,6 +132,38 @@ public class MappingIndexQuery extends BaseQuery {
 		return this;
 	}
     
+	private String oeCode;
+	public String getOeCode() {
+		return oeCode;
+	}
+	public MappingIndexQuery setOeCode(String oeCode) {
+		this.oeCode = oeCode;
+		return this;
+	}
+	private boolean oeCodeLike;
+	public MappingIndexQuery setOeCodeLike(boolean isLike) {
+		this.oeCodeLike = isLike;
+		return this;
+	}
+    
+	private Integer autoTypeId;
+	public Integer getAutoTypeId() {
+		return autoTypeId;
+	}
+	public MappingIndexQuery setAutoTypeId(Integer autoTypeId) {
+		this.autoTypeId = autoTypeId;
+		return this;
+	}
+    
+	private Integer partSortId;
+	public Integer getPartSortId() {
+		return partSortId;
+	}
+	public MappingIndexQuery setPartSortId(Integer partSortId) {
+		this.partSortId = partSortId;
+		return this;
+	}
+    
 	private String status;
 	public String getStatus() {
 		return status;
@@ -155,40 +187,12 @@ public class MappingIndexQuery extends BaseQuery {
 		return this;
 	}
     
-	private String typeIds;
-	public String getTypeIds() {
-		return typeIds;
+	private Integer mappingId;
+	public Integer getMappingId() {
+		return mappingId;
 	}
-	public MappingIndexQuery setTypeIds(String typeIds) {
-		this.typeIds = typeIds;
-		return this;
-	}
-    
-	private String extraName;
-	public String getExtraName() {
-		return extraName;
-	}
-	public MappingIndexQuery setExtraName(String extraName) {
-		this.extraName = extraName;
-		return this;
-	}
-	private boolean extraNameLike;
-	public MappingIndexQuery setExtraNameLike(boolean isLike) {
-		this.extraNameLike = isLike;
-		return this;
-	}
-    
-	private String extraBrand;
-	public String getExtraBrand() {
-		return extraBrand;
-	}
-	public MappingIndexQuery setExtraBrand(String extraBrand) {
-		this.extraBrand = extraBrand;
-		return this;
-	}
-	private boolean extraBrandLike;
-	public MappingIndexQuery setExtraBrandLike(boolean isLike) {
-		this.extraBrandLike = isLike;
+	public MappingIndexQuery setMappingId(Integer mappingId) {
+		this.mappingId = mappingId;
 		return this;
 	}
     
@@ -225,6 +229,24 @@ public class MappingIndexQuery extends BaseQuery {
 	}
 	public MappingIndexQuery setUpdatorId(Integer updatorId) {
 		this.updatorId = updatorId;
+		return this;
+	}
+    
+	private Date mappingCreateDate;
+	public Date getMappingCreateDate() {
+		return mappingCreateDate;
+	}
+	public MappingIndexQuery setMappingCreateDate(Date mappingCreateDate) {
+		this.mappingCreateDate = mappingCreateDate;
+		return this;
+	}
+    
+	private Date mappingUpdateDate;
+	public Date getMappingUpdateDate() {
+		return mappingUpdateDate;
+	}
+	public MappingIndexQuery setMappingUpdateDate(Date mappingUpdateDate) {
+		this.mappingUpdateDate = mappingUpdateDate;
 		return this;
 	}
     
@@ -322,6 +344,17 @@ public class MappingIndexQuery extends BaseQuery {
 	}
 	
 	/**
+	 * 设置排序按属性：product_size
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public MappingIndexQuery orderbyProductSize(boolean isAsc) {
+		orderFields.add(new OrderField("product_size", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
 	 * 设置排序按属性：reference_code
 	 * 
 	 * @param isAsc
@@ -340,17 +373,6 @@ public class MappingIndexQuery extends BaseQuery {
 	 */
 	public MappingIndexQuery orderbyReferenceBrand(boolean isAsc) {
 		orderFields.add(new OrderField("reference_brand", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
-	
-	/**
-	 * 设置排序按属性：oe_code
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public MappingIndexQuery orderbyOeCode(boolean isAsc) {
-		orderFields.add(new OrderField("oe_code", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	
@@ -388,6 +410,39 @@ public class MappingIndexQuery extends BaseQuery {
 	}
 	
 	/**
+	 * 设置排序按属性：oe_code
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public MappingIndexQuery orderbyOeCode(boolean isAsc) {
+		orderFields.add(new OrderField("oe_code", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：auto_type_id
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public MappingIndexQuery orderbyAutoTypeId(boolean isAsc) {
+		orderFields.add(new OrderField("auto_type_id", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：part_sort_id
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public MappingIndexQuery orderbyPartSortId(boolean isAsc) {
+		orderFields.add(new OrderField("part_sort_id", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
 	 * 设置排序按属性：status
 	 * 
 	 * @param isAsc
@@ -410,35 +465,13 @@ public class MappingIndexQuery extends BaseQuery {
 	}
 	
 	/**
-	 * 设置排序按属性：type_ids
+	 * 设置排序按属性：mapping_id
 	 * 
 	 * @param isAsc
 	 *            是否升序，是为升序，否为降序
 	 */
-	public MappingIndexQuery orderbyTypeIds(boolean isAsc) {
-		orderFields.add(new OrderField("type_ids", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
-	
-	/**
-	 * 设置排序按属性：extra_name
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public MappingIndexQuery orderbyExtraName(boolean isAsc) {
-		orderFields.add(new OrderField("extra_name", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
-	
-	/**
-	 * 设置排序按属性：extra_brand
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public MappingIndexQuery orderbyExtraBrand(boolean isAsc) {
-		orderFields.add(new OrderField("extra_brand", isAsc ? "ASC" : "DESC"));
+	public MappingIndexQuery orderbyMappingId(boolean isAsc) {
+		orderFields.add(new OrderField("mapping_id", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	
@@ -483,6 +516,28 @@ public class MappingIndexQuery extends BaseQuery {
 	 */
 	public MappingIndexQuery orderbyUpdatorId(boolean isAsc) {
 		orderFields.add(new OrderField("updator_id", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：mapping_create_date
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public MappingIndexQuery orderbyMappingCreateDate(boolean isAsc) {
+		orderFields.add(new OrderField("mapping_create_date", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：mapping_update_date
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public MappingIndexQuery orderbyMappingUpdateDate(boolean isAsc) {
+		orderFields.add(new OrderField("mapping_update_date", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

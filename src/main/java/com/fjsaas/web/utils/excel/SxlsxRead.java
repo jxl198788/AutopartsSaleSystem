@@ -6,7 +6,7 @@ import java.util.List;
 public class SxlsxRead extends SxlsxAbstract {
 
 	//数据处理解析数据的接口
-	private  SxlsxOptRows sxlsxOptRows;
+	private  OptRows sxlsxOptRows;
 	//处理数据总数
 	private int optRows_sum = 0;
 	//处理数据成功数量
@@ -20,7 +20,7 @@ public class SxlsxRead extends SxlsxAbstract {
 	//失败原因
 	private List<String> failmsgs ;
 	
-	public SxlsxRead(SxlsxOptRows sxlsxOptRows){
+	public SxlsxRead(OptRows sxlsxOptRows){
 		this.sxlsxOptRows = sxlsxOptRows;
 		this.failrows = new ArrayList<List<String>>();
 		this.failmsgs = new ArrayList<String>();

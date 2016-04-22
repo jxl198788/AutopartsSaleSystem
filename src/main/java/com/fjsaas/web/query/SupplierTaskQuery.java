@@ -35,44 +35,31 @@ public class SupplierTaskQuery extends BaseQuery {
 		return this;
 	}
     
-	private String content;
-	public String getContent() {
-		return content;
+	private String groupName;
+	public String getGroupName() {
+		return groupName;
 	}
-	public SupplierTaskQuery setContent(String content) {
-		this.content = content;
+	public SupplierTaskQuery setGroupName(String groupName) {
+		this.groupName = groupName;
 		return this;
 	}
-	private boolean contentLike;
-	public SupplierTaskQuery setContentLike(boolean isLike) {
-		this.contentLike = isLike;
-		return this;
-	}
-    
-	private Integer total;
-	public Integer getTotal() {
-		return total;
-	}
-	public SupplierTaskQuery setTotal(Integer total) {
-		this.total = total;
+	private boolean groupNameLike;
+	public SupplierTaskQuery setGroupNameLike(boolean isLike) {
+		this.groupNameLike = isLike;
 		return this;
 	}
     
-	private Integer successNum;
-	public Integer getSuccessNum() {
-		return successNum;
+	private String description;
+	public String getDescription() {
+		return description;
 	}
-	public SupplierTaskQuery setSuccessNum(Integer successNum) {
-		this.successNum = successNum;
+	public SupplierTaskQuery setDescription(String description) {
+		this.description = description;
 		return this;
 	}
-    
-	private Integer failNum;
-	public Integer getFailNum() {
-		return failNum;
-	}
-	public SupplierTaskQuery setFailNum(Integer failNum) {
-		this.failNum = failNum;
+	private boolean descriptionLike;
+	public SupplierTaskQuery setDescriptionLike(boolean isLike) {
+		this.descriptionLike = isLike;
 		return this;
 	}
     
@@ -87,6 +74,20 @@ public class SupplierTaskQuery extends BaseQuery {
 	private boolean statusLike;
 	public SupplierTaskQuery setStatusLike(boolean isLike) {
 		this.statusLike = isLike;
+		return this;
+	}
+    
+	private String type;
+	public String getType() {
+		return type;
+	}
+	public SupplierTaskQuery setType(String type) {
+		this.type = type;
+		return this;
+	}
+	private boolean typeLike;
+	public SupplierTaskQuery setTypeLike(boolean isLike) {
+		this.typeLike = isLike;
 		return this;
 	}
     
@@ -207,46 +208,24 @@ public class SupplierTaskQuery extends BaseQuery {
 	}
 	
 	/**
-	 * 设置排序按属性：content
+	 * 设置排序按属性：group_name
 	 * 
 	 * @param isAsc
 	 *            是否升序，是为升序，否为降序
 	 */
-	public SupplierTaskQuery orderbyContent(boolean isAsc) {
-		orderFields.add(new OrderField("content", isAsc ? "ASC" : "DESC"));
+	public SupplierTaskQuery orderbyGroupName(boolean isAsc) {
+		orderFields.add(new OrderField("group_name", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	
 	/**
-	 * 设置排序按属性：total
+	 * 设置排序按属性：description
 	 * 
 	 * @param isAsc
 	 *            是否升序，是为升序，否为降序
 	 */
-	public SupplierTaskQuery orderbyTotal(boolean isAsc) {
-		orderFields.add(new OrderField("total", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
-	
-	/**
-	 * 设置排序按属性：success_num
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public SupplierTaskQuery orderbySuccessNum(boolean isAsc) {
-		orderFields.add(new OrderField("success_num", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
-	
-	/**
-	 * 设置排序按属性：fail_num
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public SupplierTaskQuery orderbyFailNum(boolean isAsc) {
-		orderFields.add(new OrderField("fail_num", isAsc ? "ASC" : "DESC"));
+	public SupplierTaskQuery orderbyDescription(boolean isAsc) {
+		orderFields.add(new OrderField("description", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	
@@ -258,6 +237,17 @@ public class SupplierTaskQuery extends BaseQuery {
 	 */
 	public SupplierTaskQuery orderbyStatus(boolean isAsc) {
 		orderFields.add(new OrderField("status", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：type
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public SupplierTaskQuery orderbyType(boolean isAsc) {
+		orderFields.add(new OrderField("type", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

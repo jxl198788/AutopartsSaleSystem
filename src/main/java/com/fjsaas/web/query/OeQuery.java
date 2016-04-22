@@ -12,26 +12,12 @@ public class OeQuery extends BaseQuery {
 	 * ==============================批量查询、更新、删除时的Where条件设置======================
 	 * ============
 	 **/
-	private Integer id;
-	public Integer getId() {
-		return id;
-	}
-	public OeQuery setId(Integer id) {
-		this.id = id;
-		return this;
-	}
-    
 	private String oeCode;
 	public String getOeCode() {
 		return oeCode;
 	}
 	public OeQuery setOeCode(String oeCode) {
 		this.oeCode = oeCode;
-		return this;
-	}
-	private boolean oeCodeLike;
-	public OeQuery setOeCodeLike(boolean isLike) {
-		this.oeCodeLike = isLike;
 		return this;
 	}
     
@@ -212,17 +198,6 @@ public class OeQuery extends BaseQuery {
 	 **/
 	/** 排序列表字段 **/
 	private List<OrderField> orderFields = new ArrayList<OrderField>();
-	
-	/**
-	 * 设置排序按属性：id
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public OeQuery orderbyId(boolean isAsc) {
-		orderFields.add(new OrderField("id", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
 	
 	/**
 	 * 设置排序按属性：oe_code

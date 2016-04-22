@@ -32,11 +32,11 @@ public class OeServiceImpl implements OeService {
 	/**
 	 * 根据主键查找
 	 */
-	public Oe getOeByKey(Integer id) {
+	public Oe getOeByKey(String id) {
 		return oeDao.getOeByKey(id);
 	}
 	
-	public List<Oe> getOesByKeys(List<Integer> idList) {
+	public List<Oe> getOesByKeys(List<String> idList) {
 		return oeDao.getOesByKeys(idList);
 	}
 
@@ -45,11 +45,11 @@ public class OeServiceImpl implements OeService {
 	 * 
 	 * @return
 	 */
-	public Integer deleteByKey(Integer id) {
+	public Integer deleteByKey(String id) {
 		return oeDao.deleteByKey(id);
 	}
 
-	public Integer deleteByKeys(List<Integer> idList) {
+	public Integer deleteByKeys(List<String> idList) {
 		return oeDao.deleteByKeys(idList);
 	}
 

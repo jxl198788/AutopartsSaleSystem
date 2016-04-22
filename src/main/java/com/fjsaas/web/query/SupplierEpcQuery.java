@@ -49,20 +49,6 @@ public class SupplierEpcQuery extends BaseQuery {
 		return this;
 	}
     
-	private String type;
-	public String getType() {
-		return type;
-	}
-	public SupplierEpcQuery setType(String type) {
-		this.type = type;
-		return this;
-	}
-	private boolean typeLike;
-	public SupplierEpcQuery setTypeLike(boolean isLike) {
-		this.typeLike = isLike;
-		return this;
-	}
-    
 	private String size;
 	public String getSize() {
 		return size;
@@ -74,20 +60,6 @@ public class SupplierEpcQuery extends BaseQuery {
 	private boolean sizeLike;
 	public SupplierEpcQuery setSizeLike(boolean isLike) {
 		this.sizeLike = isLike;
-		return this;
-	}
-    
-	private String attributes;
-	public String getAttributes() {
-		return attributes;
-	}
-	public SupplierEpcQuery setAttributes(String attributes) {
-		this.attributes = attributes;
-		return this;
-	}
-	private boolean attributesLike;
-	public SupplierEpcQuery setAttributesLike(boolean isLike) {
-		this.attributesLike = isLike;
 		return this;
 	}
     
@@ -143,6 +115,20 @@ public class SupplierEpcQuery extends BaseQuery {
 	private boolean platformStatusLike;
 	public SupplierEpcQuery setPlatformStatusLike(boolean isLike) {
 		this.platformStatusLike = isLike;
+		return this;
+	}
+    
+	private String imgUrl;
+	public String getImgUrl() {
+		return imgUrl;
+	}
+	public SupplierEpcQuery setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+		return this;
+	}
+	private boolean imgUrlLike;
+	public SupplierEpcQuery setImgUrlLike(boolean isLike) {
+		this.imgUrlLike = isLike;
 		return this;
 	}
     
@@ -265,17 +251,6 @@ public class SupplierEpcQuery extends BaseQuery {
 	}
 	
 	/**
-	 * 设置排序按属性：type
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public SupplierEpcQuery orderbyType(boolean isAsc) {
-		orderFields.add(new OrderField("type", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
-	
-	/**
 	 * 设置排序按属性：size
 	 * 
 	 * @param isAsc
@@ -283,17 +258,6 @@ public class SupplierEpcQuery extends BaseQuery {
 	 */
 	public SupplierEpcQuery orderbySize(boolean isAsc) {
 		orderFields.add(new OrderField("size", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
-	
-	/**
-	 * 设置排序按属性：attributes
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public SupplierEpcQuery orderbyAttributes(boolean isAsc) {
-		orderFields.add(new OrderField("attributes", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	
@@ -349,6 +313,17 @@ public class SupplierEpcQuery extends BaseQuery {
 	 */
 	public SupplierEpcQuery orderbyPlatformStatus(boolean isAsc) {
 		orderFields.add(new OrderField("platform_status", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：img_url
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public SupplierEpcQuery orderbyImgUrl(boolean isAsc) {
+		orderFields.add(new OrderField("img_url", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

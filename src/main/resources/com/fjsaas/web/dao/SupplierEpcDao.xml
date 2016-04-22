@@ -6,14 +6,13 @@
 		<result property="id" column="id" />
 		<result property="oeCode" column="oe_code" />
 		<result property="productName" column="product_name" />
-		<result property="type" column="type" />
 		<result property="size" column="size" />
-		<result property="attributes" column="attributes" />
 		<result property="partSortId" column="part_sort_id" />
 		<result property="supplierId" column="supplier_id" />
 		<result property="typeId" column="type_id" />
 		<result property="status" column="status" />
 		<result property="platformStatus" column="platform_status" />
+		<result property="imgUrl" column="img_url" />
 		<result property="createDate" column="create_date" />
 		<result property="creatorId" column="creator_id" />
 		<result property="updateDate" column="update_date" />
@@ -27,7 +26,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,oe_code,product_name,type,size,attributes,part_sort_id,supplier_id,type_id,status,platform_status,create_date,creator_id,update_date,updator_id,is_del	
+				id,oe_code,product_name,size,part_sort_id,supplier_id,type_id,status,platform_status,img_url,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_supplier_epc
 	</sql>
@@ -45,8 +44,6 @@
 						and  oe_code like CONCAT("%",#{ oeCode },"%")
 					</if>
 				</if>
-				
-				
 				<if test="productName != null">
 					<if test="productNameLike == false">
 						and product_name=#{productName}
@@ -55,18 +52,6 @@
 						and  product_name like CONCAT("%",#{ productName },"%")
 					</if>
 				</if>
-				
-				
-				<if test="type != null">
-					<if test="typeLike == false">
-						and type=#{type}
-					</if>
-					<if test="typeLike == true">
-						and  type like CONCAT("%",#{ type },"%")
-					</if>
-				</if>
-				
-				
 				<if test="size != null">
 					<if test="sizeLike == false">
 						and size=#{size}
@@ -75,18 +60,6 @@
 						and  size like CONCAT("%",#{ size },"%")
 					</if>
 				</if>
-				
-				
-				<if test="attributes != null">
-					<if test="attributesLike == false">
-						and attributes=#{attributes}
-					</if>
-					<if test="attributesLike == true">
-						and  attributes like CONCAT("%",#{ attributes },"%")
-					</if>
-				</if>
-				
-				
 				<if test="partSortId != null">
 					and part_sort_id=#{partSortId}
 				</if>
@@ -104,8 +77,6 @@
 						and  status like CONCAT("%",#{ status },"%")
 					</if>
 				</if>
-				
-				
 				<if test="platformStatus != null">
 					<if test="platformStatusLike == false">
 						and platform_status=#{platformStatus}
@@ -114,21 +85,23 @@
 						and  platform_status like CONCAT("%",#{ platformStatus },"%")
 					</if>
 				</if>
-				
-				
+				<if test="imgUrl != null">
+					<if test="imgUrlLike == false">
+						and img_url=#{imgUrl}
+					</if>
+					<if test="imgUrlLike == true">
+						and  img_url like CONCAT("%",#{ imgUrl },"%")
+					</if>
+				</if>
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -138,8 +111,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="supplierEpcListOrder">
@@ -159,14 +130,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getSupplierEpcByKey" resultMap="supplierEpc" parameterType="hashMap">
-		SELECT id,oe_code,product_name,type,size,attributes,part_sort_id,supplier_id,type_id,status,platform_status,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,oe_code,product_name,size,part_sort_id,supplier_id,type_id,status,platform_status,img_url,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_supplier_epc
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getSupplierEpcsByKeys" resultMap="supplierEpc" parameterType="ArrayList">
-		SELECT id,oe_code,product_name,type,size,attributes,part_sort_id,supplier_id,type_id,status,platform_status,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,oe_code,product_name,size,part_sort_id,supplier_id,type_id,status,platform_status,img_url,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_supplier_epc
 		WHERE
 		id in
@@ -204,14 +175,8 @@
 				<if test="productName != null">
 					product_name = #{productName},
 				</if>
-				<if test="type != null">
-					type = #{type},
-				</if>
 				<if test="size != null">
 					size = #{size},
-				</if>
-				<if test="attributes != null">
-					attributes = #{attributes},
 				</if>
 				<if test="partSortId != null">
 					part_sort_id = #{partSortId},
@@ -227,6 +192,9 @@
 				</if>
 				<if test="platformStatus != null">
 					platform_status = #{platformStatus},
+				</if>
+				<if test="imgUrl != null">
+					img_url = #{imgUrl},
 				</if>
 				<if test="createDate != null">
 					create_date = #{createDate},
@@ -282,16 +250,8 @@
 					product_name,
 				</if>
 				
-				<if test="type != null">
-					type,
-				</if>
-				
 				<if test="size != null">
 					size,
-				</if>
-				
-				<if test="attributes != null">
-					attributes,
 				</if>
 				
 				<if test="partSortId != null">
@@ -312,6 +272,10 @@
 				
 				<if test="platformStatus != null">
 					platform_status,
+				</if>
+				
+				<if test="imgUrl != null">
+					img_url,
 				</if>
 				
 				<if test="createDate != null">
@@ -351,18 +315,8 @@
 					</if>
 					
 					
-					<if test="type != null">
-						#{type},
-					</if>
-					
-					
 					<if test="size != null">
 						#{size},
-					</if>
-					
-					
-					<if test="attributes != null">
-						#{attributes},
 					</if>
 					
 					
@@ -388,6 +342,11 @@
 					
 					<if test="platformStatus != null">
 						#{platformStatus},
+					</if>
+					
+					
+					<if test="imgUrl != null">
+						#{imgUrl},
 					</if>
 					
 					

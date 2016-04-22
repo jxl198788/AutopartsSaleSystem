@@ -281,6 +281,9 @@
 	</select>
 	<!-- 添加 -->
 	<insert id="addSupplierMapping" parameterType="SupplierMapping">
+		<selectKey order="AFTER" resultType="Integer" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO ass_supplier_mapping
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 				<if test="id != null">

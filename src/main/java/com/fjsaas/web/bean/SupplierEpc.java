@@ -14,14 +14,13 @@ public class SupplierEpc implements Serializable {
 	private Integer id;
 	private String oeCode;
 	private String productName;
-	private String type;
 	private String size;
-	private String attributes;
 	private Integer partSortId;
 	private Integer supplierId;
 	private Integer typeId;
 	private String status;
 	private String platformStatus;
+	private String imgUrl;
 	private Date createDate;
 	private Integer creatorId;
 	private Date updateDate;
@@ -52,28 +51,12 @@ public class SupplierEpc implements Serializable {
 		this.productName = productName;
 	}
 	
-	public String getType() {
-		return type;
-	}
-	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
 	public String getSize() {
 		return size;
 	}
 	
 	public void setSize(String size) {
 		this.size = size;
-	}
-	
-	public String getAttributes() {
-		return attributes;
-	}
-	
-	public void setAttributes(String attributes) {
-		this.attributes = attributes;
 	}
 	
 	public Integer getPartSortId() {
@@ -114,6 +97,14 @@ public class SupplierEpc implements Serializable {
 	
 	public void setPlatformStatus(String platformStatus) {
 		this.platformStatus = platformStatus;
+	}
+	
+	public String getImgUrl() {
+		return imgUrl;
+	}
+	
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 	
 	public Date getCreateDate() {
@@ -157,7 +148,7 @@ public class SupplierEpc implements Serializable {
 	}
 	
 	public String toString() {
-		return "SupplierEpc [id=" + id + ",oeCode=" + oeCode + ",productName=" + productName + ",type=" + type + ",size=" + size + ",attributes=" + attributes + ",partSortId=" + partSortId + ",supplierId=" + supplierId + ",typeId=" + typeId + ",status=" + status + ",platformStatus=" + platformStatus + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "SupplierEpc [id=" + id + ",oeCode=" + oeCode + ",productName=" + productName + ",size=" + size + ",partSortId=" + partSortId + ",supplierId=" + supplierId + ",typeId=" + typeId + ",status=" + status + ",platformStatus=" + platformStatus + ",imgUrl=" + imgUrl + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
 	
 	

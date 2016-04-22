@@ -3,7 +3,6 @@
 
 <mapper namespace="com.fjsaas.web.dao.OeDao">
 	<resultMap id="oe" type="Oe">
-		<result property="id" column="id" />
 		<result property="oeCode" column="oe_code" />
 		<result property="name" column="name" />
 		<result property="type" column="type" />
@@ -25,26 +24,16 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,oe_code,name,type,size,description,attributes,imgs,part_sort_id,create_date,creator_id,update_date,updator_id,is_del	
+				oe_code,name,type,size,description,attributes,imgs,part_sort_id,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_oe
 	</sql>
 	
 	<sql id="oeListWhere">
 		<where>
-				<if test="id != null">
-					and id=#{id}
-				</if>
 				<if test="oeCode != null">
-					<if test="oeCodeLike == false">
-						and oe_code=#{oeCode}
-					</if>
-					<if test="oeCodeLike == true">
-						and  oe_code like CONCAT("%",#{ oeCode },"%")
-					</if>
+					and oe_code=#{oeCode}
 				</if>
-				
-				
 				<if test="name != null">
 					<if test="nameLike == false">
 						and name=#{name}
@@ -53,8 +42,6 @@
 						and  name like CONCAT("%",#{ name },"%")
 					</if>
 				</if>
-				
-				
 				<if test="type != null">
 					<if test="typeLike == false">
 						and type=#{type}
@@ -63,8 +50,6 @@
 						and  type like CONCAT("%",#{ type },"%")
 					</if>
 				</if>
-				
-				
 				<if test="size != null">
 					<if test="sizeLike == false">
 						and size=#{size}
@@ -73,8 +58,6 @@
 						and  size like CONCAT("%",#{ size },"%")
 					</if>
 				</if>
-				
-				
 				<if test="description != null">
 					<if test="descriptionLike == false">
 						and description=#{description}
@@ -83,8 +66,6 @@
 						and  description like CONCAT("%",#{ description },"%")
 					</if>
 				</if>
-				
-				
 				<if test="attributes != null">
 					<if test="attributesLike == false">
 						and attributes=#{attributes}
@@ -93,8 +74,6 @@
 						and  attributes like CONCAT("%",#{ attributes },"%")
 					</if>
 				</if>
-				
-				
 				<if test="imgs != null">
 					<if test="imgsLike == false">
 						and imgs=#{imgs}
@@ -103,24 +82,18 @@
 						and  imgs like CONCAT("%",#{ imgs },"%")
 					</if>
 				</if>
-				
-				
 				<if test="partSortId != null">
 					and part_sort_id=#{partSortId}
 				</if>
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -130,8 +103,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="oeListOrder">
@@ -151,17 +122,17 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getOeByKey" resultMap="oe" parameterType="hashMap">
-		SELECT id,oe_code,name,type,size,description,attributes,imgs,part_sort_id,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT oe_code,name,type,size,description,attributes,imgs,part_sort_id,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_oe
 		WHERE
-		id=#{id}
+		oe_code=#{oeCode}
 		and is_del = 0
 	</select>
 	<select id="getOesByKeys" resultMap="oe" parameterType="ArrayList">
-		SELECT id,oe_code,name,type,size,description,attributes,imgs,part_sort_id,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT oe_code,name,type,size,description,attributes,imgs,part_sort_id,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_oe
 		WHERE
-		id in
+		oe_code in
 		<foreach collection="list" separator="," item="id" open="(" close=")">
 			#{id}
 		</foreach>
@@ -170,13 +141,13 @@
 
 	<!-- 根据主键删除 -->
 	<update id="deleteByKey" parameterType="hashMap">
-		UPDATE ass_oe set is_del = 1 where id=#{id}
+		UPDATE ass_oe set is_del = 1 where oe_code=#{oeCode}
 	</update>
 
 	<!-- 根据主键批量删除 -->
 	<update id="deleteByKeys">
 		UPDATE ass_oe set is_del = 1 
-		where id in
+		where oe_code in
 		<foreach collection="list" separator="," item="id" open="(" close=")">
 			#{id}
 		</foreach>
@@ -187,9 +158,6 @@
 		UPDATE ass_oe
 		<set>
 			<trim suffixOverrides=",">
-				<if test="id != null">
-					id = #{id},
-				</if>
 				<if test="oeCode != null">
 					oe_code = #{oeCode},
 				</if>
@@ -232,7 +200,7 @@
 			</trim>
 		</set>
 		WHERE
-		id=#{id}
+		oe_code=#{oeCode}
 	</update>
 	<!-- 分页 -->
 	<select id="getOeListWithPage" parameterType="OeQuery" resultMap="oe">
@@ -256,10 +224,6 @@
 	<insert id="addOe" parameterType="Oe">
 		INSERT INTO ass_oe
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-				<if test="id != null">
-					id,
-				</if>
-				
 				<if test="oeCode != null">
 					oe_code,
 				</if>
@@ -313,11 +277,6 @@
 		</trim>
 		VALUES
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-					
-					<if test="id != null">
-						#{id},
-					</if>
-					
 					
 					<if test="oeCode != null">
 						#{oeCode},
