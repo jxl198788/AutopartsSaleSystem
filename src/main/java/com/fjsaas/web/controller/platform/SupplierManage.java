@@ -22,7 +22,7 @@ public class SupplierManage {
 	
 	@RequestMapping("getSupplierInfos.do")
 	public String getSupplierInfos(ModelMap model,HttpServletRequest request){
-		System.out.println("开始了。。。。");
+		System.out.println("开始了。。。");
 		SupplierQuery supplierQuery = new SupplierQuery();
 		List<Supplier> supplierList = supplierService.getSupplierList(supplierQuery);
 		model.addAttribute("supplierList", supplierList);
