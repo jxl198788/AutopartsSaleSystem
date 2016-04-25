@@ -9,17 +9,6 @@ $(function(){
 	$('#dataTables-example_info').hide();//分页显示提示信息
 });
 
-function toForm(obj,id){
-	 var ajax_option={
-			 data:{"id":id},
-			 success:function(data){
-             }
-     };
-	$("#supplierDetail").ajaxSubmit(ajax_option);
-	$("#name").val("${supplier.name }");
-	obj.href="#supplier_form_div";
-}
-
 //营业执照图片选择实时显示
 function setImagePreview() { 
 	var docObj=document.getElementById("imag-file"); 
@@ -53,34 +42,3 @@ function setImagePreview() {
 	} 
 	return true; 
 } 
-
-//供应商信息修改
-function updateDetail(){
-	$("#update").hide();
-	$("#submit").show();
-	province();
-	//表单中所有的文本框
-	$("#supplier_form_div input").each(function(){
-		$(this).attr("disabled",false);//移除不可编辑属性
-	}, {});
-	//表单中所有的下拉框
-	$("#supplier_form_div select").each(function(){
-		$(this).attr("disabled",false);
-	}, {});
-}
-
-//供应商信息保存
-function submitDetail(){
-    $("#panel-body-form").ajaxSubmit();
-	$("#submit").hide();
-	$("#update").show();
-	//表单中所有的文本框
-	$("#supplier_form_div input").each(function(){
-		$(this).attr("disabled",true);
-	}, {});
-	//表单中所有的下拉框
-	$("#supplier_form_div select").each(function(){
-		$(this).attr("disabled",true);
-	}, {});
-}
-
