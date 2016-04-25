@@ -1,18 +1,29 @@
+/*
+ * 类作用 平台的供应商管理页面的功能实现
+ * author lyn
+ * createTime 2016-04-20
+ * version 0.1
+ */
 package com.fjsaas.web.controller.platform;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fjsaas.web.bean.Supplier;
 import com.fjsaas.web.query.SupplierQuery;
 import com.fjsaas.web.service.SupplierService;
+import com.fjsaas.web.utils.ImageUpload;
+import com.fjsaas.web.utils.ResponseUtils;
 
 @Controller
 @RequestMapping("/platform/")
@@ -20,38 +31,52 @@ public class SupplierManage {
 	@Autowired
 	private SupplierService supplierService;
 	
-	@RequestMapping("getSupplierInfos.do")
-	public String getSupplierInfos(ModelMap model,HttpServletRequest request){
+	@RequestMapping("getSupplierList.do")//查询所有的供应商信息，用于页面表格展示
+	public String getSupplierList(ModelMap model,HttpServletRequest request){
 		System.out.println("开始了。。。");
 		SupplierQuery supplierQuery = new SupplierQuery();
 		List<Supplier> supplierList = supplierService.getSupplierList(supplierQuery);
-		model.addAttribute("supplierList", supplierList);
-		model.addAttribute("listSize", supplierList.size());
+		model.addAttribute("supplierList", supplierList);//将值放入model中供页面获取
+		model.addAttribute("listSize", supplierList.size());//将值放入model中供页面获取
 		System.out.println("结束了。。。。"+supplierList.size()+supplierList.get(0).getAddr());
-		return "platform/suppliermanage";
+		return "platform/suppliermanage";//将页面跳转至suppliermanage.jsp页面，根路径和“.jsp”会通过配置文件spring-mvc.xml自动补上
 	}
 
-	@RequestMapping("getSupplierDetail.do")
-	public String getSupplierDetail(ModelMap model,HttpServletRequest request){
+	@RequestMapping("getSupplierById.do")//查看某个供应商的详细信息
+	public String getSupplierById(HttpServletRequest request,HttpServletResponse response){
 		System.out.println("开始了。。。。");
-		String id = request.getParameter("id");
-		System.out.println("id="+id);
+		JSONObject jsonObject = new JSONObject();
+		String id = request.getParameter("supplierId");//由页面获取id
 		Supplier supplier = supplierService.getSupplierByKey(Integer.parseInt(id));
-		model.addAttribute("supplier", supplier);
-		System.out.println("结束了。。。。"+supplier.getAddr());
-		return "platform/suppliermanage";
+		jsonObject.put("supplier", supplier);
+		System.out.println("结束了。。。。id="+id+",addr:"+supplier.getAddr());
+		return "success";
 	}
 	
-	@RequestMapping("updateSupplierDetail.do")
-	public String updateSupplierDetail(HttpServletRequest request){
+	@RequestMapping("updateSupplierById.do")//根据id保存修改的供应商信息，importImag为前台页面file标签的name名
+	public String updateSupplierById(@RequestParam() MultipartFile importImag,ModelMap model,HttpServletRequest request){
 		System.out.println("开始了。。。。");
 		Supplier supplier = new Supplier();
 		String id = request.getParameter("id");
-		String name = request.getParameter("name");
-		System.out.println("name="+name+",id="+id);
+		String name = request.getParameter("name");//获取jsp页面的表单域的值，直接通过标签的name名获取
+		String filepath = request.getParameter("filepath");
+		String msg = ImageUpload.upload(importImag, request, filepath);//图片上传，返回说明信息
+		supplier.setId(id==""?null:Integer.parseInt(id));
 		supplier.setName(name);
-		supplierService.updateSupplierByKey(supplier);
-		System.out.println("结束了。。。。");
+		supplier.setBusinessLicenseUrl(ImageUpload.filename);
+		supplierService.updateSupplierByKey(supplier);//修改该供应商的数据库信息
+		System.out.println("结束了。。。。msg:【"+msg+"】,name="+name+",id="+id+",filepath:"+filepath+",imgfullpath:"+ImageUpload.filename);
+		model.addAttribute("imsg", msg);
+		return "platform/suppliermanage";
+	}
+	
+	@RequestMapping("import.do")
+	public String csvImport(@RequestParam() MultipartFile importImag,ModelMap model,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String filepath = request.getParameter("filepath");
+		System.out.println("filepath:"+filepath);
+		String msg = ImageUpload.upload(importImag, request, filepath);//图片上传
+		System.out.println("获取静态全路径："+ImageUpload.filename);
+		model.addAttribute("msg", msg);
 		return "platform/suppliermanage";
 	}
 }
