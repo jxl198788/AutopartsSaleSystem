@@ -21,11 +21,55 @@
 <script src="${pageContext.request.contextPath}/static/js/platform/suppliermanage.js"></script>
 <script type="text/javascript">
 var path = "${pageContext.request.contextPath}";
+
+//点击弹出供应商详细信息
+function toForm(obj,id){
+	$("#supplierId").val(id);
+	$("#supplierDetail").submit();
+	$("#name").val("${supplier.name }");
+	obj.href="#supplier_form_div";
+}
+
+//供应商信息修改
+function updateDetail(){
+	$("#update").hide();
+	$("#submit").show();
+	province();
+	//表单中所有的文本框
+	$("#supplier_form_div input").each(function(){
+		$(this).attr("disabled",false);//移除不可编辑属性
+	}, {});
+	//表单中所有的下拉框
+	$("#supplier_form_div select").each(function(){
+		$(this).attr("disabled",false);
+	}, {});
+}
+
+//供应商信息保存
+function submitDetail(){
+	var filepath = $("#imag-file").val();//获取file标签的文件路径
+	var ajax_option={
+			 data:{"filepath":filepath}
+	};
+	$("#panel-body-form").submit();
+	alert("${imsg}");
+	$("#submit").hide();
+	$("#update").show();
+	//表单中所有的文本框
+	$("#supplier_form_div input").each(function(){
+		$(this).attr("disabled",true);
+	}, {});
+	//表单中所有的下拉框
+	$("#supplier_form_div select").each(function(){
+		$(this).attr("disabled",true);
+	}, {});
+}
+
 </script>
 </head>
 <body style="height:100%">
 	<%@ include file="/jsp/nav.jsp" %>
-	<form id="suppliersForm" action="${ctx }/platform/getSupplierInfos.do" method="post" enctype="multipart/form-data">
+	<form id="suppliersForm" action="${ctx }/platform/getSupplierList.do" method="post" enctype="multipart/form-data">
 	</form>
 	<div id="page-wrapper">
         <div class="row">
@@ -66,7 +110,8 @@ var path = "${pageContext.request.contextPath}";
 	        </div>
 	        <!-- /.table-responsive -->
 	    </div>
-	    <form id="supplierDetail" action="${ctx }/platform/getSupplierDetail.do" method="post" enctype="multipart/form-data">
+	    <form id="supplierDetail" action="${ctx }/platform/getSupplierById.do" method="post" enctype="multipart/form-data">
+			<input type="hidden" id="supplierId" name="supplierId" value=""/>
 		</form>
         <!-- modal  begin  -->
 	    <div id="supplier_form_div" class="modal fade">
@@ -78,7 +123,7 @@ var path = "${pageContext.request.contextPath}";
 			                <button type="button" id="supplier_form_close" data-dismiss="modal" aria-label="Close" class="btn btn-success close-btn">X</button>
 			            </div>
 			            <div>
-			                <form id="panel-body-form" class="panel-body-form" action="${ctx }/platform/updateSupplierDetail.do?id=${supplier.id }" method="post" enctype="multipart/form-data">
+			                <form id="panel-body-form" class="panel-body-form" action="${ctx }/platform/updateSupplierById.do?id=${supplier.id }" method="post" enctype="multipart/form-data">
 					            <div class="form-group panel-body-div1">
 					                <label class="left panel-body-label1">用户名</label>
 					                <input class="form-control form-group-input left" id="name" name="name" value="${supplier.name }" type="text" placeholder="用户名" disabled>
@@ -97,8 +142,8 @@ var path = "${pageContext.request.contextPath}";
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div3">
 					                <label class="left panel-body-label3">营业执照</label>
-					            	<input type="file" id="imag-file" class="imag-file form-group-input" onchange="javascript:setImagePreview();" disabled>
-					                <div id="localImag"><img class="file-img" id="busi-licence" src="../../static/image/${supplier.businessLicenseUrl }"><br/></div>
+					            	<input type="file" id="imag-file" name="importImag" class="imag-file form-group-input" onchange="javascript:setImagePreview();" disabled>
+					                <div id="localImag"><img class="file-img" id="busi-licence" src="../static/image/businessLicense/th.jpg"><br/></div>
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div4"><br/>
 					                <label class="left panel-body-label4">所属区域</label>
