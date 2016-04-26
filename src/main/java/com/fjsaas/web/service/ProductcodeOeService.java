@@ -1,9 +1,12 @@
 package com.fjsaas.web.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.fjsaas.web.pagination.Pager;
+import com.fjsaas.web.bean.MappingIndex;
 import com.fjsaas.web.bean.ProductcodeOe;
+import com.fjsaas.web.bean.SupplierMapping;
 import com.fjsaas.web.query.ProductcodeOeQuery;
 
 
@@ -63,5 +66,13 @@ public interface ProductcodeOeService {
 	 * @return
 	 */
 	public List<ProductcodeOe> getProductcodeOeList(ProductcodeOeQuery productcodeOeQuery);
+	
+	public List<ProductcodeOe> getProductcodeOesByProductCode(HashMap<String, Object> map);
+	
+	public List<ProductcodeOe> getProductcodeOesByOeCode(HashMap<String, Object> map);
+	
+	public List<ProductcodeOe> getProductcodeOesByReferenceCode(HashMap<String, Object> map);
+	
+	public List<MappingIndex> InferMappingIndexs(SupplierMapping supplierMapping);
 	
 }

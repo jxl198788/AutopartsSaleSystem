@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fjsaas.web.dao.ProductcodeOeCustomDao">
+	<resultMap id="productcodeOe" type="ProductcodeOe">
+		<result property="id" column="id" />
+		<result property="referenceCode" column="reference_code" />
+		<result property="oeCode" column="oe_code" />
+		<result property="productCode" column="product_code" />
+		<result property="createDate" column="create_date" />
+		<result property="creatorId" column="creator_id" />
+		<result property="updateDate" column="update_date" />
+		<result property="updatorId" column="updator_id" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+	<!-- Select SQL -->
+	<sql id="productcodeOeSelector">
+		SELECT
+			<if test="fields != null">
+			 	${fields}
+			</if>
+			<if test="fields == null">
+				id,reference_code,oe_code,product_code,create_date,creator_id,update_date,updator_id,is_del	
+			</if>
+		FROM ass_productcode_oe
+	</sql>
+	
+	<sql id="productcodeOeListWhere">
+		<where>
+				<if test="id != null">
+					and id=#{id}
+				</if>
+				<if test="referenceCode != null">
+					<if test="referenceCodeLike == false">
+						and reference_code=#{referenceCode}
+					</if>
+					<if test="referenceCodeLike == true">
+						and  reference_code like CONCAT("%",#{ referenceCode },"%")
+					</if>
+				</if>
+				
+				
+				<if test="oeCode != null">
+					<if test="oeCodeLike == false">
+						and oe_code=#{oeCode}
+					</if>
+					<if test="oeCodeLike == true">
+						and  oe_code like CONCAT("%",#{ oeCode },"%")
+					</if>
+				</if>
+				
+				
+				<if test="productCode != null">
+					<if test="productCodeLike == false">
+						and product_code=#{productCode}
+					</if>
+					<if test="productCodeLike == true">
+						and  product_code like CONCAT("%",#{ productCode },"%")
+					</if>
+				</if>
+				
+				
+				<if test="createDate != null">
+					and create_date=#{createDate}
+				</if>
+				
+				
+				<if test="creatorId != null">
+					and creator_id=#{creatorId}
+				</if>
+				<if test="updateDate != null">
+					and update_date=#{updateDate}
+				</if>
+				
+				
+				<if test="updatorId != null">
+					and updator_id=#{updatorId}
+				</if>
+				<if test="isDel != null">
+					and is_del=#{isDel}
+				</if>
+				<if test="isDel == null">
+					and is_del=0
+				</if>
+				
+				
+		</where>
+	</sql>
+	<sql id="productcodeOeListOrder">
+		<if test="orderFields != null and orderFields.size >0">
+		order by 
+			<foreach collection="orderFields" separator="," item="orderField">
+				${orderField.fieldName} ${orderField.order}
+			</foreach>
+		</if>
+	</sql>
+
+	<sql id="productcodeOeListLimit">
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</sql>
+
+
+
+	
+	<!-- 根据ProductCode查询 -->
+	<select id="getProductcodeOesByProductCode" resultMap="productcodeOe" parameterType="hashMap">
+		SELECT id,reference_code,oe_code,product_code,create_date,creator_id,update_date,updator_id,is_del	 
+		FROM ass_productcode_oe
+		WHERE
+		product_code=#{productCode}
+		<if test="oeCodes!=null and oeCodes.size()>0">
+			and oe_code not in 
+			<foreach collection="oeCodes" separator="," item="oeCode" open="(" close=")">
+				#{oeCode}
+			</foreach>
+		</if>
+		
+		<if test="referenceCodes!=null and referenceCodes.size()>0">
+			and reference_code not in 
+			<foreach collection="referenceCodes" separator="," item="referenceCode" open="(" close=")">
+				#{referenceCode}
+			</foreach>
+		</if>		
+		and is_del = 0
+	</select>
+	
+	<!-- 根据oeCode查询 -->
+	<select id="getProductcodeOesByOeCode" resultMap="productcodeOe" parameterType="hashMap">
+		SELECT id,reference_code,oe_code,product_code,create_date,creator_id,update_date,updator_id,is_del	 
+		FROM ass_productcode_oe
+		WHERE
+		oe_code=#{oeCode}
+		<if test="productCodes!=null and productCodes.size()>0">
+			and product_code not in 
+			<foreach collection="productCodes" separator="," item="productCode" open="(" close=")">
+				#{productCode}
+			</foreach>
+		</if>
+		and is_del = 0
+	</select>
+	
+	<!-- 根据referenceCode查询 -->
+	<select id="getProductcodeOesByReferenceCode" resultMap="productcodeOe" parameterType="hashMap">
+		SELECT id,reference_code,oe_code,product_code,create_date,creator_id,update_date,updator_id,is_del	 
+		FROM ass_productcode_oe
+		WHERE
+		reference_code=#{referenceCode}
+		<if test="productCodes!=null and productCodes.size()>0">
+			and product_code not in 
+			<foreach collection="productCodes" separator="," item="productCode" open="(" close=")">
+				#{productCode}
+			</foreach>
+		</if>
+		and is_del = 0
+	</select>
+</mapper>

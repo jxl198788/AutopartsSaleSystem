@@ -4,33 +4,40 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
 
 import com.alibaba.fastjson.JSONObject;
 import com.csvreader.CsvReader;
 import com.fjsaas.web.bean.SupplierMapping;
+import com.fjsaas.web.bean.TaskDetail;
 import com.fjsaas.web.constants.Constants;
 import com.fjsaas.web.pagination.Pager;
 import com.fjsaas.web.pagination.html.PageTagImpl;
 import com.fjsaas.web.query.SupplierMappingQuery;
 import com.fjsaas.web.service.SupplierMappingService;
 import com.fjsaas.web.service.custom.MappingImportServiceImpl;
+import com.fjsaas.web.service.custom.MappingIndexjob;
+import com.fjsaas.web.service.custom.SysTaskServiceImpl;
 import com.fjsaas.web.utils.ResponseUtils;
 import com.fjsaas.web.utils.csv.CsvExport;
 import com.fjsaas.web.utils.csv.CsvImport;
@@ -48,6 +55,8 @@ public class MappingController {
 	private SupplierMappingService supplierMappingService;
 	@Autowired
 	private OptRows sxlsxOptRows;
+	@Autowired
+	private SysTaskServiceImpl sysTaskServiceImpl;
 	
 	@RequestMapping("mappingIndex.do")
 	public String mappingIndex(String search,String status,Integer pageNo,ModelMap model,HttpServletRequest request){
@@ -226,8 +235,8 @@ public class MappingController {
 				fieldNames.add("品牌");
 				fieldNames.add("配件名称");
 				fieldNames.add("配件编码");
-				fieldNames.add("编码类型");
-				fieldNames.add("对应编码");
+				fieldNames.add("OE码");
+				fieldNames.add("参照编码");
 				fieldNames.add("参照品牌");
 				fieldNames.add("一级报价");
 				fieldNames.add("二级报价");
@@ -240,6 +249,19 @@ public class MappingController {
 			}
 			jsonObject.put("msg", "success");
 			jsonObject.put("data", sxlsxRead);
+			//TODO 企业ID+企业名称
+			List<Object> successBeans = sxlsxRead.getSuccessBeans();
+			//启动任务
+			if(successBeans!=null && successBeans.size()>0){
+				//获取spring容器
+				ServletContext sc = request.getServletContext();  
+		        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); 
+		        
+				TaskDetail taskDetail = new TaskDetail("import", "1：壳牌", MappingIndexjob.class, new Date());
+				taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
+				taskDetail.getMap().put(Constants.MAPPING_DATA, sxlsxRead.getSuccessBeans());
+				sysTaskServiceImpl.runTasks(taskDetail);
+			}	
 		}else if("csv".equals(extension)){
 			String realPath = request.getSession().getServletContext().getRealPath("/");//获取web项目的路径
 			String fullDir = realPath + Constants.CSV_FILE_URL;
@@ -279,6 +301,10 @@ public class MappingController {
 			}
 			jsonObject.put("msg", "success");
 			jsonObject.put("data", csvImport);
+			//TODO 企业ID+企业名称
+			TaskDetail taskDetail = new TaskDetail("import", "1：壳牌", MappingIndexjob.class, new Date());
+			taskDetail.getMap().put(Constants.MAPPING_DATA, csvImport.getSuccessBeans());
+			sysTaskServiceImpl.runTasks(taskDetail);
 		}else{
 			jsonObject.put("msg", "上传的格式有问题，只支持xlsx、csv文件");
 		}
