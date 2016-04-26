@@ -1,7 +1,7 @@
 /*
  * 类作用 平台的供应商管理页面的功能实现
  * author lyn
- * createTime 2016-04-20
+ * createTime 2016-04-20 
  * version 0.1
  */
 package com.fjsaas.web.controller.platform;
@@ -34,29 +34,28 @@ public class SupplierManage {
 	
 	@RequestMapping("getSupplierList")//查询所有的供应商信息，用于页面表格展示
 	public String getSupplierList(ModelMap model,HttpServletRequest request){
-		System.out.println("开始了。。。");
+//		System.out.println("开始了。。。");
 		SupplierQuery supplierQuery = new SupplierQuery();
 		List<Supplier> supplierList = supplierService.getSupplierList(supplierQuery);
 		model.addAttribute("supplierList", supplierList);//将值放入model中供页面获取
 		model.addAttribute("listSize", supplierList.size());//将值放入model中供页面获取
-		System.out.println("结束了。。。。"+supplierList.size()+supplierList.get(0).getAddr());
+//		System.out.println("结束了。。。。"+supplierList.size()+supplierList.get(0).getAddr());
 		return "platform/suppliermanage";//将页面跳转至suppliermanage.jsp页面，根路径和“.jsp”会通过配置文件spring-mvc.xml自动补上
 	}
 
 	@RequestMapping(value="getSupplierById/{id}",method=RequestMethod.POST)//查看某个供应商的详细信息
 	public void getSupplierById(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response){
-		System.out.println("开始了。。。。");
+//		System.out.println("开始了。。。。");
 		JSONObject jsonObject = new JSONObject();
-//		String id = request.getParameter("supplierId");//由页面获取id
 		Supplier supplier = supplierService.getSupplierByKey(id);
 		jsonObject.put("supplier", supplier);
-		System.out.println("结束了。。。。id="+id+",addr:"+supplier.getAddr());
+//		System.out.println("结束了。。。。id="+id+",addr:"+supplier.getAddr());
 		ResponseUtils.renderJson(response, jsonObject.toJSONString());
 	}
 	
 	@RequestMapping("updateSupplierById/{id}")//根据id保存修改的供应商信息，importImag为前台页面file标签的name名
 	public void updateSupplierById(@PathVariable("id") int id,ModelMap model,HttpServletRequest request,HttpServletResponse response){
-		System.out.println("开始了。。。。");
+//		System.out.println("开始了。。。。");
 		String msg = "";
 		JSONObject jsonObject = new JSONObject();
 		Supplier supplier = new Supplier();
@@ -69,7 +68,7 @@ public class SupplierManage {
 		supplier.setName(name);
 		supplier.setBusinessLicenseUrl(ImageUpload.filename);
 		supplierService.updateSupplierByKey(supplier);//修改该供应商的数据库信息
-		System.out.println("结束了。。。。msg:【"+msg+"】,id="+id+",name="+name+",filepath:"+filepath+",imgfullpath:"+ImageUpload.filename);
+//		System.out.println("结束了。。。。msg:【"+msg+"】,id="+id+",name="+name+",filepath:"+filepath+",imgfullpath:"+ImageUpload.filename);
 		jsonObject.put("imsg", msg);
 		ResponseUtils.renderJson(response, jsonObject.toJSONString());
 	}
