@@ -7,6 +7,6 @@ public interface Constants {
     public String JOB_KEY = "taskDetail";
     public String MAPPING_DATA = "mapping_data";
     public String APPLICATION_CONTEXT = "content";
-    public String IMG_FILE_URL = "/static/image/busslicense/";
-    public String NULL_VALUE = "-999999";
+    public String IMG_FILE_URL = "/static/image/busslicense/";//add by lyn 2016.4.26
+    public String NULL_VALUE = "-999999";//add by lyn 2016.4.26
 }
