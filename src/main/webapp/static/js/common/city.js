@@ -1,6 +1,6 @@
 /******************省市区三级联动**************************************/
 //获取省份下拉框
-function province(){
+$(function(){
 	$('#province').combobox({  
        valueField:'id',  
        textField:'text', 
@@ -10,12 +10,8 @@ function province(){
     	   getCities(data);//市级
        },
        onLoadSuccess:function(data){
-    		$(this).combobox('setValues', ['--请选择省份--']);
        }
    }); 
-	$('#city').combobox('setValues', ['--请选择城市--']);
-	$('#town').combobox('setValues', ['--请选择城镇--']);
-}
 
 //获取城市下拉框
 function getCities(data){
@@ -25,7 +21,9 @@ function getCities(data){
 	    data:data.children,  
 	    onSelect:function(data){
 	    	getTowns(data);
-	    }
+	    },
+        onLoadSuccess:function(data){
+        }
  }); 
 }
 
@@ -37,7 +35,8 @@ function getTowns(data){
 	     data:data.children,
          onLoadSuccess:function(data){
 //        	 alert(JSON.stringify(data));
-    		$(this).combobox('setValues', [data[0].text]);
+    		$(this).combobox('setValue', data[0].text);
          }
 	}); 
 }
+});
