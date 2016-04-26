@@ -42,3 +42,91 @@ function setImagePreview() {
 	} 
 	return true; 
 } 
+
+//点击弹出供应商详细信息
+function toForm(obj,id){
+	$("#supplierId").val(id);
+	var supplierid = $("#supplierId").val();
+	$.ajax({
+		type:"post",
+		url:"getSupplierById/"+supplierid,
+		success:function(data){
+//			alert("success:【"+JSON.stringify(data)+"】");
+//			alert(data.supplier.name);
+			$("#name").val(data.supplier.name);
+			$("#telphone").val(data.supplier.telphone);
+			$("#groupId").val(data.supplier.groupId);
+			$("#busi-licence").attr("src","../static/image/businessLicense/"+data.supplier.businessLicenseUrl);
+			$("#province").combobox('setValue', data.supplier.province);
+			$("#city").combobox('setValue', data.supplier.city);
+			$("#town").combobox('setValue', data.supplier.town);
+			$("#addr").val(data.supplier.addr);
+			$("#linkman").val(data.supplier.linkman);
+		},
+		error:function(data){
+			alert("error:【"+JSON.stringify(data)+"】");
+		},
+		dataType:"json"
+	});
+	obj.href="#supplier_form_div";
+}
+
+//供应商信息修改
+function updateDetail(){
+	$("#update").hide();
+	$("#submit").show();
+	//表单中所有的文本框
+	$("#supplier_form_div input").each(function(){
+		$(this).attr("disabled",false);//移除不可编辑属性
+	}, {});
+	//表单中所有的下拉框
+	$("#supplier_form_div select").each(function(){
+		$(this).attr("disabled",false);
+	}, {});
+}
+
+//供应商信息保存
+function submitDetail(){
+	var supplierid = $("#supplierId").val();
+	var name = $("#name").val();//获取
+	var filepath = $("#imag-file").val();//获取file标签的文件路径
+	$.ajax({
+		type:"post",
+		url:"updateSupplierById/"+supplierid,
+		data:{name:name,filepath:filepath},
+		success:function(data){
+			$("#suppliersForm").submit();
+			if(data.imsg!=null&&data.imsg!=""){
+				alert(data.imsg);
+			}
+		},
+		error:function(data){
+			alert("error:【"+JSON.stringify(data)+"】");
+		},
+		dataType:"json"
+	});
+	$("#submit").hide();
+	$("#update").show();
+	//表单中所有的文本框
+	$("#supplier_form_div input").each(function(){
+		$(this).attr("disabled",true);
+	}, {});
+	//表单中所有的下拉框
+	$("#supplier_form_div select").each(function(){
+		$(this).attr("disabled",true);
+	}, {});
+}
+
+//点击取消按钮的事件
+function doCancel(){
+	$("#submit").hide();
+	$("#update").show();
+	//表单中所有的文本框
+	$("#supplier_form_div input").each(function(){
+		$(this).attr("disabled",true);
+	}, {});
+	//表单中所有的下拉框
+	$("#supplier_form_div select").each(function(){
+		$(this).attr("disabled",true);
+	}, {});
+}
