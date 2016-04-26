@@ -13,63 +13,19 @@
 <link href="${pageContext.request.contextPath}/static/css/platform/suppliermanage.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.responsive.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/static/bootstrap/jquery.dataTables.min.js"></script>
-<script src="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/bootstrap/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/json.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/json2.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/common/city.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/platform/suppliermanage.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/common/city.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/platform/suppliermanage.js"></script>
 <script type="text/javascript">
 var path = "${pageContext.request.contextPath}";
-
-//点击弹出供应商详细信息
-function toForm(obj,id){
-	$("#supplierId").val(id);
-	obj.href="#supplier_form_div";
-	$("#supplierDetail").submit();
-	$("#name").val("${supplier.name }");
-}
-
-//供应商信息修改
-function updateDetail(){
-	$("#update").hide();
-	$("#submit").show();
-	province();
-	//表单中所有的文本框
-	$("#supplier_form_div input").each(function(){
-		$(this).attr("disabled",false);//移除不可编辑属性
-	}, {});
-	//表单中所有的下拉框
-	$("#supplier_form_div select").each(function(){
-		$(this).attr("disabled",false);
-	}, {});
-}
-
-//供应商信息保存
-function submitDetail(){
-	var filepath = $("#imag-file").val();//获取file标签的文件路径
-	var ajax_option={
-			 data:{"filepath":filepath}
-	};
-	$("#panel-body-form").submit();
-	alert("${imsg}");
-	$("#submit").hide();
-	$("#update").show();
-	//表单中所有的文本框
-	$("#supplier_form_div input").each(function(){
-		$(this).attr("disabled",true);
-	}, {});
-	//表单中所有的下拉框
-	$("#supplier_form_div select").each(function(){
-		$(this).attr("disabled",true);
-	}, {});
-}
-
 </script>
 </head>
 <body style="height:100%">
 	<%@ include file="/jsp/nav.jsp" %>
-	<form id="suppliersForm" action="${ctx }/platform/getSupplierList.do" method="post" enctype="multipart/form-data">
+	<form id="suppliersForm" action="${ctx }/platform/getSupplierList" method="post" enctype="multipart/form-data">
 	</form>
 	<div id="page-wrapper">
         <div class="row">
@@ -110,7 +66,7 @@ function submitDetail(){
 	        </div>
 	        <!-- /.table-responsive -->
 	    </div>
-	    <form id="supplierDetail" action="${ctx }/platform/getSupplierById.do" method="post" enctype="multipart/form-data">
+	    <form id="supplierDetail" action="" method="post" enctype="multipart/form-data">
 			<input type="hidden" id="supplierId" name="supplierId" value=""/>
 		</form>
         <!-- modal  begin  -->
@@ -123,14 +79,14 @@ function submitDetail(){
 			                <button type="button" id="supplier_form_close" data-dismiss="modal" aria-label="Close" class="btn btn-success close-btn">X</button>
 			            </div>
 			            <div>
-			                <form id="panel-body-form" class="panel-body-form" action="${ctx }/platform/updateSupplierById.do?id=${supplier.id }" method="post" enctype="multipart/form-data">
+			                <form id="panel-body-form" class="panel-body-form" action="" method="post" enctype="multipart/form-data">
 					            <div class="form-group panel-body-div1">
 					                <label class="left panel-body-label1">用户名</label>
-					                <input class="form-control form-group-input left" id="name" name="name" value="${supplier.name }" type="text" placeholder="用户名" disabled>
+					                <input class="form-control form-group-input left" id="name" name="name" value="" type="text" placeholder="用户名" disabled>
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div2">
 					                <label class="left panel-body-label1">手机号</label>
-					                <input class="form-control form-group-input left" id="telphone" name="telphone" value="${supplier.telphone }" type="text" placeholder="手机号" disabled>
+					                <input class="form-control form-group-input left" id="telphone" name="telphone" value="" type="text" placeholder="手机号" disabled>
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div2">
 					                <label class="left panel-body-label2">汽配商域名</label>
@@ -138,32 +94,32 @@ function submitDetail(){
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div2">
 					                <label class="left panel-body-label2">汽配商名称</label>
-					                <input class="form-control form-group-input left" id="groupId" type="text" name="groupId" value="${supplier.groupId }" placeholder="汽配商名称" disabled>
+					                <input class="form-control form-group-input left" id="groupId" type="text" name="groupId" value="" placeholder="汽配商名称" disabled>
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div3">
 					                <label class="left panel-body-label3">营业执照</label>
-					            	<input type="file" id="imag-file" name="importImag" class="imag-file form-group-input" onchange="javascript:setImagePreview();" disabled>
+					            	<input type="file" id="imag-file" value="" name="importImag" class="imag-file form-group-input" onchange="javascript:setImagePreview();" disabled>
 					                <div id="localImag"><img class="file-img" id="busi-licence" src="../static/image/businessLicense/th.jpg"><br/></div>
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div4"><br/>
 					                <label class="left panel-body-label4">所属区域</label>
-					                <input id="province" name="province" class="easyui-combobox left div-select" value="${supplier.province }"/>
-									<input id="city" name="city" class="easyui-combobox left div-select" value="${supplier.city }"/>
-									<input id="town" name="town" class="easyui-combobox left div-select" value="${supplier.town }"/>
+					                <input id="province" name="province" class="easyui-combobox left div-select" value=""/>
+									<input id="city" name="city" class="easyui-combobox left div-select" value=""/>
+									<input id="town" name="town" class="easyui-combobox left div-select" value=""/>
 								<br/></div><br/>
 					            <div class="form-group panel-body-div5">
 					                <label class="left panel-body-label2">汽配商地址</label>
-					                <input class="form-control form-group-input left" value="${supplier.addr }" name="addr" id="addr" type="text" placeholder="汽配商地址" disabled>
+					                <input class="form-control form-group-input left" value="" name="addr" id="addr" type="text" placeholder="汽配商地址" disabled>
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div5">
 					                <label class="left panel-body-label5">联系人</label>
-					                <input class="form-control form-group-input left" value="${supplier.linkman }" name="linkman" id="linkman" type="text" placeholder="联系人" disabled>
+					                <input class="form-control form-group-input left" value="" name="linkman" id="linkman" type="text" placeholder="联系人" disabled>
 					            <br/></div><br/>
 					        </form>
 					        <div class="panel-body-div7">
 						        <button type="button" id="update" class="btn btn1 btn-primary" onclick="javascript:updateDetail();">修改</button>
 								<button type="button" id="submit" style="display:none;" class="btn btn1 btn-primary" onclick="javascript:submitDetail();">保存</button>
-								<button type="button" id="cancel" data-dismiss="modal" aria-label="Close" class="btn btn2">取消</button>
+								<button type="button" id="cancel" data-dismiss="modal" aria-label="Close" class="btn btn2" onclick="doCancel();">取消</button>
 			           		</div>
 			            </div>
 			        </div>
