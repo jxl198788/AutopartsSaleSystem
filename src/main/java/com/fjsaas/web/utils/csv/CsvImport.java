@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.csvreader.CsvReader;
+import com.fjsaas.web.utils.excel.OptRowResutl;
 import com.fjsaas.web.utils.excel.OptRows;
 import com.fjsaas.web.utils.excel.SxlsxOptRowsImpl;
 
@@ -30,6 +31,8 @@ public class CsvImport {
 	private List<String> failmsgs = new ArrayList<String>();
 	
 	private int counter = 0;
+	
+	private List<Object> successBeans;
 	
 
 
@@ -139,14 +142,15 @@ public class CsvImport {
 	public void processRow(int curRow, List<String> row){
 		optRows_sum++;
 		try {
-			String result = optRows.optRows(1,curRow, row);
-			if(result == "success"){
+			OptRowResutl rowResutl = optRows.optRows(1,curRow, row);
+			if(OptRowResutl.SUCCESS_FLAG.equals(rowResutl.getResult())){
 				optRows_success++;
 				successrows.add(row);
+				successBeans.add(rowResutl.getTarget());
 			}else{
 				optRows_failure++;
 				failrows.add(row);
-				failmsgs.add(result);
+				failmsgs.add(rowResutl.getResult());
 			}
 		} catch (Exception e) {
 			optRows_failure++;
@@ -156,9 +160,19 @@ public class CsvImport {
 		}		
 	}
 	
+	public List<Object> getSuccessBeans() {
+		return successBeans;
+	}
+
+	public void setSuccessBeans(List<Object> successBeans) {
+		this.successBeans = successBeans;
+	}
+
 	public static void main(String[] args) throws Exception {
 		CsvImport csvImport = new CsvImport(new SxlsxOptRowsImpl());
 		csvImport.ReadCSV("d:/test.csv", true);
 		System.out.println("Ok");
 	}
+	
+	
 }

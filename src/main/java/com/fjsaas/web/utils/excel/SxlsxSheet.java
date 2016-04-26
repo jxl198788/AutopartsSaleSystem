@@ -1,6 +1,7 @@
 package com.fjsaas.web.utils.excel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SxlsxSheet {
 
@@ -17,9 +18,10 @@ public class SxlsxSheet {
 	// 标题行号 为0的时候没有标题行
 	//private int titleRowIndex = 1;
 
-	private ArrayList<String> titleRow = new ArrayList<String>();
-	private ArrayList<String> currentRow;
-	private ArrayList<ArrayList<String>> dataList = new ArrayList<ArrayList<String>>();
+	private List<String> titleRow = new ArrayList<String>();
+	private List<String> currentRow;
+	private List<List<String>> dataList = new ArrayList<List<String>>();
+
 	
 	public int getRowIndex() {
 		return rowIndex;
@@ -57,28 +59,22 @@ public class SxlsxSheet {
 	public void setLastColumnNumber(int lastColumnNumber) {
 		this.lastColumnNumber = lastColumnNumber;
 	}
-/*	public int getTitleRowIndex() {
-		return titleRowIndex;
-	}
-	public void setTitleRowIndex(int titleRowIndex) {
-		this.titleRowIndex = titleRowIndex;
-	}*/
-	public ArrayList<String> getTitleRow() {
+	public List<String> getTitleRow() {
 		return titleRow;
 	}
-	public void setTitleRow(ArrayList<String> titleRow) {
+	public void setTitleRow(List<String> titleRow) {
 		this.titleRow = titleRow;
 	}
-	public ArrayList<String> getCurrentRow() {
+	public List<String> getCurrentRow() {
 		return currentRow;
 	}
-	public void setCurrentRow(ArrayList<String> currentRow) {
+	public void setCurrentRow(List<String> currentRow) {
 		this.currentRow = currentRow;
 	}
-	public ArrayList<ArrayList<String>> getDataList() {
+	public List<List<String>> getDataList() {
 		return dataList;
 	}
-	public void setDataList(ArrayList<ArrayList<String>> dataList) {
+	public void setDataList(List<List<String>> dataList) {
 		this.dataList = dataList;
 	}
 	

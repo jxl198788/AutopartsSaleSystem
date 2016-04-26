@@ -2,8 +2,13 @@ package com.fjsaas.web.utils.excel;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
@@ -28,7 +33,8 @@ public abstract class SxlsxAbstract {
 	private int sheetRId;
 	//int titleRowIndex = 1;
     boolean isReadHeader;
-
+    private Map<String, Integer> positionMap = new HashMap<String, Integer>();
+    
 	public void processFirstSheet(String filename,boolean isReadHeader) throws Exception {
 		processSheet(filename,1,isReadHeader);
 	}
@@ -91,7 +97,7 @@ public abstract class SxlsxAbstract {
 		private SharedStringsTable sst;
 		private String lastContents;
 		private boolean nextIsString;
-		private boolean inlineStr;	
+		private boolean inlineStr;
 		
 		private SheetHandler(SharedStringsTable sst) {
 			this.sst = sst;
@@ -117,10 +123,10 @@ public abstract class SxlsxAbstract {
 			}
 			// c => cell
 			if(name.equals("c")) {
-				// Print the cell reference	
+				// Print the cell reference	 获取cell的坐标，如E5
 				position = attributes.getValue("r");
-				//System.out.print(attributes.getValue("r") + " - ");获取cell的坐标，如E5
 				// Figure out if the value is an index in the SST
+				// cell is String
 				String cellType = attributes.getValue("t");
 				nextIsString = cellType != null && cellType.equals("s");
 				inlineStr = cellType != null && cellType.equals("inlineStr");
@@ -141,36 +147,41 @@ public abstract class SxlsxAbstract {
 
 			// v => contents of a cell
 			// Output after we've seen the string contents
-			if(name.equals("v") || (inlineStr && name.equals("c"))) {
+			if(name.equals("v") || (inlineStr && name.equals("c")) ) {
 				//System.out.println(lastContents);
-				
 				if(currentSheet.getRowIndex() == 1 && isReadHeader){
 					currentSheet.getTitleRow().add(currentSheet.getColumnIndex(),lastContents);//titleRow.add(columnIndex++, lastContents);
 					currentSheet.addColumnIndex(1);
+					StringBuilder sb = new StringBuilder(position);
+					Pattern pattern = Pattern.compile("^[A-Z]+");
+					Matcher matcher = pattern.matcher(sb);
+					if (matcher.find()) {
+						String y = matcher.group(0);
+						positionMap.put(y, currentSheet.getColumnIndex());
+					}
 				}else{
 					if(currentSheet.isNewRow()/*isNewRow*/){
-						//currentRow = new ArrayList<String>();
-						ArrayList<String> list = new ArrayList<String>();
+						String[] strings = new String[currentSheet.getLastColumnNumber()];
+						List<String> list = Arrays.asList(strings);
 						currentSheet.setCurrentRow(list);
 						currentSheet.getDataList().add(list);
-						//dataList.add(currentRow);
 						currentSheet.setNewRow(false);
-						//isNewRow = false;
 					}
-					//System.out.println(lastContents);
-					//columnIndex++;
-					currentSheet.addColumnIndex(1);
-					//lastContents = ProcessCell(sheetRId,rowIndex,columnIndex,position,lastContents);
+					StringBuilder sb = new StringBuilder(position);
+					Pattern pattern = Pattern.compile("^[A-Z]+");
+					Matcher matcher = pattern.matcher(sb);
+					String y = "";
+					if (matcher.find()) {
+						y = matcher.group(0);
+					}
+					
+					currentSheet.setColumnIndex(positionMap.get(y));
 					lastContents = ProcessCell(sheetIndex,currentSheet.getRowIndex(),currentSheet.getColumnIndex(),position,lastContents);
+					System.out.println(lastContents);
 					
-					
-					currentSheet.getCurrentRow().add(currentSheet.getColumnIndex()-1,lastContents);
-					//currentRow.add(columnIndex-1,lastContents);
+					currentSheet.getCurrentRow().set(currentSheet.getColumnIndex()-1,lastContents);
 				}
 				
-				/*if(lastColumnNumber < columnIndex){
-					lastColumnNumber = columnIndex;
-				}*/
 				if(currentSheet.getLastColumnNumber() < currentSheet.getColumnIndex()){
 					currentSheet.setLastColumnNumber(currentSheet.getColumnIndex());
 				}

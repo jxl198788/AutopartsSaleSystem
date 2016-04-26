@@ -5,6 +5,8 @@ import java.util.List;
 
 public class SxlsxRead extends SxlsxAbstract {
 
+	public static final String SUCCESS_FLAG = "success";
+	public static final String FAIL_FLAG = "fail";
 	//数据处理解析数据的接口
 	private  OptRows sxlsxOptRows;
 	//处理数据总数
@@ -20,25 +22,29 @@ public class SxlsxRead extends SxlsxAbstract {
 	//失败原因
 	private List<String> failmsgs ;
 	
+	private List<Object> successBeans;
+	
 	public SxlsxRead(OptRows sxlsxOptRows){
 		this.sxlsxOptRows = sxlsxOptRows;
 		this.failrows = new ArrayList<List<String>>();
 		this.failmsgs = new ArrayList<String>();
 		this.successrows = new ArrayList<List<String>>();
+		this.successBeans = new ArrayList<Object>();
 	}
 	
 	@Override
 	public void ProcessRow(int sheetIndex, int curRow, List<String> row){
 		optRows_sum++;
 		try {
-			String result = sxlsxOptRows.optRows(sheetIndex, curRow, row);
-			if(result == "success"){
+			OptRowResutl rowResutl = sxlsxOptRows.optRows(sheetIndex, curRow, row);
+			if(OptRowResutl.SUCCESS_FLAG.equals(rowResutl.getResult())){
 				optRows_success++;
 				successrows.add(row);
+				successBeans.add(rowResutl.getTarget());
 			}else{
 				optRows_failure++;
 				failrows.add(row);
-				failmsgs.add(result);
+				failmsgs.add(rowResutl.getResult());
 			}
 		} catch (Exception e) {
 			optRows_failure++;
@@ -101,6 +107,14 @@ public class SxlsxRead extends SxlsxAbstract {
 
 	public void setFailmsgs(List<String> failmsgs) {
 		this.failmsgs = failmsgs;
+	}
+
+	public List<Object> getSuccessBeans() {
+		return successBeans;
+	}
+
+	public void setSuccessBeans(List<Object> successBeans) {
+		this.successBeans = successBeans;
 	}
 	
 	

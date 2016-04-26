@@ -5,8 +5,14 @@ import java.util.List;
 public class SxlsxOptRowsImpl implements OptRows{
 
 	private  static final String SUCCESS_FLAG = "success";
+
+	@Override
+	public OptRowResutl optRows(int sheetIndex, int curRow, List<String> row) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
-	public String optRows(int sheetIndex, int curRow, List<String> row) {
+	/*public String optRows(int sheetIndex, int curRow, List<String> row) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < row.size(); i++) {
 			try {
@@ -28,7 +34,7 @@ public class SxlsxOptRowsImpl implements OptRows{
 			return sb.toString();
 		}
 		return SUCCESS_FLAG;
-	}
+	}*/
 
 	
 

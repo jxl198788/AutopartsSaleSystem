@@ -14,44 +14,12 @@ import org.springframework.util.StringUtils;
 
 public class FlywayMigrate {
 
-	private Properties properties = new Properties();
-
-	private String dbPropUrl;
-	private String jdbcUrlKey;
-	private String usernameKey;
-	private String passwordKey;
-
-	public void setDbPropUrl(String dbPropUrl) {
-		this.dbPropUrl = dbPropUrl;
-	}
-
-	public void setJdbcUrlKey(String jdbcUrlKey) {
-		this.jdbcUrlKey = jdbcUrlKey;
-	}
-
-	public void setUsernameKey(String usernameKey) {
-		this.usernameKey = usernameKey;
-	}
-
-	public void setPasswordKey(String passwordKey) {
-		this.passwordKey = passwordKey;
-	}
-
-	public void init() throws IOException {
-		InputStream in = FlywayMigrate.class.getResourceAsStream(dbPropUrl);
-		properties.load(in);
-		in.close();
-
-	}
+	private String url;
+	private String password;
+	private String username;
 
 	public void migrate() throws Exception {
-		init();
-
-		String jdbcUrl = properties.getProperty(jdbcUrlKey);
-		String username = properties.getProperty(usernameKey);
-		String password = properties.getProperty(passwordKey);
-
-		StringBuilder sb = new StringBuilder(jdbcUrl);
+		StringBuilder sb = new StringBuilder(url);
 		Pattern pattern = Pattern.compile("^\\w+:\\w+:\\/{2}\\w+:\\d+\\/");
 		Matcher matcher = pattern.matcher(sb);
 		String jdbcStr = "";
@@ -62,7 +30,7 @@ public class FlywayMigrate {
 		}
 
 		if (StringUtils.isEmpty(jdbcStr) || StringUtils.isEmpty(schema)) {
-			throw new RuntimeException(dbPropUrl + "中的jdbc.url有误.");
+			throw new RuntimeException("JDBC连接字符串有误，解析错误，请检查！");
 		}
 		// Create the Flyway instance
 		Flyway flyway = new Flyway();
@@ -76,4 +44,29 @@ public class FlywayMigrate {
 		flyway.migrate();
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	
 }
