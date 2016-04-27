@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fjsaas.web.pagination.Pager;
 import com.fjsaas.web.bean.MappingIndex;
+import com.fjsaas.web.dao.MappingIndexCsutomDao;
 import com.fjsaas.web.dao.MappingIndexDao;
 import com.fjsaas.web.query.MappingIndexQuery;
 import com.fjsaas.web.service.MappingIndexService;
@@ -19,6 +20,9 @@ public class MappingIndexServiceImpl implements MappingIndexService {
 
 	@Resource
 	MappingIndexDao mappingIndexDao;
+	
+	@Resource
+	private MappingIndexCsutomDao mappingIndexCsutomDao;
 
 	/**
 	 * 插入数据库
@@ -70,5 +74,11 @@ public class MappingIndexServiceImpl implements MappingIndexService {
 	
 	public List<MappingIndex> getMappingIndexList(MappingIndexQuery mappingIndexQuery) {
 		return mappingIndexDao.getMappingIndexList(mappingIndexQuery);
+	}
+
+	@Override
+	public Integer updateMappingIndexByMappingId(MappingIndex mappingIndex) {
+		// TODO Auto-generated method stub
+		return mappingIndexCsutomDao.updateMappingIndexByMappingId(mappingIndex);
 	}
 }

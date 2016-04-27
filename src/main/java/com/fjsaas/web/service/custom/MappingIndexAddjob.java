@@ -11,28 +11,34 @@ import org.springframework.context.ApplicationContext;
 
 import com.fjsaas.web.bean.MappingIndex;
 import com.fjsaas.web.bean.SupplierMapping;
+import com.fjsaas.web.bean.SupplierTask;
 import com.fjsaas.web.bean.TaskDetail;
 import com.fjsaas.web.constants.Constants;
 import com.fjsaas.web.service.MappingIndexService;
 import com.fjsaas.web.service.ProductcodeOeService;
-import com.fjsaas.web.service.impl.MappingIndexServiceImpl;
-import com.fjsaas.web.service.impl.ProductcodeOeServiceImpl;
+import com.fjsaas.web.service.SupplierTaskService;
 
-public class MappingIndexjob implements Job {
+public class MappingIndexAddjob implements Job {
 
-	private ProductcodeOeService productcodeOeService;
-	private MappingIndexService mappingIndexService;
-	
 	@Override
 	public void execute(JobExecutionContext content) throws JobExecutionException {
-		//TODO 任务表插入
 		JobDataMap dataMap = content.getMergedJobDataMap();
 		TaskDetail taskDetail = (TaskDetail) dataMap.get(Constants.JOB_KEY);
 		ApplicationContext applicationContext = (ApplicationContext) taskDetail.getMap().get(Constants.APPLICATION_CONTEXT);
-		productcodeOeService = applicationContext.getBean(ProductcodeOeService.class);
-		mappingIndexService = applicationContext.getBean(MappingIndexService.class);
-		System.err.println("任务启动："+new Date());
-		System.out.println(taskDetail.getJobName()+":"+taskDetail.getJobGroup());
+		ProductcodeOeService productcodeOeService = applicationContext.getBean(ProductcodeOeService.class);
+		MappingIndexService mappingIndexService = applicationContext.getBean(MappingIndexService.class);
+		SupplierTaskService supplierTaskService = applicationContext.getBean(SupplierTaskService.class);
+		//TODO 任务表插入
+		SupplierTask supplierTask = new SupplierTask();
+		supplierTask.setName(taskDetail.getJobName());
+		supplierTask.setGroupName(taskDetail.getJobGroup());
+		supplierTask.setDescription(taskDetail.getDesc());
+		supplierTask.setType("SimpleTrigger");
+		supplierTask.setCreateDate(new Date());
+		supplierTask.setCreatorId(-1);//系统
+		supplierTask.setStatus("0");//任务进行中...
+		supplierTaskService.addSupplierTask(supplierTask);
+		System.err.println(taskDetail.getJobName()+"-"+taskDetail.getJobGroup()+"任务启动："+new Date());
 		
 		List<SupplierMapping> supplierMappings = (List<SupplierMapping>) taskDetail.getMap().get(Constants.MAPPING_DATA);
 		for (SupplierMapping supplierMapping : supplierMappings) {
@@ -44,7 +50,11 @@ public class MappingIndexjob implements Job {
 			}
 		}
 		
-		System.err.println("任务结束："+new Date());
+		supplierTask.setStatus("1");//任务执行完成
+		supplierTask.setEndDate(new Date());
+		supplierTaskService.updateSupplierTaskByKey(supplierTask);
+				
+		System.err.println(taskDetail.getJobName()+"-"+taskDetail.getJobGroup()+"任务结束："+new Date());
 	}
 
 }

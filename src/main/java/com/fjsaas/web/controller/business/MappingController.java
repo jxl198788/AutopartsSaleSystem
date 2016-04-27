@@ -1,7 +1,7 @@
 package com.fjsaas.web.controller.business;
 
 import java.io.File;
-import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -9,25 +9,24 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
+import org.quartz.DateBuilder;
+import org.quartz.DateBuilder.IntervalUnit;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartResolver;
 
 import com.alibaba.fastjson.JSONObject;
-import com.csvreader.CsvReader;
 import com.fjsaas.web.bean.SupplierMapping;
 import com.fjsaas.web.bean.TaskDetail;
 import com.fjsaas.web.constants.Constants;
@@ -35,16 +34,14 @@ import com.fjsaas.web.pagination.Pager;
 import com.fjsaas.web.pagination.html.PageTagImpl;
 import com.fjsaas.web.query.SupplierMappingQuery;
 import com.fjsaas.web.service.SupplierMappingService;
-import com.fjsaas.web.service.custom.MappingImportServiceImpl;
-import com.fjsaas.web.service.custom.MappingIndexjob;
+import com.fjsaas.web.service.custom.MappingIndexAddjob;
+import com.fjsaas.web.service.custom.MappingIndexUpdatejob;
 import com.fjsaas.web.service.custom.SysTaskServiceImpl;
 import com.fjsaas.web.utils.ResponseUtils;
 import com.fjsaas.web.utils.csv.CsvExport;
 import com.fjsaas.web.utils.csv.CsvImport;
-import com.fjsaas.web.utils.csv.CsvOptRowsImpl;
 import com.fjsaas.web.utils.excel.ExcelExportSXSSF;
 import com.fjsaas.web.utils.excel.OptRows;
-import com.fjsaas.web.utils.excel.SxlsxOptRowsImpl;
 import com.fjsaas.web.utils.excel.SxlsxRead;
 
 @Controller
@@ -94,6 +91,7 @@ public class MappingController {
 		return "business/mappingManage";
 	}
 	
+	//undo
 	@RequestMapping("forbidden.do")
 	public String forbidden(Integer id,String search,String status,Integer pageNo,ModelMap model,HttpServletRequest request){
 		if(!StringUtils.isEmpty(search)){
@@ -115,7 +113,7 @@ public class MappingController {
 		}			
 		return "redirect:/business/mappingIndex.do";
 	}
-	
+	//undo
 	@RequestMapping("delete.do")
 	public String delete(Integer id,String search,String status,Integer pageNo,ModelMap model,HttpServletRequest request){
 		if(!StringUtils.isEmpty(search)){
@@ -137,7 +135,7 @@ public class MappingController {
 	}
 	
 	@RequestMapping("forbiddenAll.do")
-	public void forbiddenAll(Integer[] ids,HttpServletResponse response){
+	public void forbiddenAll(Integer[] ids,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{
 		
 		if(ids != null){
 			List<SupplierMapping> list = new ArrayList<SupplierMapping>();
@@ -145,30 +143,62 @@ public class MappingController {
 				SupplierMapping supplierMapping = supplierMappingService.getSupplierMappingByKey(id);
 				supplierMapping.setStatus("2");//禁用
 				//TODO：update增量操作
+				supplierMapping.setUpdatorId(1);
+				supplierMapping.setUpdateDate(new Date());
 				supplierMappingService.updateSupplierMappingByKey(supplierMapping);
 				list.add(supplierMapping);
 			}		
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("data",list);
 			ResponseUtils.renderJson(response, jsonObject.toJSONString());
+			
+			//启动任务
+			ServletContext sc = request.getServletContext();  
+	        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); 
+	        //TODO 企业ID：企业名称_用户Id：用户名
+			TaskDetail taskDetail = new TaskDetail("索引表删除", "壳牌(1)_小明(1)", MappingIndexUpdatejob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
+			taskDetail.setDesc("索引表删除");
+			taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
+			taskDetail.getMap().put(Constants.MAPPING_DATA, list);
+			sysTaskServiceImpl.runTasks(taskDetail);
 		}			
 	}
 	
 	@RequestMapping("deleteAll.do")
-	public void deleteAll(Integer[] ids,HttpServletResponse response){	
+	public void deleteAll(Integer[] ids,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{	
 		if(ids != null){
 			supplierMappingService.deleteByKeys(Arrays.asList(ids));
 			List<SupplierMapping> list = new ArrayList<SupplierMapping>();
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("data",list);
 			ResponseUtils.renderJson(response, jsonObject.toJSONString());
+			
+			//启动任务
+			List<SupplierMapping> supplierMappings = new ArrayList<SupplierMapping>();
+			for (Integer id : ids) {
+				
+				SupplierMapping supplierMapping = new SupplierMapping();
+				supplierMapping.setIsDel("1");
+				supplierMapping.setId(id);
+				supplierMappings.add(supplierMapping);
+			}
+			ServletContext sc = request.getServletContext();  
+	        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); 
+	        //TODO 企业ID：企业名称_用户Id：用户名
+			TaskDetail taskDetail = new TaskDetail("索引表删除", "壳牌(1)_小明(1)", MappingIndexUpdatejob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
+			taskDetail.setDesc("索引表删除");
+			taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
+			taskDetail.getMap().put(Constants.MAPPING_DATA, supplierMappings);
+			sysTaskServiceImpl.runTasks(taskDetail);
 		}			
 	}
 	
 	@RequestMapping("update.do")
-	public void update(SupplierMapping supplierMapping,Integer codeType,HttpServletResponse response){
+	public void update(SupplierMapping supplierMapping,Integer codeType,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{
 		if(supplierMapping != null && codeType != null){
 			//TODO：update增量操作
+			supplierMapping.setUpdatorId(1);
+			supplierMapping.setUpdateDate(new Date());
 			if(codeType == 1){
 				//OE编
 				supplierMapping.setOeCode(supplierMapping.getReferenceCode());
@@ -182,13 +212,24 @@ public class MappingController {
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("data",list);
 			ResponseUtils.renderJson(response, jsonObject.toJSONString());
+			//启动任务
+			ServletContext sc = request.getServletContext();  
+	        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); 
+	        //TODO 企业ID：企业名称_用户Id：用户名
+			TaskDetail taskDetail = new TaskDetail("索引表更新", "壳牌(1)_小明(1)", MappingIndexUpdatejob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
+			taskDetail.setDesc("索引表更新");
+			taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
+			taskDetail.getMap().put(Constants.MAPPING_DATA, list);
+			sysTaskServiceImpl.runTasks(taskDetail);
 		}			
 	}
 	
 	@RequestMapping("add.do")
-	public void add(SupplierMapping supplierMapping,Integer codeType,HttpServletResponse response){
+	public void add(SupplierMapping supplierMapping,Integer codeType,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{
 		if(supplierMapping != null && codeType != null){
 			//TODO：add增量操作
+			supplierMapping.setCreatorId(1);
+			supplierMapping.setCreateDate(new Date());
 			if(codeType == 1){
 				//OE编
 				supplierMapping.setOeCode(supplierMapping.getReferenceCode());
@@ -203,6 +244,15 @@ public class MappingController {
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("data",list);
 			ResponseUtils.renderJson(response, jsonObject.toJSONString());
+			//启动任务
+			ServletContext sc = request.getServletContext();  
+	        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); 
+	        //TODO 企业ID：企业名称_用户Id：用户名
+			TaskDetail taskDetail = new TaskDetail("索引导入任务", "壳牌(1)_小明(1)", MappingIndexAddjob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
+			taskDetail.setDesc("索引导入任务");
+			taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
+			taskDetail.getMap().put(Constants.MAPPING_DATA, list);
+			sysTaskServiceImpl.runTasks(taskDetail);
 		}			
 	}
 	
@@ -249,17 +299,17 @@ public class MappingController {
 			}
 			jsonObject.put("msg", "success");
 			jsonObject.put("data", sxlsxRead);
-			//TODO 企业ID+企业名称
+			
 			List<Object> successBeans = sxlsxRead.getSuccessBeans();
 			//启动任务
 			if(successBeans!=null && successBeans.size()>0){
-				//获取spring容器
 				ServletContext sc = request.getServletContext();  
 		        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); 
-		        
-				TaskDetail taskDetail = new TaskDetail("import", "1：壳牌", MappingIndexjob.class, new Date());
+		        //TODO 企业ID：企业名称_用户Id：用户名
+				TaskDetail taskDetail = new TaskDetail("索引导入任务", "壳牌(1)_小明(1)", MappingIndexAddjob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
+				taskDetail.setDesc("索引导入任务");
 				taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
-				taskDetail.getMap().put(Constants.MAPPING_DATA, sxlsxRead.getSuccessBeans());
+				taskDetail.getMap().put(Constants.MAPPING_DATA, successBeans);
 				sysTaskServiceImpl.runTasks(taskDetail);
 			}	
 		}else if("csv".equals(extension)){
@@ -301,14 +351,23 @@ public class MappingController {
 			}
 			jsonObject.put("msg", "success");
 			jsonObject.put("data", csvImport);
-			//TODO 企业ID+企业名称
-			TaskDetail taskDetail = new TaskDetail("import", "1：壳牌", MappingIndexjob.class, new Date());
-			taskDetail.getMap().put(Constants.MAPPING_DATA, csvImport.getSuccessBeans());
-			sysTaskServiceImpl.runTasks(taskDetail);
+			
+			List<Object> successBeans = csvImport.getSuccessBeans();
+			//启动任务
+			if(successBeans!=null && successBeans.size()>0){
+				ServletContext sc = request.getServletContext();  
+		        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); 
+		        //TODO 企业ID：企业名称_用户Id：用户名
+				TaskDetail taskDetail = new TaskDetail("索引导入任务", "壳牌(1)_小明(1)", MappingIndexAddjob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
+				taskDetail.setDesc("索引导入任务");
+				taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
+				taskDetail.getMap().put(Constants.MAPPING_DATA, successBeans);
+				sysTaskServiceImpl.runTasks(taskDetail);
+			}
 		}else{
 			jsonObject.put("msg", "上传的格式有问题，只支持xlsx、csv文件");
 		}
-			
+		
 		ResponseUtils.renderJson(response, jsonObject.toJSONString());
 	}
 	
@@ -410,9 +469,4 @@ public class MappingController {
 		return "redirect:"+exportUrl;
 	}
 
-	
-	@RequestMapping("test.do")
-	public String test(){
-		return "business/mappingManage";
-	}
 }

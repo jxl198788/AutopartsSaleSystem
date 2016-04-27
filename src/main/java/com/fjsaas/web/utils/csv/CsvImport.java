@@ -32,7 +32,7 @@ public class CsvImport {
 	
 	private int counter = 0;
 	
-	private List<Object> successBeans;
+	private List<Object> successBeans = new ArrayList<Object>();
 	
 
 

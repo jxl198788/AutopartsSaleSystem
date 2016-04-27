@@ -85,9 +85,9 @@ public class CSVTest {
  		
  		//告诉导出类数据list中对象的属性，让ExcelExportSXXSSF通过反射获取对象的值
  		List<String> fieldCodes=new ArrayList<String>();
- 		fieldCodes.add("name");//药品流水号
- 		fieldCodes.add("age");//通用名
- 		fieldCodes.add("birthday");//价格
+ 		fieldCodes.add("name");
+ 		fieldCodes.add("age");
+ 		fieldCodes.add("birthday");
  		
  		
  		

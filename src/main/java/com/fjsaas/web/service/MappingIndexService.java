@@ -40,7 +40,7 @@ public interface MappingIndexService {
 	public Integer deleteByKeys(List<Integer> idList);
 
 	/**
-	 * 根据主键更新
+	 * 跟
 	 * 
 	 * @return
 	 */
@@ -64,4 +64,5 @@ public interface MappingIndexService {
 	 */
 	public List<MappingIndex> getMappingIndexList(MappingIndexQuery mappingIndexQuery);
 	
+	public Integer updateMappingIndexByMappingId(MappingIndex mappingIndex);
 }
