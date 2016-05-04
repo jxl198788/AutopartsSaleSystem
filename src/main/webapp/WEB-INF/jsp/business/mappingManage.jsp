@@ -191,6 +191,13 @@ $(function(){
          }, {
              label: "参照编码:",
              name: "referenceCode",
+             data: function ( data, type, set ) {
+                 if(data.referenceCode){
+                 	return data.referenceCode;
+                 }else{
+                 	return data.oeCode;
+                 }
+              },
          }, {
              label: "参照品牌:",
              name: "referenceBrand",
@@ -286,7 +293,7 @@ $(function(){
 	        rowId: 'id',
 	        dom: "Brti",//Bfrtip B button f search
 	        "language": {
-	            "info": "Showing _START_ to _END_ of "+${pager.total}+" entries"
+	            "info": "Showing _START_ to _END_ of ${pager.total} entries"
 	         },
 	        "pageLength": 50,
 	        data:data.data,

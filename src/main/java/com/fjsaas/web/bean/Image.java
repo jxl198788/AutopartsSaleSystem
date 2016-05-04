@@ -21,6 +21,7 @@ public class Image implements Serializable {
 	private Date updateDate;
 	private Integer updatorId;
 	private String isDel;
+	private String targetId;
 
 	public Integer getId() {
 		return id;
@@ -102,8 +103,16 @@ public class Image implements Serializable {
 		this.isDel = isDel;
 	}
 	
+	public String getTargetId() {
+		return targetId;
+	}
+	
+	public void setTargetId(String targetId) {
+		this.targetId = targetId;
+	}
+	
 	public String toString() {
-		return "Image [id=" + id + ",name=" + name + ",url=" + url + ",groupId=" + groupId + ",isDef=" + isDef + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "Image [id=" + id + ",name=" + name + ",url=" + url + ",groupId=" + groupId + ",isDef=" + isDef + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + ",targetId=" + targetId + "]";
 	}
 	
 	

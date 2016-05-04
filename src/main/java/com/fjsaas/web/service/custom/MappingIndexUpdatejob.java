@@ -15,7 +15,7 @@ import com.fjsaas.web.bean.SupplierMapping;
 import com.fjsaas.web.bean.SupplierTask;
 import com.fjsaas.web.bean.TaskDetail;
 import com.fjsaas.web.constants.Constants;
-import com.fjsaas.web.dao.MappingIndexCsutomDao;
+import com.fjsaas.web.dao.MappingIndexCustomDao;
 import com.fjsaas.web.service.MappingIndexService;
 import com.fjsaas.web.service.ProductcodeOeService;
 import com.fjsaas.web.service.SupplierTaskService;

@@ -6,6 +6,7 @@
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="url" column="url" />
+		<result property="targetId" column="target_id" />
 		<result property="groupId" column="group_id" />
 		<result property="isDef" column="is_def" />
 		<result property="createDate" column="create_date" />
@@ -21,7 +22,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,name,url,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del	
+				id,name,url,target_id,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_image
 	</sql>
@@ -46,6 +47,9 @@
 					<if test="urlLike == true">
 						and  url like CONCAT("%",#{ url },"%")
 					</if>
+				</if>
+				<if test="targetId != null">
+					and target_id=#{targetId}
 				</if>
 				<if test="groupId != null">
 					and group_id=#{groupId}
@@ -95,14 +99,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getImageByKey" resultMap="image" parameterType="hashMap">
-		SELECT id,name,url,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,name,url,target_id,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_image
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getImagesByKeys" resultMap="image" parameterType="ArrayList">
-		SELECT id,name,url,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,name,url,target_id,group_id,is_def,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_image
 		WHERE
 		id in
@@ -139,6 +143,9 @@
 				</if>
 				<if test="url != null">
 					url = #{url},
+				</if>
+				<if test="targetId != null">
+					target_id = #{targetId},
 				</if>
 				<if test="groupId != null">
 					group_id = #{groupId},
@@ -200,6 +207,10 @@
 					url,
 				</if>
 				
+				<if test="targetId != null">
+					target_id,
+				</if>
+				
 				<if test="groupId != null">
 					group_id,
 				</if>
@@ -245,6 +256,11 @@
 					</if>
 					
 					
+					<if test="targetId != null">
+						#{targetId},
+					</if>
+					
+					
 					<if test="groupId != null">
 						#{groupId},
 					</if>
@@ -279,7 +295,7 @@
 						#{isDel},
 					</if>
 					<if test="isDel == null">
-						0
+						0,
 					</if>
 					
 		</trim>

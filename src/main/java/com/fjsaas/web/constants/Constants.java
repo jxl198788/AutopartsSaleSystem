@@ -7,5 +7,5 @@ public interface Constants {
     public String JOB_KEY = "taskDetail";
     public String MAPPING_DATA = "mapping_data";
     public String APPLICATION_CONTEXT = "content";
-    public Integer TASK_DELAY_SECOND = 20;
+    public Integer TASK_DELAY_SECOND = 5;
 }

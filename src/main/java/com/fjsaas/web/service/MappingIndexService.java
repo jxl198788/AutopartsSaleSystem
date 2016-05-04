@@ -65,4 +65,10 @@ public interface MappingIndexService {
 	public List<MappingIndex> getMappingIndexList(MappingIndexQuery mappingIndexQuery);
 	
 	public Integer updateMappingIndexByMappingId(MappingIndex mappingIndex);
+	
+	public Pager getMappingIndexListWithPageByMulCondition(MappingIndexQuery mappingIndexQuery);
+
+	public int getMappingIndexListCountByMulCondition(MappingIndexQuery mappingIndexQuery);
+	
+	public List<MappingIndex> getMappingIndexListByMulCondition(MappingIndexQuery mappingIndexQuery);
 }

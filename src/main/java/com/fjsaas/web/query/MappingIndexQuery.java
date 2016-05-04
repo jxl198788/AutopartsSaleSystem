@@ -264,6 +264,20 @@ public class MappingIndexQuery extends BaseQuery {
 		return this;
 	}
     
+	private String imageUrl;
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public MappingIndexQuery setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+		return this;
+	}
+	private boolean imageUrlLike;
+	public MappingIndexQuery setImageUrlLike(boolean isLike) {
+		this.imageUrlLike = isLike;
+		return this;
+	}
+    
 	/**
 	 * ==============================批量查询时的Order条件顺序设置==========================
 	 * ========
@@ -549,6 +563,17 @@ public class MappingIndexQuery extends BaseQuery {
 	 */
 	public MappingIndexQuery orderbyIsDel(boolean isAsc) {
 		orderFields.add(new OrderField("is_del", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：image_url
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public MappingIndexQuery orderbyImageUrl(boolean isAsc) {
+		orderFields.add(new OrderField("image_url", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

@@ -2,6 +2,7 @@ package com.fjsaas.web.bean;
 
 import java.util.*;
 import java.io.Serializable;
+import java.lang.annotation.Target;
 import java.math.BigDecimal;
 
 
@@ -34,6 +35,9 @@ public class MappingIndex implements Serializable {
 	private Date mappingCreateDate;
 	private Date mappingUpdateDate;
 	private String isDel;
+	private String imageUrl;
+	
+	private Set<Integer> autoTypes = new HashSet<Integer>();
 
 	public Integer getId() {
 		return id;
@@ -219,9 +223,106 @@ public class MappingIndex implements Serializable {
 		this.isDel = isDel;
 	}
 	
-	public String toString() {
-		return "MappingIndex [id=" + id + ",productBrand=" + productBrand + ",productName=" + productName + ",productCode=" + productCode + ",productSize=" + productSize + ",referenceCode=" + referenceCode + ",referenceBrand=" + referenceBrand + ",firstPrice=" + firstPrice + ",secondPrice=" + secondPrice + ",thirdPrice=" + thirdPrice + ",oeCode=" + oeCode + ",autoTypeId=" + autoTypeId + ",partSortId=" + partSortId + ",status=" + status + ",supplierId=" + supplierId + ",mappingId=" + mappingId + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",mappingCreateDate=" + mappingCreateDate + ",mappingUpdateDate=" + mappingUpdateDate + ",isDel=" + isDel + "]";
+	public String getImageUrl() {
+		return imageUrl;
 	}
 	
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	
+	public String toString() {
+		return "MappingIndex [id=" + id + ",productBrand=" + productBrand + ",productName=" + productName + ",productCode=" + productCode + ",productSize=" + productSize + ",referenceCode=" + referenceCode + ",referenceBrand=" + referenceBrand + ",firstPrice=" + firstPrice + ",secondPrice=" + secondPrice + ",thirdPrice=" + thirdPrice + ",oeCode=" + oeCode + ",autoTypeId=" + autoTypeId + ",partSortId=" + partSortId + ",status=" + status + ",supplierId=" + supplierId + ",mappingId=" + mappingId + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",mappingCreateDate=" + mappingCreateDate + ",mappingUpdateDate=" + mappingUpdateDate + ",isDel=" + isDel + ",imageUrl=" + imageUrl + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return productCode.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MappingIndex other = (MappingIndex) obj;
+		System.out.println("=================");
+		System.out.println(other.getId() + ":" + this.getId());
+		System.out.println(other.getAutoTypeId() + ":" + this.getAutoTypeId());
+		System.out.println("=================");
+		if (firstPrice == null) {
+			if (other.firstPrice != null)
+				return false;
+		} else if (!firstPrice.equals(other.firstPrice))
+			return false;
+		if (imageUrl == null) {
+			if (other.imageUrl != null)
+				return false;
+		} else if (!imageUrl.equals(other.imageUrl))
+			return false;
+		if (mappingId == null) {
+			if (other.mappingId != null)
+				return false;
+		} else if (!mappingId.equals(other.mappingId))
+			return false;
+		if (partSortId == null) {
+			if (other.partSortId != null)
+				return false;
+		} else if (!partSortId.equals(other.partSortId))
+			return false;
+		if (productBrand == null) {
+			if (other.productBrand != null)
+				return false;
+		} else if (!productBrand.equals(other.productBrand))
+			return false;
+		if (productCode == null) {
+			if (other.productCode != null)
+				return false;
+		} else if (!productCode.equals(other.productCode))
+			return false;
+		if (productName == null) {
+			if (other.productName != null)
+				return false;
+		} else if (!productName.equals(other.productName))
+			return false;
+		if (productSize == null) {
+			if (other.productSize != null)
+				return false;
+		} else if (!productSize.equals(other.productSize))
+			return false;
+		if (secondPrice == null) {
+			if (other.secondPrice != null)
+				return false;
+		} else if (!secondPrice.equals(other.secondPrice))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (supplierId == null) {
+			if (other.supplierId != null)
+				return false;
+		} else if (!supplierId.equals(other.supplierId))
+			return false;
+		if (thirdPrice == null) {
+			if (other.thirdPrice != null)
+				return false;
+		} else if (!thirdPrice.equals(other.thirdPrice))
+			return false;
+		this.getAutoTypes().add(other.autoTypeId);
+		return true;
+	}
+
+	public Set<Integer> getAutoTypes() {
+		return autoTypes;
+	}
+
+	public void setAutoTypes(Set<Integer> autoTypes) {
+		this.autoTypes = autoTypes;
+	}
 	
 }

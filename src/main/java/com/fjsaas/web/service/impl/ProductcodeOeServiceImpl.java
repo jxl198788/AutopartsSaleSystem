@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.fjsaas.web.pagination.Pager;
+import com.fjsaas.web.bean.Image;
 import com.fjsaas.web.bean.MappingIndex;
 import com.fjsaas.web.bean.Oe;
 import com.fjsaas.web.bean.ProductcodeOe;
@@ -22,8 +23,10 @@ import com.fjsaas.web.bean.SupplierMapping;
 import com.fjsaas.web.bean.TypeOe;
 import com.fjsaas.web.dao.ProductcodeOeCustomDao;
 import com.fjsaas.web.dao.ProductcodeOeDao;
+import com.fjsaas.web.query.ImageQuery;
 import com.fjsaas.web.query.ProductcodeOeQuery;
 import com.fjsaas.web.query.TypeOeQuery;
+import com.fjsaas.web.service.ImageService;
 import com.fjsaas.web.service.OeService;
 import com.fjsaas.web.service.ProductcodeOeService;
 import com.fjsaas.web.service.TypeOeService;
@@ -42,6 +45,9 @@ public class ProductcodeOeServiceImpl implements ProductcodeOeService {
 	
 	@Resource
 	private OeService oeService;
+	
+	@Resource
+	private ImageService imageService;
 
 	private Set<String> productCodeList;
 	private Set<String> oeCodeList;
@@ -172,8 +178,9 @@ public class ProductcodeOeServiceImpl implements ProductcodeOeService {
 		}else{
 			String productSize = null;
 			Integer partSortId = null ;
+			String imageUrl = null;
 			
-			//默认取第一个的productSize、partSortId
+			//默认取第一个的productSize、partSortId、imageUrl
 			for (String oeCode : oeCodeList) {
 				if(StringUtils.isEmpty(productSize) || StringUtils.isEmpty(partSortId)){
 					Oe oe = oeService.getOeByKey(oeCode);
@@ -181,11 +188,23 @@ public class ProductcodeOeServiceImpl implements ProductcodeOeService {
 						productSize = oe.getSize();
 						partSortId = oe.getPartSortId();
 					}			
-				}else{
+				}
+				if(StringUtils.isEmpty(imageUrl) ){
+					ImageQuery imageQuery = new ImageQuery();
+					imageQuery.setTargetId(oeCode);
+					imageQuery.setGroupId("0");//OE
+					List<Image> imageList = imageService.getImageList(imageQuery);
+					if(imageList != null && imageList.size() > 0){
+						imageUrl = imageList.get(0).getUrl();
+					}
+				}
+				if(!StringUtils.isEmpty(productSize) || !StringUtils.isEmpty(partSortId) && !StringUtils.isEmpty(imageUrl)){
 					break;
-				}		
+				}
+				
 			}
 			
+			//遍历oeCodeList
 			for (String oeCode : oeCodeList) {
 				TypeOeQuery typeOeQuery = new TypeOeQuery();
 				typeOeQuery.setOeCode(oeCode);
@@ -200,6 +219,7 @@ public class ProductcodeOeServiceImpl implements ProductcodeOeService {
 						mappingIndex.setMappingCreateDate(supplierMapping.getCreateDate());
 						mappingIndex.setProductSize(productSize);
 						mappingIndex.setPartSortId(partSortId);
+						mappingIndex.setImageUrl(imageUrl);
 						mappingIndex.setOeCode(oeCode);
 						mappingIndex.setAutoTypeId(typeOe.getTypeId());
 						mappingIndexs.add(mappingIndex);
@@ -213,6 +233,7 @@ public class ProductcodeOeServiceImpl implements ProductcodeOeService {
 					mappingIndex.setMappingCreateDate(supplierMapping.getCreateDate());
 					mappingIndex.setProductSize(productSize);
 					mappingIndex.setPartSortId(partSortId);
+					mappingIndex.setImageUrl(imageUrl);
 					mappingIndex.setOeCode(oeCode);
 					mappingIndexs.add(mappingIndex);
 				}	

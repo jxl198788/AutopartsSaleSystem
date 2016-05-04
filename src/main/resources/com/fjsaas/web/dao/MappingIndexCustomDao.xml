@@ -26,6 +26,7 @@
 		<result property="mappingCreateDate" column="mapping_create_date" />
 		<result property="mappingUpdateDate" column="mapping_update_date" />
 		<result property="isDel" column="is_del" />
+		<result property="imageUrl" column="image_url" />
 	</resultMap>
 	<!-- Select SQL -->
 	<sql id="mappingIndexSelector">
@@ -34,11 +35,16 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,product_brand,product_name,product_code,product_size,reference_code,reference_brand,first_price,second_price,third_price,oe_code,auto_type_id,part_sort_id,status,supplier_id,mapping_id,create_date,creator_id,update_date,updator_id,mapping_create_date,mapping_update_date,is_del	
+				id,product_brand,product_name,product_code,product_size,reference_code,reference_brand,first_price,second_price,third_price,oe_code,auto_type_id,part_sort_id,status,supplier_id,mapping_id,create_date,creator_id,update_date,updator_id,mapping_create_date,mapping_update_date,is_del,image_url	
 			</if>
 		FROM ass_mapping_index
 	</sql>
-	
+	<sql id="mappingIndexDistinctSelector">
+		SELECT DISTINCT 
+			product_brand,product_name,product_code,product_size,first_price,second_price,third_price,part_sort_id,status,supplier_id,mapping_id,is_del,image_url	 
+		FROM
+	</sql>
+		
 	<sql id="mappingIndexListWhere">
 		<where>
 				<if test="id != null">
@@ -153,6 +159,14 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
+				<if test="imageUrl != null">
+					<if test="imageUrlLike == false">
+						and image_url=#{imageUrl}
+					</if>
+					<if test="imageUrlLike == true">
+						and  image_url like CONCAT("%",#{ imageUrl },"%")
+					</if>
+				</if>
 		</where>
 	</sql>
 	<sql id="mappingIndexListOrder">
@@ -170,7 +184,120 @@
 		</if>
 	</sql>
 
-	<!-- 根据主键更新 -->
+	<!-- List -->
+	<select id="getMappingIndexListByMulCondition" parameterType="MappingIndexQuery" resultMap="mappingIndex">
+		<include refid="mappingIndexDistinctSelector" />
+		(
+		<include refid="mappingIndexSelector" />
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="or">
+				<if test="productName!=null">
+					or product_brand = #{productName}
+				</if>
+				<if test="productName!=null">
+					or product_name = #{productName}
+				</if>
+				<if test="productCode!=null">
+					or product_code = #{productCode}
+				</if>
+			</trim>
+			<if test="autoTypeId!=null">
+				and auto_type_id=#{autoTypeId}
+			</if>
+			<if test="partSortId!=null">
+				and part_sort_id=#{partSortId}
+			</if>
+			<if test="productBrand!=null">
+				and product_brand=#{productBrand}
+			</if>
+			<if test="isDel != null">
+				and is_del=#{isDel}
+			</if>
+			<if test="isDel == null">
+				and is_del=0
+			</if>	
+		</where>
+		) as t
+		<include refid="mappingIndexListOrder" />
+	</select>
+
+	<!-- 分页 -->
+	<select id="getMappingIndexListWithPageByMulCondition" parameterType="MappingIndexQuery" resultMap="mappingIndex">
+		<include refid="mappingIndexDistinctSelector" />
+		(
+		<include refid="mappingIndexSelector" />
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="or">
+				<if test="productName!=null">
+					or product_brand = #{productName}
+				</if>
+				<if test="productName!=null">
+					or product_name = #{productName}
+				</if>
+				<if test="productCode!=null">
+					or product_code = #{productCode}
+				</if>
+			</trim>
+			<if test="autoTypeId!=null">
+				and auto_type_id=#{autoTypeId}
+			</if>
+			<if test="partSortId!=null">
+				and part_sort_id=#{partSortId}
+			</if>
+			<if test="productBrand!=null">
+				and product_brand=#{productBrand}
+			</if>
+			<if test="isDel != null">
+				and is_del=#{isDel}
+			</if>
+			<if test="isDel == null">
+				and is_del=0
+			</if>	
+		</where>
+		) as t
+		<include refid="mappingIndexListOrder" />
+		<include refid="mappingIndexListLimit" />
+	</select>
+	<!-- 数据总数 -->
+	<select id="getMappingIndexListCountByMulCondition" parameterType="MappingIndexQuery" resultType="int">
+		SELECT count(1) FROM 
+		(
+			<include refid="mappingIndexDistinctSelector" />
+			(
+			<include refid="mappingIndexSelector" />
+			<where>
+				<trim prefix="(" suffix=")" prefixOverrides="or">
+					<if test="productName!=null">
+						or product_brand = #{productName}
+					</if>
+					<if test="productName!=null">
+						or product_name = #{productName}
+					</if>
+					<if test="productCode!=null">
+						or product_code = #{productCode}
+					</if>
+				</trim>
+				<if test="autoTypeId!=null">
+					and auto_type_id=#{autoTypeId}
+				</if>
+				<if test="partSortId!=null">
+					and part_sort_id=#{partSortId}
+				</if>
+				<if test="productBrand!=null">
+					and product_brand=#{productBrand}
+				</if>
+				<if test="isDel != null">
+					and is_del=#{isDel}
+				</if>
+				<if test="isDel == null">
+					and is_del=0
+				</if>	
+			</where>
+			) as t
+		) as t2
+	</select>
+	
+	<!-- 根据MappingId更新 -->
 	<update id="updateMappingIndexByMappingId" parameterType="MappingIndex">
 		UPDATE ass_mapping_index
 		<set>
@@ -243,6 +370,9 @@
 				</if>
 				<if test="isDel != null">
 					is_del = #{isDel},
+				</if>
+				<if test="imageUrl != null">
+					image_url = #{imageUrl},
 				</if>
 			</trim>
 		</set>

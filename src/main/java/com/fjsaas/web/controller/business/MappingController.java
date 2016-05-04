@@ -27,12 +27,14 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fjsaas.web.bean.MappingIndex;
 import com.fjsaas.web.bean.SupplierMapping;
 import com.fjsaas.web.bean.TaskDetail;
 import com.fjsaas.web.constants.Constants;
 import com.fjsaas.web.pagination.Pager;
 import com.fjsaas.web.pagination.html.PageTagImpl;
 import com.fjsaas.web.query.SupplierMappingQuery;
+import com.fjsaas.web.service.MappingIndexService;
 import com.fjsaas.web.service.SupplierMappingService;
 import com.fjsaas.web.service.custom.MappingIndexAddjob;
 import com.fjsaas.web.service.custom.MappingIndexUpdatejob;
@@ -54,6 +56,8 @@ public class MappingController {
 	private OptRows sxlsxOptRows;
 	@Autowired
 	private SysTaskServiceImpl sysTaskServiceImpl;
+	@Autowired
+	private MappingIndexService mappingIndexService;
 	
 	@RequestMapping("mappingIndex.do")
 	public String mappingIndex(String search,String status,Integer pageNo,ModelMap model,HttpServletRequest request){
@@ -196,31 +200,66 @@ public class MappingController {
 	@RequestMapping("update.do")
 	public void update(SupplierMapping supplierMapping,Integer codeType,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{
 		if(supplierMapping != null && codeType != null){
+			boolean flag = false;
+			SupplierMappingQuery supplierMappingQuery = new SupplierMappingQuery();
+			supplierMappingQuery.setId(supplierMapping.getId());
+			supplierMappingQuery.setProductCode(supplierMapping.getProductCode());
+			
 			//TODO：update增量操作
 			supplierMapping.setUpdatorId(1);
 			supplierMapping.setUpdateDate(new Date());
 			if(codeType == 1){
 				//OE编
+				supplierMappingQuery.setOeCode(supplierMapping.getReferenceCode());
 				supplierMapping.setOeCode(supplierMapping.getReferenceCode());
-				supplierMapping.setReferenceBrand(null);
-				supplierMapping.setReferenceCode(null);
-				
+				supplierMapping.setReferenceBrand("");
+				supplierMapping.setReferenceCode("");
+			}else{
+				supplierMappingQuery.setReferenceCode(supplierMapping.getReferenceCode());
 			}
+			
+			List<SupplierMapping> supplierMappingList = supplierMappingService.getSupplierMappingList(supplierMappingQuery);
+			if(supplierMappingList != null && supplierMappingList.size() > 0){
+				flag = true;
+			}
+			
 			supplierMappingService.updateSupplierMappingByKey(supplierMapping);	
 			List<SupplierMapping> list = new ArrayList<SupplierMapping>();
 			list.add(supplierMapping);
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("data",list);
 			ResponseUtils.renderJson(response, jsonObject.toJSONString());
+			
+			
+			
 			//启动任务
 			ServletContext sc = request.getServletContext();  
 	        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); 
-	        //TODO 企业ID：企业名称_用户Id：用户名
-			TaskDetail taskDetail = new TaskDetail("索引表更新", "壳牌(1)_小明(1)", MappingIndexUpdatejob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
-			taskDetail.setDesc("索引表更新");
-			taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
-			taskDetail.getMap().put(Constants.MAPPING_DATA, list);
-			sysTaskServiceImpl.runTasks(taskDetail);
+			
+	        //深度更新
+			if(!flag){
+				//根据MappingId删除MappingIndex
+				MappingIndex mappingIndex = new MappingIndex();
+				mappingIndex.setMappingId(supplierMapping.getId());
+				mappingIndex.setIsDel("1");
+				mappingIndexService.updateMappingIndexByMappingId(mappingIndex);
+				List<SupplierMapping> tmpList = new ArrayList<SupplierMapping>();
+				tmpList.add(supplierMappingService.getSupplierMappingByKey(supplierMapping.getId()));
+				//TODO 企业ID：企业名称_用户Id：用户名
+				TaskDetail taskDetail = new TaskDetail("索引表深度更新", "壳牌(1)_小明(1)", MappingIndexAddjob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
+				taskDetail.setDesc("索引表深度更新");
+				taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
+				taskDetail.getMap().put(Constants.MAPPING_DATA, tmpList);
+				sysTaskServiceImpl.runTasks(taskDetail);
+			}else{			
+				
+		        //TODO 企业ID：企业名称_用户Id：用户名
+				TaskDetail taskDetail = new TaskDetail("索引表轻度更新", "壳牌(1)_小明(1)", MappingIndexUpdatejob.class, DateBuilder.futureDate(Constants.TASK_DELAY_SECOND, IntervalUnit.SECOND));
+				taskDetail.setDesc("索引表轻度更新");
+				taskDetail.getMap().put(Constants.APPLICATION_CONTEXT, context);
+				taskDetail.getMap().put(Constants.MAPPING_DATA, list);
+				sysTaskServiceImpl.runTasks(taskDetail);
+			}		
 		}			
 	}
 	

@@ -122,6 +122,15 @@ public class ImageQuery extends BaseQuery {
 		return this;
 	}
     
+	private String targetId;
+	public String getTargetId() {
+		return targetId;
+	}
+	public ImageQuery setTargetId(String targetId) {
+		this.targetId = targetId;
+		return this;
+	}
+    
 	/**
 	 * ==============================批量查询时的Order条件顺序设置==========================
 	 * ========
@@ -264,6 +273,17 @@ public class ImageQuery extends BaseQuery {
 	 */
 	public ImageQuery orderbyIsDel(boolean isAsc) {
 		orderFields.add(new OrderField("is_del", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：target_id
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public ImageQuery orderbyTargetId(boolean isAsc) {
+		orderFields.add(new OrderField("target_id", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

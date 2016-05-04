@@ -31,6 +31,9 @@
     <!-- JQuery Easy UI-->
     <link rel="stylesheet" type="text/css" href="${ctx }/static/jquery-easy-ui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="${ctx }/static/jquery-easy-ui/themes/icon.css">
+   	<!-- layer2.2 -->
+   	<link rel="stylesheet" href="${ctx }/static/layer/skin/layer.css" >
+    <link rel="stylesheet" href="${ctx }/static/layer/skin/layer.ext.css" >
     <!-- jQuery -->
     <script src="${ctx }/static/jquery/jquery-2.1.0.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -48,5 +51,7 @@
     <script type="text/javascript" src="${ctx }/static/jquery-easy-ui/jquery.easyui.min.js"></script>
     <!-- JQuery Form -->
     <script type="text/javascript" src="${ctx }/static/jquery/jquery.form.js"></script>
+    <!-- layer2.2 -->
+    <script type="text/javascript" src="${ctx }/static/layer/layer.js"></script>
 
 
