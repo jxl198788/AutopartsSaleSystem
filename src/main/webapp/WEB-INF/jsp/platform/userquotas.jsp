@@ -9,14 +9,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户配额管理页面</title>
-<%@ include file="/jsp/head.jsp" %> 
+<%@ include file="/WEB-INF/jsp/head.jsp" %> 
 <link href="${pageContext.request.contextPath}/static/css/platform/userquotas.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.responsive.css" rel="stylesheet">
 
 </head>
 <body>
-	<%@ include file="/jsp/nav.jsp" %>
+	<%@ include file="/WEB-INF/jsp/nav.jsp" %>
 	<div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12 page-div">

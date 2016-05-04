@@ -15,7 +15,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>供应商管理页面</title>
-<%@ include file="/jsp/head.jsp" %>  
+<%@ include file="/WEB-INF/jsp/head.jsp" %>  
 <link href="${pageContext.request.contextPath}/static/css/platform/suppliermanage.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.responsive.css" rel="stylesheet">
@@ -32,7 +32,7 @@ var is_root = "<%=is_root%>"; --%>
 </script>
 </head>
 <body style="height:100%">
-	<%@ include file="/jsp/nav.jsp" %>
+	<%@ include file="/WEB-INF/jsp/nav.jsp" %>
 	<form id="suppliersForm" action="${ctx }/platform/getSupplierInfoList" method="post" enctype="multipart/form-data">
 	</form>
 	<div id="page-wrapper">

@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<%@ include file="/jsp/head.jsp" %> 
+<%@ include file="/WEB-INF/jsp/head.jsp" %> 
 <style type="text/css">
         .tree-folder {
             background: url('${ctx }/static/jquery-easy-ui/themes/default/images/tree_icons.png') no-repeat -208px 0;
@@ -118,7 +118,7 @@
     </script>
 </head>
 <body>
-	<%@ include file="/jsp/nav.jsp" %>
+	<%@ include file="/WEB-INF/jsp/nav.jsp" %>
 	<div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
