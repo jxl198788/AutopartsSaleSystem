@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fjsaas.web.bean.Supplier;
 import com.fjsaas.web.query.SupplierQuery;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -63,4 +64,40 @@ public interface SupplierDao {
 	 */
 	public int getSupplierListCount(SupplierQuery supplierQuery);
 
+	//add by lyn --------------------------------------------begin
+
+	/**
+	 * 集合查询
+	 * @param supplierQuery
+	 */
+	public List<Supplier> getSupplierInfoList(SupplierQuery supplierQuery);
+
+	/**
+	 * 根据主键查找
+	 * @param id
+	 */
+	public Supplier getSupplierById(Integer id);
+
+	/**
+	 * 根据主键更新
+	 * @param supplier
+	 */
+	public Integer updateSupplierById(Supplier supplier);
+	public Integer updateUserById(Supplier supplier);
+	public Integer updateDomainById(Supplier supplier);
+
+	/**
+	 * 根据主键激活、锁定供应商信息
+	 * add by lyn 2016.04.27
+	 * @return
+	 */
+	public Integer updateUserStatusById(Supplier supplier);
+
+	/**
+	 * 根据主键删除
+	 * @param id
+	 */
+	public Integer deleteById(Integer id);
+
+	//add by lyn --------------------------------------------end
 }

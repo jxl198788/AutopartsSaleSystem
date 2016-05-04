@@ -21,12 +21,39 @@ public class QuotaQuery extends BaseQuery {
 		return this;
 	}
     
-	private Integer quota;
-	public Integer getQuota() {
-		return quota;
+	private Integer totalQuota;
+	public Integer getTotalQuota() {
+		return totalQuota;
 	}
-	public QuotaQuery setQuota(Integer quota) {
-		this.quota = quota;
+	public QuotaQuery setTotalQuota(Integer totalQuota) {
+		this.totalQuota = totalQuota;
+		return this;
+	}
+    
+	private Integer usableQuota;
+	public Integer getUsableQuota() {
+		return usableQuota;
+	}
+	public QuotaQuery setUsableQuota(Integer usableQuota) {
+		this.usableQuota = usableQuota;
+		return this;
+	}
+    
+	private Integer usedQuato;
+	public Integer getUsedQuato() {
+		return usedQuato;
+	}
+	public QuotaQuery setUsedQuato(Integer usedQuato) {
+		this.usedQuato = usedQuato;
+		return this;
+	}
+    
+	private Integer distributeQuota;
+	public Integer getDistributeQuota() {
+		return distributeQuota;
+	}
+	public QuotaQuery setDistributeQuota(Integer distributeQuota) {
+		this.distributeQuota = distributeQuota;
 		return this;
 	}
     
@@ -145,13 +172,46 @@ public class QuotaQuery extends BaseQuery {
 	}
 	
 	/**
-	 * 设置排序按属性：quota
+	 * 设置排序按属性：total_quota
 	 * 
 	 * @param isAsc
 	 *            是否升序，是为升序，否为降序
 	 */
-	public QuotaQuery orderbyQuota(boolean isAsc) {
-		orderFields.add(new OrderField("quota", isAsc ? "ASC" : "DESC"));
+	public QuotaQuery orderbyTotalQuota(boolean isAsc) {
+		orderFields.add(new OrderField("total_quota", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：usable_quota
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public QuotaQuery orderbyUsableQuota(boolean isAsc) {
+		orderFields.add(new OrderField("usable_quota", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：used_quato
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public QuotaQuery orderbyUsedQuato(boolean isAsc) {
+		orderFields.add(new OrderField("used_quato", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：distribute_quota
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public QuotaQuery orderbyDistributeQuota(boolean isAsc) {
+		orderFields.add(new OrderField("distribute_quota", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

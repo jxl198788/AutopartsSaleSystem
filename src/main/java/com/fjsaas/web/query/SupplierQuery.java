@@ -133,6 +133,20 @@ public class SupplierQuery extends BaseQuery {
 		return this;
 	}
     
+	private String locked;
+	public String getLocked() {
+		return locked;
+	}
+	public SupplierQuery setLocked(String locked) {
+		this.locked = locked;
+		return this;
+	}
+	private boolean lockedLike;
+	public SupplierQuery setLockedLike(boolean isLike) {
+		this.lockedLike = isLike;
+		return this;
+	}
+    
 	private String groupId;
 	public String getGroupId() {
 		return groupId;
@@ -323,6 +337,17 @@ public class SupplierQuery extends BaseQuery {
 	 */
 	public SupplierQuery orderbyTelphone(boolean isAsc) {
 		orderFields.add(new OrderField("telphone", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：locked
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public SupplierQuery orderbyLocked(boolean isAsc) {
+		orderFields.add(new OrderField("locked", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

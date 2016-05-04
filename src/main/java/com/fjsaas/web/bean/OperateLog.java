@@ -12,12 +12,12 @@ public class OperateLog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	private String type;
+	private String name;
 	private String content;
+	private String type;
 	private Integer userId;
 	private String userName;
 	private String userCompany;
-	private String operationTime;
 	private Date createDate;
 	private Integer creatorId;
 	private Date updateDate;
@@ -32,12 +32,12 @@ public class OperateLog implements Serializable {
 		this.id = id;
 	}
 	
-	public String getType() {
-		return type;
+	public String getName() {
+		return name;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public String getContent() {
@@ -46,6 +46,14 @@ public class OperateLog implements Serializable {
 	
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	public Integer getUserId() {
@@ -70,14 +78,6 @@ public class OperateLog implements Serializable {
 	
 	public void setUserCompany(String userCompany) {
 		this.userCompany = userCompany;
-	}
-	
-	public String getOperationTime() {
-		return operationTime;
-	}
-	
-	public void setOperationTime(String operationTime) {
-		this.operationTime = operationTime;
 	}
 	
 	public Date getCreateDate() {
@@ -121,7 +121,7 @@ public class OperateLog implements Serializable {
 	}
 	
 	public String toString() {
-		return "OperateLog [id=" + id + ",type=" + type + ",content=" + content + ",userId=" + userId + ",userName=" + userName + ",userCompany=" + userCompany + ",operationTime=" + operationTime + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "OperateLog [id=" + id + ",name=" + name + ",content=" + content + ",type=" + type + ",userId=" + userId + ",userName=" + userName + ",userCompany=" + userCompany + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
 	
 	

@@ -4,7 +4,10 @@
 <mapper namespace="com.fjsaas.web.dao.QuotaDao">
 	<resultMap id="quota" type="Quota">
 		<result property="id" column="id" />
-		<result property="quota" column="quota" />
+		<result property="totalQuota" column="total_quota" />
+		<result property="usableQuota" column="usable_quota" />
+		<result property="usedQuato" column="used_quato" />
+		<result property="distributeQuota" column="distribute_quota" />
 		<result property="supplierId" column="supplier_id" />
 		<result property="permissionId" column="permission_id" />
 		<result property="createDate" column="create_date" />
@@ -20,7 +23,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	
+				id,total_quota,usable_quota,used_quato,distribute_quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_quota
 	</sql>
@@ -30,11 +33,18 @@
 				<if test="id != null">
 					and id=#{id}
 				</if>
-				<if test="quota != null">
-					and quota=#{quota}
+				<if test="totalQuota != null">
+					and total_quota=#{totalQuota}
 				</if>
-				
-				
+				<if test="usableQuota != null">
+					and usable_quota=#{usableQuota}
+				</if>
+				<if test="usedQuato != null">
+					and used_quato=#{usedQuato}
+				</if>
+				<if test="distributeQuota != null">
+					and distribute_quota=#{distributeQuota}
+				</if>
 				<if test="supplierId != null">
 					and supplier_id=#{supplierId}
 				</if>
@@ -44,16 +54,12 @@
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -63,8 +69,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="quotaListOrder">
@@ -84,14 +88,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getQuotaByKey" resultMap="quota" parameterType="hashMap">
-		SELECT id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,total_quota,usable_quota,used_quato,distribute_quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_quota
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getQuotasByKeys" resultMap="quota" parameterType="ArrayList">
-		SELECT id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,total_quota,usable_quota,used_quato,distribute_quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_quota
 		WHERE
 		id in
@@ -123,8 +127,17 @@
 				<if test="id != null">
 					id = #{id},
 				</if>
-				<if test="quota != null">
-					quota = #{quota},
+				<if test="totalQuota != null">
+					total_quota = #{totalQuota},
+				</if>
+				<if test="usableQuota != null">
+					usable_quota = #{usableQuota},
+				</if>
+				<if test="usedQuato != null">
+					used_quato = #{usedQuato},
+				</if>
+				<if test="distributeQuota != null">
+					distribute_quota = #{distributeQuota},
 				</if>
 				<if test="supplierId != null">
 					supplier_id = #{supplierId},
@@ -178,8 +191,20 @@
 					id,
 				</if>
 				
-				<if test="quota != null">
-					quota,
+				<if test="totalQuota != null">
+					total_quota,
+				</if>
+				
+				<if test="usableQuota != null">
+					usable_quota,
+				</if>
+				
+				<if test="usedQuato != null">
+					used_quato,
+				</if>
+				
+				<if test="distributeQuota != null">
+					distribute_quota,
 				</if>
 				
 				<if test="supplierId != null">
@@ -217,8 +242,23 @@
 					</if>
 					
 					
-					<if test="quota != null">
-						#{quota},
+					<if test="totalQuota != null">
+						#{totalQuota},
+					</if>
+					
+					
+					<if test="usableQuota != null">
+						#{usableQuota},
+					</if>
+					
+					
+					<if test="usedQuato != null">
+						#{usedQuato},
+					</if>
+					
+					
+					<if test="distributeQuota != null">
+						#{distributeQuota},
 					</if>
 					
 					
@@ -256,7 +296,7 @@
 						#{isDel},
 					</if>
 					<if test="isDel == null">
-						0
+						0,
 					</if>
 					
 		</trim>

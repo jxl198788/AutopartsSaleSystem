@@ -12,6 +12,7 @@
 		<result property="addr" column="addr" />
 		<result property="linkman" column="linkman" />
 		<result property="telphone" column="telphone" />
+		<result property="locked" column="locked" />
 		<result property="groupId" column="group_id" />
 		<result property="createDate" column="create_date" />
 		<result property="creatorId" column="creator_id" />
@@ -26,7 +27,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,name,business_license_url,province,city,town,addr,linkman,telphone,group_id,create_date,creator_id,update_date,updator_id,is_del	
+				id,name,business_license_url,province,city,town,addr,linkman,telphone,locked,group_id,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_supplier
 	</sql>
@@ -44,8 +45,6 @@
 						and  name like CONCAT("%",#{ name },"%")
 					</if>
 				</if>
-				
-				
 				<if test="businessLicenseUrl != null">
 					<if test="businessLicenseUrlLike == false">
 						and business_license_url=#{businessLicenseUrl}
@@ -54,8 +53,6 @@
 						and  business_license_url like CONCAT("%",#{ businessLicenseUrl },"%")
 					</if>
 				</if>
-				
-				
 				<if test="province != null">
 					<if test="provinceLike == false">
 						and province=#{province}
@@ -64,8 +61,6 @@
 						and  province like CONCAT("%",#{ province },"%")
 					</if>
 				</if>
-				
-				
 				<if test="city != null">
 					<if test="cityLike == false">
 						and city=#{city}
@@ -74,8 +69,6 @@
 						and  city like CONCAT("%",#{ city },"%")
 					</if>
 				</if>
-				
-				
 				<if test="town != null">
 					<if test="townLike == false">
 						and town=#{town}
@@ -84,8 +77,6 @@
 						and  town like CONCAT("%",#{ town },"%")
 					</if>
 				</if>
-				
-				
 				<if test="addr != null">
 					<if test="addrLike == false">
 						and addr=#{addr}
@@ -94,8 +85,6 @@
 						and  addr like CONCAT("%",#{ addr },"%")
 					</if>
 				</if>
-				
-				
 				<if test="linkman != null">
 					<if test="linkmanLike == false">
 						and linkman=#{linkman}
@@ -104,8 +93,6 @@
 						and  linkman like CONCAT("%",#{ linkman },"%")
 					</if>
 				</if>
-				
-				
 				<if test="telphone != null">
 					<if test="telphoneLike == false">
 						and telphone=#{telphone}
@@ -114,24 +101,26 @@
 						and  telphone like CONCAT("%",#{ telphone },"%")
 					</if>
 				</if>
-				
-				
+				<if test="locked != null">
+					<if test="lockedLike == false">
+						and locked=#{locked}
+					</if>
+					<if test="lockedLike == true">
+						and  locked like CONCAT("%",#{ locked },"%")
+					</if>
+				</if>
 				<if test="groupId != null">
 					and group_id=#{groupId}
 				</if>
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -141,8 +130,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="supplierListOrder">
@@ -162,14 +149,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getSupplierByKey" resultMap="supplier" parameterType="hashMap">
-		SELECT id,name,business_license_url,province,city,town,addr,linkman,telphone,group_id,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,name,business_license_url,province,city,town,addr,linkman,telphone,locked,group_id,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_supplier
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getSuppliersByKeys" resultMap="supplier" parameterType="ArrayList">
-		SELECT id,name,business_license_url,province,city,town,addr,linkman,telphone,group_id,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,name,business_license_url,province,city,town,addr,linkman,telphone,locked,group_id,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_supplier
 		WHERE
 		id in
@@ -224,6 +211,9 @@
 				</if>
 				<if test="telphone != null">
 					telphone = #{telphone},
+				</if>
+				<if test="locked != null">
+					locked = #{locked},
 				</if>
 				<if test="groupId != null">
 					group_id = #{groupId},
@@ -306,6 +296,10 @@
 					telphone,
 				</if>
 				
+				<if test="locked != null">
+					locked,
+				</if>
+				
 				<if test="groupId != null">
 					group_id,
 				</if>
@@ -377,6 +371,11 @@
 					</if>
 					
 					
+					<if test="locked != null">
+						#{locked},
+					</if>
+					
+					
 					<if test="groupId != null">
 						#{groupId},
 					</if>
@@ -406,9 +405,130 @@
 						#{isDel},
 					</if>
 					<if test="isDel == null">
-						0
+						0,
 					</if>
 					
 		</trim>
 	</insert>
+	<!-- 新增sql语句 add by lyn  begin-->
+	<!-- 查询所有的供应商信息，用于页面表格展示 -->
+	<select id="getSupplierInfoList" resultMap="supplier" parameterType="SupplierQuery">
+		SELECT
+				t1.id,t1.username,t1.telphone,t2.id supplierid,t2.name suppliername,t5.name rolename,t3.domain_name,t1.locked userlocked,t1.is_del	
+		FROM ass_user t1
+		LEFT JOIN ass_supplier t2 ON t1.suppiler_id = t2.id
+		LEFT JOIN ass_domain t3 ON t2.id = t3.supplier_id
+		LEFT JOIN ass_user_role t4 ON t1.id = t4.user_id
+		LEFT JOIN ass_role t5 ON t4.role_id = t5.id
+		WHERE
+			 t1.is_del=0
+	</select>
+	
+	<!-- 根据id查看某个供应商的详细信息 -->
+	<select id="getSupplierById" resultMap="supplier" parameterType="hashMap">
+		SELECT t1.id,t1.username,t1.telphone,t3.domain_name,t2.name suppliername,t2.business_license_url,
+			   t2.province,t2.city,t2.town,t2.addr,t2.linkman,t1.is_root,t1.is_del	 
+		FROM ass_user t1
+		LEFT JOIN ass_supplier t2 ON t1.suppiler_id = t2.id
+		LEFT JOIN ass_domain t3 ON t2.id = t3.supplier_id
+		WHERE
+		t1.id=#{id}
+		and t1.is_del = 0
+	</select>
+	
+	<!-- 根据Id修改该供应商的数据库信息 -->
+	<update id="updateSupplierById" parameterType="Supplier">
+		UPDATE ass_supplier
+		<set>
+			<trim suffixOverrides=",">
+				<if test="id != null">
+					id = #{id},
+				</if>
+				<if test="suppliername != null">
+					name = #{suppliername},
+				</if>
+				<if test="businessLicenseUrl != null">
+					business_license_url = #{businessLicenseUrl},
+				</if>
+				<if test="province != null">
+					province = #{province},
+				</if>
+				<if test="city != null">
+					city = #{city},
+				</if>
+				<if test="town != null">
+					town = #{town},
+				</if>
+				<if test="addr != null">
+					addr = #{addr},
+				</if>
+				<if test="linkman != null">
+					linkman = #{linkman},
+				</if>
+				<if test="updateDate != null">
+					update_date = #{updateDate},
+				</if>
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+			</trim>
+		</set>
+		WHERE 
+		id = #{supplierid};
+	</update>
+	<!-- 修改用户的数据库信息 -->
+	<update id="updateUserById" parameterType="Supplier">
+		UPDATE ass_user
+		<set>
+			<trim suffixOverrides=",">
+				<if test="id != null">
+					id = #{id},
+				</if>
+				<if test="username != null">
+					username = #{username},
+				</if>
+				<if test="telphone != null">
+					telphone = #{telphone},
+				</if>
+				<if test="updateDate != null">
+					update_date = #{updateDate},
+				</if>
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+			</trim>
+		</set>
+		WHERE 
+		id=#{id};
+	</update>
+	<!-- 修改域名的数据库信息 -->
+	<update id="updateDomainById" parameterType="Supplier">
+		UPDATE ass_domain
+		<set>
+			<trim suffixOverrides=",">
+				<if test="domain_name != null">
+					domain_name = #{domain_name},
+				</if>
+				<if test="updateDate != null">
+					update_date = #{updateDate},
+				</if>
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+			</trim>
+		</set>
+		WHERE 
+		supplier_id = #{supplierid};
+	</update>
+	
+	<!-- 根据id激活、锁定该用户对应的供应商信息 -->
+	<update id="updateUserStatusById" parameterType="Supplier">
+		UPDATE ass_user set locked = #{userlocked} WHERE id=#{id}
+	</update>
+	
+	<!-- 根据id删除 -->
+	<update id="deleteById" parameterType="hashMap">
+		UPDATE ass_user set is_del = 1 where id=#{id}
+	</update>
+	<!-- 新增sql语句 add by lyn end-->
 </mapper>

@@ -63,10 +63,10 @@ var is_root = "<%=is_root%>"; --%>
 	                        <td>${c.rolename }</td>
 	                        <td>${c.domain_name }</td>
 	                        <td>
-	                        	<c:if test="${c.userlocked==1 }">
+	                        	<c:if test="${c.locked==1 }">
 		                        	<a name="" style="margin-left:5px;" onclick="doChangeStatus(${c.id },0);">激活</a>
 		                        </c:if>
-		                        <c:if test="${c.userlocked==0 }">
+		                        <c:if test="${c.locked==0 }">
 		                        	<a name="" style="margin-left:3px;" onclick="doChangeStatus(${c.id },1);">锁定</a>
 		                        </c:if>
 		                        <a name="" style="margin-left:3px;" onclick="doDelete(${c.id });">删除</a>

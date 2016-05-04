@@ -12,7 +12,10 @@ public class Quota implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	private Integer quota;
+	private Integer totalQuota;
+	private Integer usableQuota;
+	private Integer usedQuato;
+	private Integer distributeQuota;
 	private Integer supplierId;
 	private Integer permissionId;
 	private Date createDate;
@@ -29,12 +32,36 @@ public class Quota implements Serializable {
 		this.id = id;
 	}
 	
-	public Integer getQuota() {
-		return quota;
+	public Integer getTotalQuota() {
+		return totalQuota;
 	}
 	
-	public void setQuota(Integer quota) {
-		this.quota = quota;
+	public void setTotalQuota(Integer totalQuota) {
+		this.totalQuota = totalQuota;
+	}
+	
+	public Integer getUsableQuota() {
+		return usableQuota;
+	}
+	
+	public void setUsableQuota(Integer usableQuota) {
+		this.usableQuota = usableQuota;
+	}
+	
+	public Integer getUsedQuato() {
+		return usedQuato;
+	}
+	
+	public void setUsedQuato(Integer usedQuato) {
+		this.usedQuato = usedQuato;
+	}
+	
+	public Integer getDistributeQuota() {
+		return distributeQuota;
+	}
+	
+	public void setDistributeQuota(Integer distributeQuota) {
+		this.distributeQuota = distributeQuota;
 	}
 	
 	public Integer getSupplierId() {
@@ -94,7 +121,7 @@ public class Quota implements Serializable {
 	}
 	
 	public String toString() {
-		return "Quota [id=" + id + ",quota=" + quota + ",supplierId=" + supplierId + ",permissionId=" + permissionId + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "Quota [id=" + id + ",totalQuota=" + totalQuota + ",usableQuota=" + usableQuota + ",usedQuato=" + usedQuato + ",distributeQuota=" + distributeQuota + ",supplierId=" + supplierId + ",permissionId=" + permissionId + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
 	
 	

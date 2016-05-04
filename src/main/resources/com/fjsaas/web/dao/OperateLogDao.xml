@@ -4,12 +4,12 @@
 <mapper namespace="com.fjsaas.web.dao.OperateLogDao">
 	<resultMap id="operateLog" type="OperateLog">
 		<result property="id" column="id" />
-		<result property="type" column="type" />
+		<result property="name" column="name" />
 		<result property="content" column="content" />
+		<result property="type" column="type" />
 		<result property="userId" column="user_id" />
 		<result property="userName" column="user_name" />
 		<result property="userCompany" column="user_company" />
-		<result property="operationTime" column="operation_time" />
 		<result property="createDate" column="create_date" />
 		<result property="creatorId" column="creator_id" />
 		<result property="updateDate" column="update_date" />
@@ -23,7 +23,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,type,content,user_id,user_name,user_company,operation_time,create_date,creator_id,update_date,updator_id,is_del	
+				id,name,content,type,user_id,user_name,user_company,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_operate_log
 	</sql>
@@ -33,16 +33,14 @@
 				<if test="id != null">
 					and id=#{id}
 				</if>
-				<if test="type != null">
-					<if test="typeLike == false">
-						and type=#{type}
+				<if test="name != null">
+					<if test="nameLike == false">
+						and name=#{name}
 					</if>
-					<if test="typeLike == true">
-						and  type like CONCAT("%",#{ type },"%")
+					<if test="nameLike == true">
+						and  name like CONCAT("%",#{ name },"%")
 					</if>
 				</if>
-				
-				
 				<if test="content != null">
 					<if test="contentLike == false">
 						and content=#{content}
@@ -51,8 +49,14 @@
 						and  content like CONCAT("%",#{ content },"%")
 					</if>
 				</if>
-				
-				
+				<if test="type != null">
+					<if test="typeLike == false">
+						and type=#{type}
+					</if>
+					<if test="typeLike == true">
+						and  type like CONCAT("%",#{ type },"%")
+					</if>
+				</if>
 				<if test="userId != null">
 					and user_id=#{userId}
 				</if>
@@ -64,8 +68,6 @@
 						and  user_name like CONCAT("%",#{ userName },"%")
 					</if>
 				</if>
-				
-				
 				<if test="userCompany != null">
 					<if test="userCompanyLike == false">
 						and user_company=#{userCompany}
@@ -74,31 +76,15 @@
 						and  user_company like CONCAT("%",#{ userCompany },"%")
 					</if>
 				</if>
-				
-				
-				<if test="operationTime != null">
-					<if test="operationTimeLike == false">
-						and operation_time=#{operationTime}
-					</if>
-					<if test="operationTimeLike == true">
-						and  operation_time like CONCAT("%",#{ operationTime },"%")
-					</if>
-				</if>
-				
-				
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -108,8 +94,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="operateLogListOrder">
@@ -129,14 +113,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getOperateLogByKey" resultMap="operateLog" parameterType="hashMap">
-		SELECT id,type,content,user_id,user_name,user_company,operation_time,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,name,content,type,user_id,user_name,user_company,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_operate_log
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getOperateLogsByKeys" resultMap="operateLog" parameterType="ArrayList">
-		SELECT id,type,content,user_id,user_name,user_company,operation_time,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,name,content,type,user_id,user_name,user_company,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_operate_log
 		WHERE
 		id in
@@ -168,11 +152,14 @@
 				<if test="id != null">
 					id = #{id},
 				</if>
-				<if test="type != null">
-					type = #{type},
+				<if test="name != null">
+					name = #{name},
 				</if>
 				<if test="content != null">
 					content = #{content},
+				</if>
+				<if test="type != null">
+					type = #{type},
 				</if>
 				<if test="userId != null">
 					user_id = #{userId},
@@ -182,9 +169,6 @@
 				</if>
 				<if test="userCompany != null">
 					user_company = #{userCompany},
-				</if>
-				<if test="operationTime != null">
-					operation_time = #{operationTime},
 				</if>
 				<if test="createDate != null">
 					create_date = #{createDate},
@@ -232,12 +216,16 @@
 					id,
 				</if>
 				
-				<if test="type != null">
-					type,
+				<if test="name != null">
+					name,
 				</if>
 				
 				<if test="content != null">
 					content,
+				</if>
+				
+				<if test="type != null">
+					type,
 				</if>
 				
 				<if test="userId != null">
@@ -250,10 +238,6 @@
 				
 				<if test="userCompany != null">
 					user_company,
-				</if>
-				
-				<if test="operationTime != null">
-					operation_time,
 				</if>
 				
 				<if test="createDate != null">
@@ -283,13 +267,18 @@
 					</if>
 					
 					
-					<if test="type != null">
-						#{type},
+					<if test="name != null">
+						#{name},
 					</if>
 					
 					
 					<if test="content != null">
 						#{content},
+					</if>
+					
+					
+					<if test="type != null">
+						#{type},
 					</if>
 					
 					
@@ -305,11 +294,6 @@
 					
 					<if test="userCompany != null">
 						#{userCompany},
-					</if>
-					
-					
-					<if test="operationTime != null">
-						#{operationTime},
 					</if>
 					
 					
@@ -337,7 +321,7 @@
 						#{isDel},
 					</if>
 					<if test="isDel == null">
-						0
+						0,
 					</if>
 					
 		</trim>

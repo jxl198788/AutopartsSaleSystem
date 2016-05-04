@@ -21,17 +21,17 @@ public class OperateLogQuery extends BaseQuery {
 		return this;
 	}
     
-	private String type;
-	public String getType() {
-		return type;
+	private String name;
+	public String getName() {
+		return name;
 	}
-	public OperateLogQuery setType(String type) {
-		this.type = type;
+	public OperateLogQuery setName(String name) {
+		this.name = name;
 		return this;
 	}
-	private boolean typeLike;
-	public OperateLogQuery setTypeLike(boolean isLike) {
-		this.typeLike = isLike;
+	private boolean nameLike;
+	public OperateLogQuery setNameLike(boolean isLike) {
+		this.nameLike = isLike;
 		return this;
 	}
     
@@ -46,6 +46,20 @@ public class OperateLogQuery extends BaseQuery {
 	private boolean contentLike;
 	public OperateLogQuery setContentLike(boolean isLike) {
 		this.contentLike = isLike;
+		return this;
+	}
+    
+	private String type;
+	public String getType() {
+		return type;
+	}
+	public OperateLogQuery setType(String type) {
+		this.type = type;
+		return this;
+	}
+	private boolean typeLike;
+	public OperateLogQuery setTypeLike(boolean isLike) {
+		this.typeLike = isLike;
 		return this;
 	}
     
@@ -83,20 +97,6 @@ public class OperateLogQuery extends BaseQuery {
 	private boolean userCompanyLike;
 	public OperateLogQuery setUserCompanyLike(boolean isLike) {
 		this.userCompanyLike = isLike;
-		return this;
-	}
-    
-	private String operationTime;
-	public String getOperationTime() {
-		return operationTime;
-	}
-	public OperateLogQuery setOperationTime(String operationTime) {
-		this.operationTime = operationTime;
-		return this;
-	}
-	private boolean operationTimeLike;
-	public OperateLogQuery setOperationTimeLike(boolean isLike) {
-		this.operationTimeLike = isLike;
 		return this;
 	}
     
@@ -197,13 +197,13 @@ public class OperateLogQuery extends BaseQuery {
 	}
 	
 	/**
-	 * 设置排序按属性：type
+	 * 设置排序按属性：name
 	 * 
 	 * @param isAsc
 	 *            是否升序，是为升序，否为降序
 	 */
-	public OperateLogQuery orderbyType(boolean isAsc) {
-		orderFields.add(new OrderField("type", isAsc ? "ASC" : "DESC"));
+	public OperateLogQuery orderbyName(boolean isAsc) {
+		orderFields.add(new OrderField("name", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	
@@ -215,6 +215,17 @@ public class OperateLogQuery extends BaseQuery {
 	 */
 	public OperateLogQuery orderbyContent(boolean isAsc) {
 		orderFields.add(new OrderField("content", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：type
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public OperateLogQuery orderbyType(boolean isAsc) {
+		orderFields.add(new OrderField("type", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	
@@ -248,17 +259,6 @@ public class OperateLogQuery extends BaseQuery {
 	 */
 	public OperateLogQuery orderbyUserCompany(boolean isAsc) {
 		orderFields.add(new OrderField("user_company", isAsc ? "ASC" : "DESC"));
-		return this;
-	}
-	
-	/**
-	 * 设置排序按属性：operation_time
-	 * 
-	 * @param isAsc
-	 *            是否升序，是为升序，否为降序
-	 */
-	public OperateLogQuery orderbyOperationTime(boolean isAsc) {
-		orderFields.add(new OrderField("operation_time", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

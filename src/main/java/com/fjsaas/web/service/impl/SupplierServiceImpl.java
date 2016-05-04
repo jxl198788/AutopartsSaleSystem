@@ -30,6 +30,15 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	/**
+	 * 根据主键更新
+	 * 
+	 * @return
+	 */
+	public Integer updateSupplierByKey(Supplier supplier) {
+		return supplierDao.updateSupplierByKey(supplier);
+	}
+	
+	/**
 	 * 根据主键查找
 	 */
 	public Supplier getSupplierByKey(Integer id) {
@@ -53,15 +62,6 @@ public class SupplierServiceImpl implements SupplierService {
 		return supplierDao.deleteByKeys(idList);
 	}
 
-	/**
-	 * 根据主键更新
-	 * 
-	 * @return
-	 */
-	public Integer updateSupplierByKey(Supplier supplier) {
-		return supplierDao.updateSupplierByKey(supplier);
-	}
-	
 	public Pager getSupplierListWithPage(SupplierQuery supplierQuery) {
 		Pager p = new Pager(supplierQuery.getPageNo(),supplierQuery.getPageSize(),supplierDao.getSupplierListCount(supplierQuery));
 		p.setList(supplierDao.getSupplierListWithPage(supplierQuery));
@@ -71,4 +71,52 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<Supplier> getSupplierList(SupplierQuery supplierQuery) {
 		return supplierDao.getSupplierList(supplierQuery);
 	}
+
+	//add by lyn --------------------------------------------begin
+
+	public List<Supplier> getSupplierInfoList(SupplierQuery supplierQuery) {
+		return supplierDao.getSupplierInfoList(supplierQuery);
+	}
+
+	/**
+	 * 根据主键查找
+	 */
+	public Supplier getSupplierById(Integer id) {
+		return supplierDao.getSupplierById(id);
+	}
+	
+	/**
+	 * 根据主键更新
+	 * 
+	 * @return
+	 */
+	public Integer updateSupplierById(Supplier supplier) {
+		return supplierDao.updateSupplierById(supplier);
+	}
+	public Integer updateUserById(Supplier supplier){
+		return supplierDao.updateUserById(supplier);
+	}
+	public Integer updateDomainById(Supplier supplier){
+		return supplierDao.updateDomainById(supplier);
+	}
+	
+	/**
+	 * 根据主键激活、锁定供应商信息
+	 * add by lyn 2016.04.27
+	 * @return
+	 */
+	public Integer updateUserStatusById(Supplier supplier) {
+		return supplierDao.updateUserStatusById(supplier);
+	}
+	
+	/**
+	 * 根据主键删除
+	 * 
+	 * @return
+	 */
+	public Integer deleteById(Integer id) {
+		return supplierDao.deleteById(id);
+	}
+	//add by lyn --------------------------------------------end
+
 }

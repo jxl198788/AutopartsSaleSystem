@@ -64,4 +64,43 @@ public interface SupplierService {
 	 */
 	public List<Supplier> getSupplierList(SupplierQuery supplierQuery);
 	
+//add by lyn --------------------------------------------begin
+
+	/**
+	 * 根据条件查询
+	 * 
+	 * @param supplierQuery
+	 *            查询条件
+	 * @return
+	 */
+	public List<Supplier> getSupplierInfoList(SupplierQuery supplierQuery);
+
+	/**
+	 * 根据主键查询
+	 */
+	public Supplier getSupplierById(Integer id);
+	
+	/**
+	 * 根据主键更新
+	 * 
+	 * @return
+	 */
+	public Integer updateSupplierById(Supplier supplier);
+	public Integer updateUserById(Supplier supplier);
+	public Integer updateDomainById(Supplier supplier);
+
+	/**
+	 * 根据主键激活、锁定供应商信息
+	 * add by lyn 2016.04.27
+	 * @return
+	 */
+	public Integer updateUserStatusById(Supplier supplier);
+	
+	/**
+	 * 根据主键删除
+	 * 
+	 * @return
+	 */
+	public Integer deleteById(Integer id);
+//add by lyn --------------------------------------------end
 }
