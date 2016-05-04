@@ -2,12 +2,12 @@ package com.fjsaas.web.constants;
 
 public interface Constants {
     String SESSION_FORCE_LOGOUT_KEY = "session.force.logout";
-    public String CSV_FILE_URL = "/input/excel/";
-    public String CSV_OUTPUT_URL = "/output/excel/";
+    public String CSV_FILE_URL = "/upload/excel/input/";
+    public String CSV_OUTPUT_URL = "/upload/excel/output/";
     public String JOB_KEY = "taskDetail";
     public String MAPPING_DATA = "mapping_data";
     public String APPLICATION_CONTEXT = "content";
     public Integer TASK_DELAY_SECOND = 5;
-    public String IMG_FILE_URL = "/static/image/busslicense/";//add by lyn 2016.4.26
+    public String IMG_FILE_URL = "/upload/image/busslicense/";//add by lyn 2016.4.26
     public String NULL_VALUE = "-999999";//add by lyn 2016.4.26
 }

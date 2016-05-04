@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
+import org.aspectj.apache.bcel.classfile.Field;
 import org.quartz.DateBuilder;
 import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.SchedulerException;
@@ -452,7 +453,11 @@ public class MappingController {
  		
 		String realPath = request.getSession().getServletContext().getRealPath("/");//获取web项目的路径
 		String outputDir = realPath + Constants.CSV_OUTPUT_URL;
-		CsvExport csvExport = CsvExport.start(outputDir, "/output/excel/", "fjsaas", fieldNames, fieldCodes, "GBK");
+		File file = new File(outputDir);
+		if(!file.exists()){
+			file.mkdirs();
+		}
+		CsvExport csvExport = CsvExport.start(outputDir,  Constants.CSV_OUTPUT_URL, "fjsaas", fieldNames, fieldCodes, "GBK");
 		csvExport.writeDatasByObject(list);
 		String exportUrl = csvExport.exportFile();
 
@@ -501,7 +506,11 @@ public class MappingController {
  		
 		String realPath = request.getSession().getServletContext().getRealPath("/");//获取web项目的路径
 		String outputDir = realPath + Constants.CSV_OUTPUT_URL;
-		ExcelExportSXSSF excelExportSXSSF = ExcelExportSXSSF.start(outputDir, "/output/excel/", "fjsaas", fieldNames, fieldCodes, 100);
+		File file = new File(outputDir);
+		if(!file.exists()){
+			file.mkdirs();
+		}
+		ExcelExportSXSSF excelExportSXSSF = ExcelExportSXSSF.start(outputDir, Constants.CSV_OUTPUT_URL, "fjsaas", fieldNames, fieldCodes, 100);
 		excelExportSXSSF.writeDatasByObject(list);
 		String exportUrl = excelExportSXSSF.exportFile();
 
