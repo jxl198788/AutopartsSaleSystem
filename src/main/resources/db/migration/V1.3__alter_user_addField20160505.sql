@@ -1,0 +1,1 @@
+ALTER TABLE ass_user ADD is_activation char(1) NOT NULL DEFAULT 0 COMMENT '是否激活 0：未激活 1：激活';

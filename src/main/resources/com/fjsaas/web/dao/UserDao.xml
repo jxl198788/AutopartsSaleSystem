@@ -11,10 +11,11 @@
 		<result property="job" column="job" />
 		<result property="email" column="email" />
 		<result property="address" column="address" />
-		<result property="gruop" column="gruop" />
+		<result property="groupId" column="group_id" />
 		<result property="isRoot" column="is_root" />
 		<result property="suppilerId" column="suppiler_id" />
 		<result property="locked" column="locked" />
+		<result property="isActivation" column="is_activation" />
 		<result property="salt" column="salt" />
 		<result property="createDate" column="create_date" />
 		<result property="creatorId" column="creator_id" />
@@ -29,7 +30,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,telphone,username,realname,password,job,email,address,gruop,is_root,suppiler_id,locked,salt,create_date,creator_id,update_date,updator_id,is_del	
+				id,telphone,username,realname,password,job,email,address,group_id,is_root,suppiler_id,locked,is_activation,salt,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_user
 	</sql>
@@ -47,8 +48,6 @@
 						and  telphone like CONCAT("%",#{ telphone },"%")
 					</if>
 				</if>
-				
-				
 				<if test="username != null">
 					<if test="usernameLike == false">
 						and username=#{username}
@@ -57,8 +56,6 @@
 						and  username like CONCAT("%",#{ username },"%")
 					</if>
 				</if>
-				
-				
 				<if test="realname != null">
 					<if test="realnameLike == false">
 						and realname=#{realname}
@@ -67,8 +64,6 @@
 						and  realname like CONCAT("%",#{ realname },"%")
 					</if>
 				</if>
-				
-				
 				<if test="password != null">
 					<if test="passwordLike == false">
 						and password=#{password}
@@ -77,8 +72,6 @@
 						and  password like CONCAT("%",#{ password },"%")
 					</if>
 				</if>
-				
-				
 				<if test="job != null">
 					<if test="jobLike == false">
 						and job=#{job}
@@ -87,8 +80,6 @@
 						and  job like CONCAT("%",#{ job },"%")
 					</if>
 				</if>
-				
-				
 				<if test="email != null">
 					<if test="emailLike == false">
 						and email=#{email}
@@ -97,8 +88,6 @@
 						and  email like CONCAT("%",#{ email },"%")
 					</if>
 				</if>
-				
-				
 				<if test="address != null">
 					<if test="addressLike == false">
 						and address=#{address}
@@ -107,18 +96,9 @@
 						and  address like CONCAT("%",#{ address },"%")
 					</if>
 				</if>
-				
-				
-				<if test="gruop != null">
-					<if test="gruopLike == false">
-						and gruop=#{gruop}
-					</if>
-					<if test="gruopLike == true">
-						and  gruop like CONCAT("%",#{ gruop },"%")
-					</if>
+				<if test="groupId != null">
+					and group_id=#{groupId}
 				</if>
-				
-				
 				<if test="isRoot != null">
 					<if test="isRootLike == false">
 						and is_root=#{isRoot}
@@ -127,8 +107,6 @@
 						and  is_root like CONCAT("%",#{ isRoot },"%")
 					</if>
 				</if>
-				
-				
 				<if test="suppilerId != null">
 					and suppiler_id=#{suppilerId}
 				</if>
@@ -140,8 +118,14 @@
 						and  locked like CONCAT("%",#{ locked },"%")
 					</if>
 				</if>
-				
-				
+				<if test="isActivation != null">
+					<if test="isActivationLike == false">
+						and is_activation=#{isActivation}
+					</if>
+					<if test="isActivationLike == true">
+						and  is_activation like CONCAT("%",#{ isActivation },"%")
+					</if>
+				</if>
 				<if test="salt != null">
 					<if test="saltLike == false">
 						and salt=#{salt}
@@ -150,21 +134,15 @@
 						and  salt like CONCAT("%",#{ salt },"%")
 					</if>
 				</if>
-				
-				
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -174,8 +152,6 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
 		</where>
 	</sql>
 	<sql id="userListOrder">
@@ -195,14 +171,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getUserByKey" resultMap="user" parameterType="hashMap">
-		SELECT id,telphone,username,realname,password,job,email,address,gruop,is_root,suppiler_id,locked,salt,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,telphone,username,realname,password,job,email,address,group_id,is_root,suppiler_id,locked,is_activation,salt,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_user
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getUsersByKeys" resultMap="user" parameterType="ArrayList">
-		SELECT id,telphone,username,realname,password,job,email,address,gruop,is_root,suppiler_id,locked,salt,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,telphone,username,realname,password,job,email,address,group_id,is_root,suppiler_id,locked,is_activation,salt,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_user
 		WHERE
 		id in
@@ -255,8 +231,8 @@
 				<if test="address != null">
 					address = #{address},
 				</if>
-				<if test="gruop != null">
-					gruop = #{gruop},
+				<if test="groupId != null">
+					group_id = #{groupId},
 				</if>
 				<if test="isRoot != null">
 					is_root = #{isRoot},
@@ -266,6 +242,9 @@
 				</if>
 				<if test="locked != null">
 					locked = #{locked},
+				</if>
+				<if test="isActivation != null">
+					is_activation = #{isActivation},
 				</if>
 				<if test="salt != null">
 					salt = #{salt},
@@ -344,8 +323,8 @@
 					address,
 				</if>
 				
-				<if test="gruop != null">
-					gruop,
+				<if test="groupId != null">
+					group_id,
 				</if>
 				
 				<if test="isRoot != null">
@@ -358,6 +337,10 @@
 				
 				<if test="locked != null">
 					locked,
+				</if>
+				
+				<if test="isActivation != null">
+					is_activation,
 				</if>
 				
 				<if test="salt != null">
@@ -426,8 +409,8 @@
 					</if>
 					
 					
-					<if test="gruop != null">
-						#{gruop},
+					<if test="groupId != null">
+						#{groupId},
 					</if>
 					
 					
@@ -443,6 +426,11 @@
 					
 					<if test="locked != null">
 						#{locked},
+					</if>
+					
+					
+					<if test="isActivation != null">
+						#{isActivation},
 					</if>
 					
 					
@@ -475,7 +463,7 @@
 						#{isDel},
 					</if>
 					<if test="isDel == null">
-						0
+						0,
 					</if>
 					
 		</trim>

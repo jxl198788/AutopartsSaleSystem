@@ -119,17 +119,12 @@ public class UserQuery extends BaseQuery {
 		return this;
 	}
     
-	private String gruop;
-	public String getGruop() {
-		return gruop;
+	private String groupId;
+	public String getGroupId() {
+		return groupId;
 	}
-	public UserQuery setGruop(String gruop) {
-		this.gruop = gruop;
-		return this;
-	}
-	private boolean gruopLike;
-	public UserQuery setGruopLike(boolean isLike) {
-		this.gruopLike = isLike;
+	public UserQuery setGroupId(String groupId) {
+		this.groupId = groupId;
 		return this;
 	}
     
@@ -167,6 +162,20 @@ public class UserQuery extends BaseQuery {
 	private boolean lockedLike;
 	public UserQuery setLockedLike(boolean isLike) {
 		this.lockedLike = isLike;
+		return this;
+	}
+    
+	private String isActivation;
+	public String getIsActivation() {
+		return isActivation;
+	}
+	public UserQuery setIsActivation(String isActivation) {
+		this.isActivation = isActivation;
+		return this;
+	}
+	private boolean isActivationLike;
+	public UserQuery setIsActivationLike(boolean isLike) {
+		this.isActivationLike = isLike;
 		return this;
 	}
     
@@ -358,13 +367,13 @@ public class UserQuery extends BaseQuery {
 	}
 	
 	/**
-	 * 设置排序按属性：gruop
+	 * 设置排序按属性：group_id
 	 * 
 	 * @param isAsc
 	 *            是否升序，是为升序，否为降序
 	 */
-	public UserQuery orderbyGruop(boolean isAsc) {
-		orderFields.add(new OrderField("gruop", isAsc ? "ASC" : "DESC"));
+	public UserQuery orderbyGroupId(boolean isAsc) {
+		orderFields.add(new OrderField("group_id", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	
@@ -398,6 +407,17 @@ public class UserQuery extends BaseQuery {
 	 */
 	public UserQuery orderbyLocked(boolean isAsc) {
 		orderFields.add(new OrderField("locked", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：is_activation
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public UserQuery orderbyIsActivation(boolean isAsc) {
+		orderFields.add(new OrderField("is_activation", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

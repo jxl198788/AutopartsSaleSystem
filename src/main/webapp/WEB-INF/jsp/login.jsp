@@ -216,11 +216,11 @@
                             <fieldset>
                                 <div class="form-group">
                                     <label for="disabledSelect">用户名</label>
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="请输入邮箱\用户名\手机号" name="email" type="email" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <label for="disabledSelect">密码</label>
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="请输入密码" name="password" type="password" value="">
                                 </div>
                                 <div class="form-group">
                                     <label for="disabledSelect">滑动验证码</label>

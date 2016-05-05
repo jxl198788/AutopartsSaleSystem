@@ -19,10 +19,11 @@ public class User implements Serializable {
 	private String job;
 	private String email;
 	private String address;
-	private String gruop;
+	private String groupId;
 	private String isRoot;
 	private Integer suppilerId;
 	private String locked;
+	private String isActivation;
 	private String salt;
 	private Date createDate;
 	private Integer creatorId;
@@ -94,12 +95,12 @@ public class User implements Serializable {
 		this.address = address;
 	}
 	
-	public String getGruop() {
-		return gruop;
+	public String getGroupId() {
+		return groupId;
 	}
 	
-	public void setGruop(String gruop) {
-		this.gruop = gruop;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 	
 	public String getIsRoot() {
@@ -124,6 +125,14 @@ public class User implements Serializable {
 	
 	public void setLocked(String locked) {
 		this.locked = locked;
+	}
+	
+	public String getIsActivation() {
+		return isActivation;
+	}
+	
+	public void setIsActivation(String isActivation) {
+		this.isActivation = isActivation;
 	}
 	
 	public String getSalt() {
@@ -175,7 +184,7 @@ public class User implements Serializable {
 	}
 	
 	public String toString() {
-		return "User [id=" + id + ",telphone=" + telphone + ",username=" + username + ",realname=" + realname + ",password=" + password + ",job=" + job + ",email=" + email + ",address=" + address + ",gruop=" + gruop + ",isRoot=" + isRoot + ",suppilerId=" + suppilerId + ",locked=" + locked + ",salt=" + salt + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
+		return "User [id=" + id + ",telphone=" + telphone + ",username=" + username + ",realname=" + realname + ",password=" + password + ",job=" + job + ",email=" + email + ",address=" + address + ",groupId=" + groupId + ",isRoot=" + isRoot + ",suppilerId=" + suppilerId + ",locked=" + locked + ",isActivation=" + isActivation + ",salt=" + salt + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
 	
 	
