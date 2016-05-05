@@ -19,7 +19,7 @@ import com.fjsaas.web.constants.Constants;
 
 
 public class ImageUpload {
-	public static String filename;
+	public static String filename;//filename用于页面上显示图片使用
 	/*
 	 * importImag jsp页面的file标签的name名
 	 * request 请求
@@ -27,28 +27,22 @@ public class ImageUpload {
 	 */
 	public static String upload(HttpServletRequest request,String filepath){
 		String msg = "";
-		String oldFilename = filepath.substring(filepath.lastIndexOf("\\")+1, filepath.length());
-//		System.out.println("oldFilename:"+oldFilename);
-		String extension = FilenameUtils.getExtension(oldFilename);
-//		System.out.println("extension:"+extension);
+		filename = filepath.substring(filepath.lastIndexOf("\\")+1, filepath.length());
+		String extension = FilenameUtils.getExtension(filename);
 
 		if(!"png".equals(extension) && !"jpg".equals(extension)){
 			msg = "上传的图片格式有问题，只支持png、jpg文件";
 		}else{
 			String realPath = request.getSession().getServletContext().getRealPath("/");//获取web项目的路径
-//			System.out.println("realPath:"+realPath);
 			String fullDir = realPath + Constants.IMG_FILE_URL;
-//			System.out.println("fullDir:"+fullDir);
 			File file = new File(fullDir);
-//			System.out.println("文件是否存在:"+file.exists());
 			if(!file.exists()){
 				file.mkdir();//文件不存在就创建
 			}
-			String newFilename = UUID.randomUUID().toString();
-			filename = newFilename + "." + extension;//filename用于页面上显示图片使用
-//			System.out.println("newFilename:"+newFilename);
-			String fullPath = fullDir + newFilename + "." + extension;//"D:\\softAnZ\\Workspaces\\Eclipse\\AutopartsSaleSystem\\src\\main\\webapp\\static\\image\\"
-//			System.out.println("fullPath:"+fullPath);
+//			String newFilename = UUID.randomUUID().toString();//给图片重命名
+//			filename = newFilename + "." + extension;//给图片重命名
+//			String fullPath = fullDir + newFilename + "." + extension;//"D:\\softAnZ\\Workspaces\\Eclipse\\AutopartsSaleSystem\\src\\main\\webapp\\static\\image\\"
+			String fullPath = fullDir + filename;
 			try {
 				FileInputStream fis = new FileInputStream(filepath);
 				byte[] b = new byte[1024]; 
