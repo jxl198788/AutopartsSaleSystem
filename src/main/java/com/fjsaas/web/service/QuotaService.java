@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fjsaas.web.pagination.Pager;
 import com.fjsaas.web.bean.Quota;
+import com.fjsaas.web.bean.UserQuotas;
 import com.fjsaas.web.query.QuotaQuery;
 
 
@@ -63,5 +64,36 @@ public interface QuotaService {
 	 * @return
 	 */
 	public List<Quota> getQuotaList(QuotaQuery quotaQuery);
+	
+//add by lyn ------------------------------------------------begin
+
+	/**
+	 * 平台的配额管理页面
+	 * 根据条件查询
+	 * 
+	 * @param quotaQuery
+	 *            查询条件
+	 * @return
+	 */
+	public List<UserQuotas> getUserQuotaList(QuotaQuery quotaQuery);
+	
+	/**
+	 * 根据主键批量查询
+	 */
+	public List<UserQuotas> getUserQuotasByKeys(List<Integer> idList);
+
+	/**
+	 * 根据主键批量查询
+	 */
+	public UserQuotas getUserQuotasByKey(Integer id);
+	
+	/**
+	 * 根据主键更新
+	 * 
+	 * @return
+	 */
+	public Integer updateUserQuotaByKey(UserQuotas userquotas);
+	
+//add by lyn ------------------------------------------------end
 	
 }
