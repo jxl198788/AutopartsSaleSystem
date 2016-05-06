@@ -4,10 +4,7 @@
 <mapper namespace="com.fjsaas.web.dao.QuotaDao">
 	<resultMap id="quota" type="Quota">
 		<result property="id" column="id" />
-		<result property="totalQuota" column="total_quota" />
-		<result property="usableQuota" column="usable_quota" />
-		<result property="usedQuato" column="used_quato" />
-		<result property="distributeQuota" column="distribute_quota" />
+		<result property="quota" column="quota" />
 		<result property="supplierId" column="supplier_id" />
 		<result property="permissionId" column="permission_id" />
 		<result property="createDate" column="create_date" />
@@ -16,6 +13,12 @@
 		<result property="updatorId" column="updator_id" />
 		<result property="isDel" column="is_del" />
 	</resultMap>
+	<resultMap id="userQuotas" type="UserQuotas">
+		<result property="id" column="id" />
+		<result property="telphone" column="telphone" />
+		<result property="updateDate" column="update_date" />
+		<result property="updatorId" column="updator_id" />
+	</resultMap>
 	<!-- Select SQL -->
 	<sql id="quotaSelector">
 		SELECT
@@ -23,7 +26,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,total_quota,usable_quota,used_quato,distribute_quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	
+				id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	
 			</if>
 		FROM ass_quota
 	</sql>
@@ -33,18 +36,11 @@
 				<if test="id != null">
 					and id=#{id}
 				</if>
-				<if test="totalQuota != null">
-					and total_quota=#{totalQuota}
+				<if test="quota != null">
+					and quota=#{quota}
 				</if>
-				<if test="usableQuota != null">
-					and usable_quota=#{usableQuota}
-				</if>
-				<if test="usedQuato != null">
-					and used_quato=#{usedQuato}
-				</if>
-				<if test="distributeQuota != null">
-					and distribute_quota=#{distributeQuota}
-				</if>
+				
+				
 				<if test="supplierId != null">
 					and supplier_id=#{supplierId}
 				</if>
@@ -54,12 +50,16 @@
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
+				
+				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
+				
+				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -69,6 +69,8 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
+				
+				
 		</where>
 	</sql>
 	<sql id="quotaListOrder">
@@ -88,14 +90,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getQuotaByKey" resultMap="quota" parameterType="hashMap">
-		SELECT id,total_quota,usable_quota,used_quato,distribute_quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del	 
 		FROM ass_quota
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getQuotasByKeys" resultMap="quota" parameterType="ArrayList">
-		SELECT id,total_quota,usable_quota,used_quato,distribute_quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,quota,supplier_id,permission_id,create_date,creator_id,update_date,updator_id,is_del 
 		FROM ass_quota
 		WHERE
 		id in
@@ -127,17 +129,8 @@
 				<if test="id != null">
 					id = #{id},
 				</if>
-				<if test="totalQuota != null">
-					total_quota = #{totalQuota},
-				</if>
-				<if test="usableQuota != null">
-					usable_quota = #{usableQuota},
-				</if>
-				<if test="usedQuato != null">
-					used_quato = #{usedQuato},
-				</if>
-				<if test="distributeQuota != null">
-					distribute_quota = #{distributeQuota},
+				<if test="quota != null">
+					quota = #{quota},
 				</if>
 				<if test="supplierId != null">
 					supplier_id = #{supplierId},
@@ -183,6 +176,7 @@
 		<include refid="quotaListWhere" />
 		<include refid="quotaListOrder" />
 	</select>
+	
 	<!-- 添加 -->
 	<insert id="addQuota" parameterType="Quota">
 		INSERT INTO ass_quota
@@ -191,20 +185,8 @@
 					id,
 				</if>
 				
-				<if test="totalQuota != null">
-					total_quota,
-				</if>
-				
-				<if test="usableQuota != null">
-					usable_quota,
-				</if>
-				
-				<if test="usedQuato != null">
-					used_quato,
-				</if>
-				
-				<if test="distributeQuota != null">
-					distribute_quota,
+				<if test="quota != null">
+					quota,
 				</if>
 				
 				<if test="supplierId != null">
@@ -242,23 +224,8 @@
 					</if>
 					
 					
-					<if test="totalQuota != null">
-						#{totalQuota},
-					</if>
-					
-					
-					<if test="usableQuota != null">
-						#{usableQuota},
-					</if>
-					
-					
-					<if test="usedQuato != null">
-						#{usedQuato},
-					</if>
-					
-					
-					<if test="distributeQuota != null">
-						#{distributeQuota},
+					<if test="quota != null">
+						#{quota},
 					</if>
 					
 					
@@ -296,9 +263,127 @@
 						#{isDel},
 					</if>
 					<if test="isDel == null">
-						0,
+						0
 					</if>
 					
 		</trim>
 	</insert>
+	<!-- 新增sql语句  add by lyn                          begin-->
+	
+	<select id="getUserQuotaList" resultMap="userQuotas" parameterType="QuotaQuery">
+		select 
+			t1.id,
+			t1.username username,
+			t1.telphone,
+			t1.suppiler_id supplierid,
+			t2.name suppliername,
+			t4.name rolename,
+			sum(case when t5.permission_id = 1 then t5.total_quota else 0 END) high_quotas,
+			sum(case when t5.permission_id = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
+			sum(case when t5.permission_id = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
+			sum(case when t5.permission_id = 1 then t5.used_quato else 0 END) h_use_quotas,
+			sum(case when t5.permission_id = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
+			sum(case when t5.permission_id = 2 then t5.total_quota else 0 END) comm_quotas,
+			sum(case when t5.permission_id = 2 then t5.distribute_quota else 0 END) c_deal_quotas,
+			sum(case when t5.permission_id = 2 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
+			sum(case when t5.permission_id = 2 then t5.used_quato else 0 END) c_use_quotas,
+			sum(case when t5.permission_id = 2 then t5.usable_quota else 0 END) c_unuse_quotas
+	from ass_user t1
+	left join ass_supplier t2 on t1.suppiler_id = t2.id
+	left join ass_user_role t3 on t1.id = t3.user_id
+	left join ass_role t4 on t3.role_id = t4.id 
+	left join ass_quota t5 on t2.id = t5.supplier_id
+	WHERE
+		t1.is_del = 0
+	GROUP BY t1.id,
+			t1.username,
+			t1.telphone,
+			t1.suppiler_id,
+			t2.id,
+			t2.name,
+			t3.id,
+			t4.id,
+			t4.name
+	</select>
+	<select id="getUserQuotasByKeys" resultMap="userQuotas" parameterType="ArrayList">
+		select 
+			t1.id,
+			t1.username username,
+			t1.telphone,
+			t1.suppiler_id supplierid,
+			t2.name suppliername,
+			sum(case when t5.permission_id = 1 then t5.total_quota else 0 END) high_quotas,
+			sum(case when t5.permission_id = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
+			sum(case when t5.permission_id = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
+			sum(case when t5.permission_id = 1 then t5.used_quato else 0 END) h_use_quotas,
+			sum(case when t5.permission_id = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
+			sum(case when t5.permission_id = 2 then t5.total_quota else 0 END) comm_quotas,
+			sum(case when t5.permission_id = 2 then t5.distribute_quota else 0 END) c_deal_quotas,
+			sum(case when t5.permission_id = 2 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
+			sum(case when t5.permission_id = 2 then t5.used_quato else 0 END) c_use_quotas,
+			sum(case when t5.permission_id = 2 then t5.usable_quota else 0 END) c_unuse_quotas
+	from ass_user t1
+	left join ass_supplier t2 on t1.suppiler_id = t2.id
+	left join ass_quota t5 on t2.id = t5.supplier_id
+	WHERE
+		t1.id in
+		<foreach collection="list" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+		and t1.is_del = 0
+	GROUP BY t1.id,
+			t1.username,
+			t1.telphone,
+			t1.suppiler_id,
+			t2.id,
+			t2.name
+	</select>
+	<select id="getUserQuotasByKey" resultMap="userQuotas" parameterType="hashMap">
+		select 
+			t1.id,
+			t1.username username,
+			t1.telphone,
+			t1.suppiler_id supplierid,
+			t2.name suppliername,
+			sum(case when t5.permission_id = 1 then t5.total_quota else 0 END) high_quotas,
+			sum(case when t5.permission_id = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
+			sum(case when t5.permission_id = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
+			sum(case when t5.permission_id = 1 then t5.used_quato else 0 END) h_use_quotas,
+			sum(case when t5.permission_id = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
+			sum(case when t5.permission_id = 2 then t5.total_quota else 0 END) comm_quotas,
+			sum(case when t5.permission_id = 2 then t5.distribute_quota else 0 END) c_deal_quotas,
+			sum(case when t5.permission_id = 2 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
+			sum(case when t5.permission_id = 2 then t5.used_quato else 0 END) c_use_quotas,
+			sum(case when t5.permission_id = 2 then t5.usable_quota else 0 END) c_unuse_quotas
+	from ass_user t1
+	left join ass_supplier t2 on t1.suppiler_id = t2.id
+	left join ass_quota t5 on t2.id = t5.supplier_id
+	WHERE
+		t1.id = #{id}
+		and t1.is_del = 0
+	GROUP BY t1.id,
+			t1.username,
+			t1.telphone,
+			t1.suppiler_id,
+			t2.id,
+			t2.name
+	</select>
+	<!-- 根据主键更新 -->
+	<update id="updateUserQuotaByKey" parameterType="UserQuotas">
+		UPDATE ass_quota
+		<set>
+			<trim suffixOverrides=",">
+				<if test="high_quotas != null">
+					total_quota = total_quota + #{high_quotas},
+				</if>
+				<if test="comm_quotas != null">
+					total_quota = total_quota + #{comm_quotas},
+				</if>
+			</trim>
+		</set>
+		WHERE
+		supplier_id = #{supplierid}
+		AND permission_id = #{type}
+	</update>
+	<!-- 新增sql语句  add by lyn                         end-->
 </mapper>
