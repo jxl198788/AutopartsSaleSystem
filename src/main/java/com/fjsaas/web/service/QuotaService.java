@@ -93,7 +93,23 @@ public interface QuotaService {
 	 * @return
 	 */
 	public Integer updateUserQuotaByKey(UserQuotas userquotas);
+
+	/**
+	 * 基本插入
+	 * 
+	 * @return
+	 */
+	public Integer addUserQuota(UserQuotas userquotas);
 	
+	/**
+	 * 根据主键查询树结构
+	 */
+	public List<UserQuotas> getTreeDataByKey(UserQuotas userquotas);
+
+	/**
+	 * 根据主键查询树结构
+	 */
+	public List<UserQuotas> getTreeUserByKey(UserQuotas userquotas);
 //add by lyn ------------------------------------------------end
 	
 }

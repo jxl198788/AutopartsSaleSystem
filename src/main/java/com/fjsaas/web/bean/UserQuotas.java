@@ -8,25 +8,27 @@ public class UserQuotas {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
-	private String username;//用户名
-	private String telphone;//手机号
-	private Integer supplierid;//汽配商id
-	private String suppliername;//汽配商名称
-	private String rolename;//角色
-	private Integer high_quotas;//配额
-	private Integer h_deal_quotas;//已分配配额
-	private Integer h_left_quotas;//剩余配额
-	private Integer h_use_quotas;//已使用配额
-	private Integer h_unuse_quotas;//未使用配额
-	private Integer comm_quotas;//配额
-	private Integer c_deal_quotas;//已分配配额
-	private Integer c_left_quotas;//未分配配额
-	private Integer c_use_quotas;//已使用配额
-	private Integer c_unuse_quotas;//未使用配额
-	private Date updateDate;
-	private Integer updatorId;
-	private Integer type;//查询类型：1高级查询，2普通查询
+	private Integer id = null;
+	private String username = null;//用户名
+	private String telphone = null;//手机号
+	private Integer supplierid = null;//汽配商id
+	private Integer parent_id = null;//父节点id
+	private Integer group_id = null;//同一根树id,最顶端的supplierid
+	private String suppliername = null;//汽配商名称
+	private String rolename = null;//角色
+	private Integer high_quotas = null;//配额
+	private Integer h_deal_quotas = null;//已分配配额
+	private Integer h_left_quotas = null;//剩余配额
+	private Integer h_use_quotas = null;//已使用配额
+	private Integer h_unuse_quotas = null;//未使用配额
+	private Integer comm_quotas = null;//配额
+	private Integer c_deal_quotas = null;//已分配配额
+	private Integer c_left_quotas = null;//未分配配额
+	private Integer c_use_quotas = null;//已使用配额
+	private Integer c_unuse_quotas = null;//未使用配额
+	private Date updateDate = null;
+	private Integer updatorId = null;
+	private Integer type = null;//查询类型：1:高级查询，0:普通查询
 	
 	public Integer getId() {
 		return id;
@@ -141,6 +143,18 @@ public class UserQuotas {
 	}
 	public void setC_unuse_quotas(Integer c_unuse_quotas) {
 		this.c_unuse_quotas = c_unuse_quotas;
+	}
+	public Integer getParent_id() {
+		return parent_id;
+	}
+	public void setParent_id(Integer parent_id) {
+		this.parent_id = parent_id;
+	}
+	public Integer getGroup_id() {
+		return group_id;
+	}
+	public void setGroup_id(Integer group_id) {
+		this.group_id = group_id;
 	}
 	
 }

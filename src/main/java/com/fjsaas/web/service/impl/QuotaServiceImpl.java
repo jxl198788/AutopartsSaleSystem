@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fjsaas.web.pagination.Pager;
 import com.fjsaas.web.bean.Quota;
@@ -95,5 +94,23 @@ public class QuotaServiceImpl implements QuotaService {
 	public Integer updateUserQuotaByKey(UserQuotas userquotas) {
 		return quotaDao.updateUserQuotaByKey(userquotas);
 	}
+
+	/**
+	 * 插入数据库
+	 * 
+	 * @return
+	 */
+	public Integer addUserQuota(UserQuotas userquotas) {
+		return quotaDao.addUserQuota(userquotas);
+	}
+
+	public List<UserQuotas> getTreeDataByKey(UserQuotas userquotas) {
+		return quotaDao.getTreeDataByKey(userquotas);
+	}
+
+	public List<UserQuotas> getTreeUserByKey(UserQuotas userquotas) {
+		return quotaDao.getTreeUserByKey(userquotas);
+	}
+
 	//add by lyn ------------------------------------------------end
 }

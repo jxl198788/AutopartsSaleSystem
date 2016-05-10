@@ -90,5 +90,24 @@ public interface QuotaDao {
 	 * @param quota
 	 */
 	public Integer updateUserQuotaByKey(UserQuotas userquotas);
+
+	/**
+	 * 添加
+	 * @param quota
+	 */
+	public Integer addUserQuota(UserQuotas userquotas);
+
+	/**
+	 * 根据主键查询树结构
+	 * @param idList
+	 */
+	public List<UserQuotas> getTreeDataByKey(UserQuotas userquotas);
+
+	/**
+	 * 根据主键查询树结构
+	 * @param idList
+	 */
+	public List<UserQuotas> getTreeUserByKey(UserQuotas userquotas);
+
 	//add by lyn ------------------------------------------------end
 }

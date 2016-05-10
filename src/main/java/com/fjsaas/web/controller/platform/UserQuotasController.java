@@ -7,7 +7,6 @@
 package com.fjsaas.web.controller.platform;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fjsaas.web.bean.Quota;
+import com.fjsaas.web.bean.Tree;
 import com.fjsaas.web.bean.UserQuotas;
 import com.fjsaas.web.query.QuotaQuery;
 import com.fjsaas.web.service.QuotaService;
@@ -72,6 +71,11 @@ public class UserQuotasController {
 			userquotas.setComm_quotas(setquota);
 		}
 		int result = quotaService.updateUserQuotaByKey(userquotas);
+		System.out.println("result1:"+result);
+		if(result==0){
+			result = quotaService.addUserQuota(userquotas);
+			System.out.println("result2:"+result);
+		}
 		jsonObject.put("result", "配额设置"+(result==1?"成功！":"失败！"));//将值放入jsonObject中供页面获取
 		ResponseUtils.renderJson(response, jsonObject.toJSONString());
 	}
@@ -92,12 +96,105 @@ public class UserQuotasController {
 			}else{
 				userquotas.setComm_quotas(setquotasList.get(i));
 			}
-			result = result + quotaService.updateUserQuotaByKey(userquotas);
+			int result1 = quotaService.updateUserQuotaByKey(userquotas);
+			System.out.println("result1:"+result1);
+			if(result1==0){
+				result1 = quotaService.addUserQuota(userquotas);
+				System.out.println("result2:"+result1);
+			}
+			result = result + result1; 
 			System.out.println("result:"+result);
 		}
 		jsonObject.put("result", "配额设置"+(result==typesList.size()?"成功！":"失败！"));//将值放入jsonObject中供页面获取
 		ResponseUtils.renderJson(response, jsonObject.toJSONString());
 	}
+	
+	@RequestMapping(value="getTreeDataByKey/{id}",method=RequestMethod.GET)//根据id查询用户配额树信息
+	public void getTreeDataByKey(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response){
+		JSONObject jsonObject = new JSONObject();
+		List<Tree> treelist = new ArrayList<Tree>();
+		try{
+			UserQuotas reqBean = new UserQuotas();
+			reqBean.setSupplierid(id);
+			List<UserQuotas> userQuotasList = quotaService.getTreeDataByKey(reqBean);
+			if (userQuotasList.size() > 0) {
+				for (int k = 0; k < userQuotasList.size(); k++) {
+					UserQuotas userquota = userQuotasList.get(k);
+					Tree tree = new Tree();//供应商跟管理员
+					tree.setId(userquota.getSupplierid());
+					tree.setText(userquota.getSuppliername()+"（高级查询 配额"+userquota.getHigh_quotas()+"-已分配"+userquota.getH_deal_quotas()+"-剩余"+userquota.getH_left_quotas()+" 已分配"+userquota.getH_deal_quotas()+"-已使用"+userquota.getH_use_quotas()+"-未使用"+userquota.getH_unuse_quotas()+"<br/><label>普通查询 配额"+userquota.getComm_quotas()+"-已分配"+userquota.getC_deal_quotas()+"-剩余"+userquota.getC_left_quotas()+" 已分配"+userquota.getC_deal_quotas()+"-已使用"+userquota.getC_use_quotas()+"-未使用"+userquota.getC_unuse_quotas()+"）<label>");
+					//n个供应商
+					List<Tree> treetwo = new ArrayList<Tree>();
+					UserQuotas reqBean2 = new UserQuotas();
+					reqBean2.setParent_id(userquota.getSupplierid());
+					List<UserQuotas> userQuotasList1 = quotaService.getTreeDataByKey(reqBean2);
+					if (userQuotasList1.size() > 0) {
+						for (int m = 0; m < userQuotasList1.size(); m++) {
+							UserQuotas userquota2 = userQuotasList1.get(m);
+							Tree tree2 = new Tree();
+							tree2.setId(userquota2.getSupplierid());
+							tree2.setText(userquota2.getSuppliername()+"（高级查询 配额"+userquota2.getHigh_quotas()+"-已分配"+userquota2.getH_deal_quotas()+"-剩余"+userquota2.getH_left_quotas()+" 已分配"+userquota2.getH_deal_quotas()+"-已使用"+userquota2.getH_use_quotas()+"-未使用"+userquota2.getH_unuse_quotas()+"<br/><label>普通查询 配额"+userquota2.getComm_quotas()+"-已分配"+userquota2.getC_deal_quotas()+"-剩余"+userquota2.getC_left_quotas()+" 已分配"+userquota2.getC_deal_quotas()+"-已使用"+userquota2.getC_use_quotas()+"-未使用"+userquota2.getC_unuse_quotas()+"）<label>");
+							//n个二级分销商
+							List<Tree> treethree = new ArrayList<Tree>();
+							UserQuotas reqBean3 = new UserQuotas();
+							reqBean3.setParent_id(userquota2.getSupplierid());
+							List<UserQuotas> userQuotasList3 = quotaService.getTreeDataByKey(reqBean3);
+							if (userQuotasList3.size() > 0) {
+								for (int n = 0; n < userQuotasList3.size(); n++) {
+									UserQuotas userquota3 = userQuotasList3.get(n);
+									Tree tree3 = new Tree();
+									tree3.setId(userquota3.getSupplierid());
+									tree3.setText(userquota3.getSuppliername()+"（高级查询 配额"+userquota3.getHigh_quotas()+"-已分配"+userquota3.getH_deal_quotas()+"-剩余"+userquota3.getH_left_quotas()+" 已分配"+userquota3.getH_deal_quotas()+"-已使用"+userquota3.getH_use_quotas()+"-未使用"+userquota3.getH_unuse_quotas()+"<br/><label>普通查询 配额"+userquota3.getComm_quotas()+"-已分配"+userquota3.getC_deal_quotas()+"-剩余"+userquota3.getC_left_quotas()+" 已分配"+userquota3.getC_deal_quotas()+"-已使用"+userquota3.getC_use_quotas()+"-未使用"+userquota3.getC_unuse_quotas()+"）<label>");
+									//n个维修厂
+									List<Tree> treefour = new ArrayList<Tree>();
+									UserQuotas reqBean4 = new UserQuotas();
+									reqBean4.setParent_id(userquota3.getSupplierid());
+									List<UserQuotas> userQuotasList4 = quotaService.getTreeDataByKey(reqBean4);
+									if (userQuotasList4.size() > 0) {
+										for (int j = 0; j < userQuotasList4.size(); j++) {
+											UserQuotas userquota4 = userQuotasList4.get(j);
+											Tree tree4 = new Tree();
+											tree4.setId(userquota4.getSupplierid());
+											tree4.setText(userquota4.getSuppliername()+"（高级查询 配额"+userquota4.getHigh_quotas()+"-已分配"+userquota4.getH_deal_quotas()+"-剩余"+userquota4.getH_left_quotas()+" 已分配"+userquota4.getH_deal_quotas()+"-已使用"+userquota4.getH_use_quotas()+"-未使用"+userquota4.getH_unuse_quotas()+"<br/><label>普通查询 配额"+userquota4.getComm_quotas()+"-已分配"+userquota4.getC_deal_quotas()+"-剩余"+userquota4.getC_left_quotas()+" 已分配"+userquota4.getC_deal_quotas()+"-已使用"+userquota4.getC_use_quotas()+"-未使用"+userquota4.getC_unuse_quotas()+"）<label>");
+											//n个个体用户
+											List<Tree> treefive = new ArrayList<Tree>();
+											UserQuotas reqBean5 = new UserQuotas();
+											reqBean5.setSupplierid(userquota4.getSupplierid());
+											List<UserQuotas> userQuotasList5 = quotaService.getTreeUserByKey(reqBean5);
+											if (userQuotasList5.size() > 0) {
+												for (int i = 0; i < userQuotasList5.size(); i++) {
+													UserQuotas userquota5 = userQuotasList5.get(i);
+													Tree tree5 = new Tree();
+													tree5.setId(userquota5.getSupplierid());
+													tree5.setText(userquota5.getUsername()+" "+userquota5.getTelphone()+" 高级查询使用"+userquota5.getHigh_quotas()+"次 普通查询使用"+userquota5.getComm_quotas()+"次");
+													treefive.add(tree5);
+												}
+											}
+											tree4.setChildren(treefive);
+											treefour.add(tree4);
+										}
+									}
+									tree3.setChildren(treefour);
+									treethree.add(tree3);
+								}
+							}
+							tree2.setChildren(treethree);
+							treetwo.add(tree2);
+						}
+					}
+					tree.setChildren(treetwo);
+					treelist.add(tree);
+				}
+			}
+			jsonObject.put("treedata", treelist);//将值放入jsonObject中供页面获取
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("查询用户配额树信息异常了！");
+		}finally{
+			ResponseUtils.renderJson(response, jsonObject.toJSONString());
+		}
+	}
+
 	
 	/**
 	 * String数组转Integer的list
