@@ -5,7 +5,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<%@ include file="head.jsp" %> 
+<object data="${ctx }/head"></object> 
+<%-- <jsp:include page="/head"></jsp:include> --%>
+<%-- <%@ include file="/head.jsp" %>  --%>
 </head>
 <body>
 	<div class="container">

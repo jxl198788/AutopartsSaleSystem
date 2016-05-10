@@ -12,7 +12,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-header"><span style="font-size: 32px;"><b>壳牌配件查询系统</b></span><span style="margin-left: 100px"><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">帮助</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">联系我们</a></span>
-                <span style="margin-left: 500px"><a href="#">登录</a></span></span></div>
+                <span style="margin-left: 500px"><a href="${ctx }/login">登录</a></span></span></div>
+                <span><a href="${ctx }/logout">登出</a></span></span></div>
             </div>
             <!-- /.col-lg-12 -->
         </div>

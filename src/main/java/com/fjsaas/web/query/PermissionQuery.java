@@ -145,6 +145,15 @@ public class PermissionQuery extends BaseQuery {
 		return this;
 	}
     
+	private Integer sort;
+	public Integer getSort() {
+		return sort;
+	}
+	public PermissionQuery setSort(Integer sort) {
+		this.sort = sort;
+		return this;
+	}
+    
 	/**
 	 * ==============================批量查询时的Order条件顺序设置==========================
 	 * ========
@@ -309,6 +318,17 @@ public class PermissionQuery extends BaseQuery {
 	 */
 	public PermissionQuery orderbyIsDel(boolean isAsc) {
 		orderFields.add(new OrderField("is_del", isAsc ? "ASC" : "DESC"));
+		return this;
+	}
+	
+	/**
+	 * 设置排序按属性：sort
+	 * 
+	 * @param isAsc
+	 *            是否升序，是为升序，否为降序
+	 */
+	public PermissionQuery orderbySort(boolean isAsc) {
+		orderFields.add(new OrderField("sort", isAsc ? "ASC" : "DESC"));
 		return this;
 	}
 	

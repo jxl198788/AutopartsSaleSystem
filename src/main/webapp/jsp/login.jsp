@@ -211,7 +211,7 @@
                 <div class="login-panel panel panel-default">
 
                     <div class="panel-body">
-                        <img src="../static/image/u=4157469911,3074775462&fm=21&gp=0.jpg" style="position: absolute;top: 91px;left: -286px;"  />
+                        <img src="${ctx }/static/image/u=4157469911,3074775462&fm=21&gp=0.jpg" style="position: absolute;top: 91px;left: -286px;"  />
                         <form role="form">
                             <fieldset>
                                 <div class="form-group">

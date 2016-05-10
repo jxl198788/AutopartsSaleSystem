@@ -537,7 +537,7 @@ $(function(){
 </script>
 </head>
 <body>
-	<%@ include file="/WEB-INF/jsp/head.jsp" %>
+	 <%@ include file="/WEB-INF/jsp/nav.jsp" %>
 	<div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">

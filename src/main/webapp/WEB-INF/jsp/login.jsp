@@ -8,6 +8,11 @@
 <%@ include file="head.jsp" %> 
 <script type="text/javascript">
         $(document).ready(function (e) {
+        	var error = "${error}";
+        	if(error){
+        		layer.tips(error, '#username');
+        	}
+        	
             //设置最大值
             ScrollBar.maxValue = 84;
             ScrollBar.value = 0;
@@ -211,12 +216,12 @@
                 <div class="login-panel panel panel-default">
 
                     <div class="panel-body">
-                        <img src="../static/image/u=4157469911,3074775462&fm=21&gp=0.jpg" style="position: absolute;top: 91px;left: -286px;"  />
-                        <form role="form">
+                        <img src="${ctx }/static/image/u=4157469911,3074775462&fm=21&gp=0.jpg" style="position: absolute;top: 91px;left: -286px;"  />
+                        <form role="form" action="${ctx }/login" method="post">
                             <fieldset>
                                 <div class="form-group">
                                     <label for="disabledSelect">用户名</label>
-                                    <input class="form-control" placeholder="请输入邮箱\用户名\手机号" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="请输入邮箱\用户名\手机号" name="username" id="username" type="" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <label for="disabledSelect">密码</label>
@@ -244,12 +249,12 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="remember" type="checkbox" value="Remember Me">一周内免登录
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="rememberMe" value="true" />一周内免登录
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">忘记密码?</a>
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="登录" >
                             </fieldset>
                         </form>
                     </div>

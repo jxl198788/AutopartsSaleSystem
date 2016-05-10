@@ -26,11 +26,11 @@
     <!-- Realm实现 -->
     <bean id="shiroRealm" class="com.fjsaas.web.realm.ShiroRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher" />
-        <property name="cachingEnabled" value="false" />
-        <!--<property name="authenticationCachingEnabled" value="true"/> -->
-        <!--<property name="authenticationCacheName" value="authenticationCache"/> -->
-        <!--<property name="authorizationCachingEnabled" value="true"/> -->
-        <!--<property name="authorizationCacheName" value="authorizationCache"/> -->
+        <property name="cachingEnabled" value="true" />
+        <!-- <property name="authenticationCachingEnabled" value="true"/> -->
+        <!-- <property name="authenticationCacheName" value="authenticationCache"/> -->
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
     </bean>
 
     <!-- 会话ID生成器 -->
@@ -114,10 +114,11 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
         <property name="loginUrl" value="/login" />
+        <property name="successUrl" value="/index"></property>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter" />
-                <entry key="forceLogout" value-ref="forceLogoutFilter"/>
+                <!-- <entry key="forceLogout" value-ref="forceLogoutFilter"/> -->
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -127,7 +128,14 @@
                 /static/** = anon
                 /authenticated = authc 
                 /** = user,forceLogout -->
-                /** = anon
+                /logout = logout
+                /index = anon
+                /jsp/** = anon
+                /static/** = anon
+                /upload/** = anon
+                /head  = user
+                /nav  = user
+                /** = authc
             </value>
         </property>
     </bean>

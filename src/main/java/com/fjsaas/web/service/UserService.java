@@ -1,8 +1,11 @@
 package com.fjsaas.web.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.fjsaas.web.pagination.Pager;
+import com.fjsaas.web.bean.Permission;
+import com.fjsaas.web.bean.Role;
 import com.fjsaas.web.bean.User;
 import com.fjsaas.web.query.UserQuery;
 
@@ -63,5 +66,12 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User> getUserList(UserQuery userQuery);
+	
+	public User getUserByLoginName(String loginName);
+	public User getUserWithPrivilegeById(Integer id);
+	public List<Permission> getMenuBarsById(Integer id);
+	public List<Permission> getPermissionsById(Integer id);
+	public List<Role> getRolesById(Integer id);
+	public User getPermissionsAndRolesById(Integer id);
 	
 }

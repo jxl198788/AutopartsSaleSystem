@@ -18,6 +18,8 @@ public class Role implements Serializable {
 	private Date updateDate;
 	private Integer updatorId;
 	private String isDel;
+	
+	private List<Permission> permissions;
 
 	public Integer getId() {
 		return id;
@@ -78,6 +80,15 @@ public class Role implements Serializable {
 	public String toString() {
 		return "Role [id=" + id + ",name=" + name + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
+
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
+	}
+	
 	
 	
 }

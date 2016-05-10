@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.aspectj.apache.bcel.classfile.Field;
 import org.quartz.DateBuilder;
 import org.quartz.DateBuilder.IntervalUnit;
@@ -60,6 +63,7 @@ public class MappingController {
 	@Autowired
 	private MappingIndexService mappingIndexService;
 	
+	@RequiresPermissions("mapping:query")
 	@RequestMapping("mappingIndex.do")
 	public String mappingIndex(String search,String status,Integer pageNo,ModelMap model,HttpServletRequest request){
 		String appName = request.getContextPath();
@@ -139,6 +143,7 @@ public class MappingController {
 		return "redirect:/business/mappingIndex.do";
 	}
 	
+	@RequiresPermissions("mapping:forbidden")
 	@RequestMapping("forbiddenAll.do")
 	public void forbiddenAll(Integer[] ids,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{
 		
@@ -169,6 +174,7 @@ public class MappingController {
 		}			
 	}
 	
+	@RequiresPermissions("mapping:delete")
 	@RequestMapping("deleteAll.do")
 	public void deleteAll(Integer[] ids,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{	
 		if(ids != null){
@@ -198,6 +204,7 @@ public class MappingController {
 		}			
 	}
 	
+	@RequiresPermissions("mapping:update")
 	@RequestMapping("update.do")
 	public void update(SupplierMapping supplierMapping,Integer codeType,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{
 		if(supplierMapping != null && codeType != null){
@@ -264,6 +271,7 @@ public class MappingController {
 		}			
 	}
 	
+	@RequiresPermissions("mapping:add")
 	@RequestMapping("add.do")
 	public void add(SupplierMapping supplierMapping,Integer codeType,HttpServletResponse response,HttpServletRequest request) throws SchedulerException, ParseException{
 		if(supplierMapping != null && codeType != null){
@@ -296,6 +304,7 @@ public class MappingController {
 		}			
 	}
 	
+	@RequiresPermissions("mapping:import")
 	@RequestMapping("import.do")
 	public void fileImport(@RequestParam() MultipartFile importCSV,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String oldFilename = importCSV.getOriginalFilename();
@@ -411,6 +420,7 @@ public class MappingController {
 		ResponseUtils.renderJson(response, jsonObject.toJSONString());
 	}
 	
+	@RequiresPermissions("mapping:export")
 	@RequestMapping("csvExport.do")
 	public String csvExport(String search,String status,HttpServletRequest request) throws Exception{
 		SupplierMappingQuery mappingQuery = new SupplierMappingQuery();
@@ -464,6 +474,7 @@ public class MappingController {
 		return "redirect:"+exportUrl;
 	}
 	
+	@RequiresRoles("超级管理员")
 	@RequestMapping("excleExport.do")
 	public String excleExport(String search,String status,HttpServletRequest request) throws Exception{
 		SupplierMappingQuery mappingQuery = new SupplierMappingQuery();

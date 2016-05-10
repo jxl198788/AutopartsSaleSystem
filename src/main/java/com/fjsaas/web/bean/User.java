@@ -30,6 +30,12 @@ public class User implements Serializable {
 	private Date updateDate;
 	private Integer updatorId;
 	private String isDel;
+	
+	private List<Role> roles;
+	
+	private List<Permission> menuBars = new ArrayList<Permission>();
+	
+	private List<Permission> permissions = new ArrayList<Permission>();
 
 	public Integer getId() {
 		return id;
@@ -186,6 +192,31 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [id=" + id + ",telphone=" + telphone + ",username=" + username + ",realname=" + realname + ",password=" + password + ",job=" + job + ",email=" + email + ",address=" + address + ",groupId=" + groupId + ",isRoot=" + isRoot + ",suppilerId=" + suppilerId + ",locked=" + locked + ",isActivation=" + isActivation + ",salt=" + salt + ",createDate=" + createDate + ",creatorId=" + creatorId + ",updateDate=" + updateDate + ",updatorId=" + updatorId + ",isDel=" + isDel + "]";
 	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public List<Permission> getMenuBars() {
+		return menuBars;
+	}
+
+	public void setMenuBars(List<Permission> menuBars) {
+		this.menuBars = menuBars;
+	}
+
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
+	}
+	
 	
 	
 }

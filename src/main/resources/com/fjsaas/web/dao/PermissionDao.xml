@@ -15,6 +15,7 @@
 		<result property="updateDate" column="update_date" />
 		<result property="updatorId" column="updator_id" />
 		<result property="isDel" column="is_del" />
+		<result property="sort" column="sort" />
 	</resultMap>
 	<!-- Select SQL -->
 	<sql id="permissionSelector">
@@ -23,7 +24,7 @@
 			 	${fields}
 			</if>
 			<if test="fields == null">
-				id,name,type,url,percode,parentid,parentids,create_date,creator_id,update_date,updator_id,is_del	
+				id,name,type,url,percode,parentid,parentids,create_date,creator_id,update_date,updator_id,is_del,sort	
 			</if>
 		FROM ass_permission
 	</sql>
@@ -41,8 +42,6 @@
 						and  name like CONCAT("%",#{ name },"%")
 					</if>
 				</if>
-				
-				
 				<if test="type != null">
 					<if test="typeLike == false">
 						and type=#{type}
@@ -51,8 +50,6 @@
 						and  type like CONCAT("%",#{ type },"%")
 					</if>
 				</if>
-				
-				
 				<if test="url != null">
 					<if test="urlLike == false">
 						and url=#{url}
@@ -61,8 +58,6 @@
 						and  url like CONCAT("%",#{ url },"%")
 					</if>
 				</if>
-				
-				
 				<if test="percode != null">
 					<if test="percodeLike == false">
 						and percode=#{percode}
@@ -71,8 +66,6 @@
 						and  percode like CONCAT("%",#{ percode },"%")
 					</if>
 				</if>
-				
-				
 				<if test="parentid != null">
 					and parentid=#{parentid}
 				</if>
@@ -82,16 +75,12 @@
 				<if test="createDate != null">
 					and create_date=#{createDate}
 				</if>
-				
-				
 				<if test="creatorId != null">
 					and creator_id=#{creatorId}
 				</if>
 				<if test="updateDate != null">
 					and update_date=#{updateDate}
 				</if>
-				
-				
 				<if test="updatorId != null">
 					and updator_id=#{updatorId}
 				</if>
@@ -101,8 +90,9 @@
 				<if test="isDel == null">
 					and is_del=0
 				</if>
-				
-				
+				<if test="sort != null">
+					and sort=#{sort}
+				</if>
 		</where>
 	</sql>
 	<sql id="permissionListOrder">
@@ -122,14 +112,14 @@
 
 	<!-- 根据主键查询 -->
 	<select id="getPermissionByKey" resultMap="permission" parameterType="hashMap">
-		SELECT id,name,type,url,percode,parentid,parentids,create_date,creator_id,update_date,updator_id,is_del	 
+		SELECT id,name,type,url,percode,parentid,parentids,create_date,creator_id,update_date,updator_id,is_del,sort	 
 		FROM ass_permission
 		WHERE
 		id=#{id}
 		and is_del = 0
 	</select>
 	<select id="getPermissionsByKeys" resultMap="permission" parameterType="ArrayList">
-		SELECT id,name,type,url,percode,parentid,parentids,create_date,creator_id,update_date,updator_id,is_del 
+		SELECT id,name,type,url,percode,parentid,parentids,create_date,creator_id,update_date,updator_id,is_del,sort 
 		FROM ass_permission
 		WHERE
 		id in
@@ -193,6 +183,9 @@
 				</if>
 				<if test="isDel != null">
 					is_del = #{isDel},
+				</if>
+				<if test="sort != null">
+					sort = #{sort},
 				</if>
 			</trim>
 		</set>
@@ -267,6 +260,10 @@
 				
 					is_del,
 				
+				<if test="sort != null">
+					sort,
+				</if>
+				
 		</trim>
 		VALUES
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -330,7 +327,12 @@
 						#{isDel},
 					</if>
 					<if test="isDel == null">
-						0
+						0,
+					</if>
+					
+					
+					<if test="sort != null">
+						#{sort},
 					</if>
 					
 		</trim>
