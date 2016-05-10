@@ -61,7 +61,7 @@ function toForm(obj,id,supplierid){
 			$("#telphone").val(data.supplier.telphone);
 			$("#domain_name").val(data.supplier.domain_name);
 			$("#suppliername").val(data.supplier.suppliername);
-			$("#busi-licence").attr("src",path+"/static/image/businessLicense/"+data.supplier.businessLicenseUrl);
+			$("#busi-licence").attr("src",path+"/upload/image/busslicense/"+data.supplier.businessLicenseUrl);
 			$("#province").combobox('setValue', data.supplier.province);
 			$("#city").combobox('setValue', data.supplier.city);
 			$("#town").combobox('setValue', data.supplier.town);

@@ -58,7 +58,7 @@
                     <br/>
                     <br/>
                     <br/>
-                    <button type="button" style="position: relative;left: 504px;" class="btn btn-outline btn-primary btn-lg">Large button</button>
+                    <button type="button" onclick="window.location.href='login.jsp'" style="position: relative;left: 504px;" class="btn btn-outline btn-primary btn-lg">下载用户手册</button>
                 </div>
 
 

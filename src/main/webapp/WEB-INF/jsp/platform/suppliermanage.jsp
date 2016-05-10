@@ -15,7 +15,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>供应商管理页面</title>
-<%@ include file="/WEB-INF/jsp/head.jsp" %>  
+<%@ include file="/jsp/head.jsp" %>  
 <link href="${pageContext.request.contextPath}/static/css/platform/suppliermanage.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.responsive.css" rel="stylesheet">
@@ -32,7 +32,7 @@ var is_root = "<%=is_root%>"; --%>
 </script>
 </head>
 <body style="height:100%">
-	<%@ include file="/WEB-INF/jsp/nav.jsp" %>
+	<%@ include file="/jsp/nav.jsp" %>
 	<form id="suppliersForm" action="${ctx }/platform/getSupplierInfoList" method="post" enctype="multipart/form-data">
 	</form>
 	<div id="page-wrapper">
@@ -63,10 +63,10 @@ var is_root = "<%=is_root%>"; --%>
 	                        <td>${c.rolename }</td>
 	                        <td>${c.domain_name }</td>
 	                        <td>
-	                        	<c:if test="${c.locked==1 }">
+	                        	<c:if test="${c.userlocked==1 }">
 		                        	<a name="" style="margin-left:5px;" onclick="doChangeStatus(${c.id },0);">激活</a>
 		                        </c:if>
-		                        <c:if test="${c.locked==0 }">
+		                        <c:if test="${c.userlocked==0 }">
 		                        	<a name="" style="margin-left:3px;" onclick="doChangeStatus(${c.id },1);">锁定</a>
 		                        </c:if>
 		                        <a name="" style="margin-left:3px;" onclick="doDelete(${c.id });">删除</a>

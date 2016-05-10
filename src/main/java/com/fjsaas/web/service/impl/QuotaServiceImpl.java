@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fjsaas.web.pagination.Pager;
 import com.fjsaas.web.bean.Quota;
+import com.fjsaas.web.bean.UserQuotas;
 import com.fjsaas.web.dao.QuotaDao;
 import com.fjsaas.web.query.QuotaQuery;
 import com.fjsaas.web.service.QuotaService;
@@ -71,4 +72,28 @@ public class QuotaServiceImpl implements QuotaService {
 	public List<Quota> getQuotaList(QuotaQuery quotaQuery) {
 		return quotaDao.getQuotaList(quotaQuery);
 	}
+	
+	//add by lyn ------------------------------------------------begin
+
+	public List<UserQuotas> getUserQuotaList(QuotaQuery quotaQuery) {
+		return quotaDao.getUserQuotaList(quotaQuery);
+	}
+
+	public List<UserQuotas> getUserQuotasByKeys(List<Integer> idList) {
+		return quotaDao.getUserQuotasByKeys(idList);
+	}
+
+	public UserQuotas getUserQuotasByKey(Integer id) {
+		return quotaDao.getUserQuotasByKey(id);
+	}
+
+	/**
+	 * 根据主键更新
+	 * 
+	 * @return
+	 */
+	public Integer updateUserQuotaByKey(UserQuotas userquotas) {
+		return quotaDao.updateUserQuotaByKey(userquotas);
+	}
+	//add by lyn ------------------------------------------------end
 }

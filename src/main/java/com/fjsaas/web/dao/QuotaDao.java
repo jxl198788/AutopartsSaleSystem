@@ -3,7 +3,9 @@ package com.fjsaas.web.dao;
 import java.util.List;
 
 import com.fjsaas.web.bean.Quota;
+import com.fjsaas.web.bean.UserQuotas;
 import com.fjsaas.web.query.QuotaQuery;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -63,4 +65,30 @@ public interface QuotaDao {
 	 */
 	public int getQuotaListCount(QuotaQuery quotaQuery);
 
+	//add by lyn ------------------------------------------------begin
+	
+	/**
+	 * 集合查询
+	 * @param quotaQuery
+	 */
+	public List<UserQuotas> getUserQuotaList(QuotaQuery quotaQuery);
+
+	/**
+	 * 根据主键批量查找
+	 * @param idList
+	 */
+	public List<UserQuotas> getUserQuotasByKeys(List<Integer> idList);
+
+	/**
+	 * 根据主键批量查找
+	 * @param idList
+	 */
+	public UserQuotas getUserQuotasByKey(Integer id);
+
+	/**
+	 * 根据主键更新
+	 * @param quota
+	 */
+	public Integer updateUserQuotaByKey(UserQuotas userquotas);
+	//add by lyn ------------------------------------------------end
 }

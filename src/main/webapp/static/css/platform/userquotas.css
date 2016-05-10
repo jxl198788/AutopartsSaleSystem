@@ -6,6 +6,9 @@ body{
 }
 .margin{ margin: 0px 0px 15px 0px;}
 
+.display-none{ display:none;}
+.display-block{ display:block;}
+
 .left{ float:left;}
 
 .center{ float:center;}
@@ -84,10 +87,10 @@ body{
 }
 
 .form-group-input{
-	width:45px;
+	width:65px;
 	height:25px;
 	float:left;
-	margin:0px 0px 0px 5px;
+	margin:0px 0px 0px 0px;
 	padding:2px 2px 2px 2px;
 }
 

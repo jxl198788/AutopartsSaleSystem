@@ -1,22 +1,22 @@
-<!--describe: 用户配额管理页面页面样式 
+<%--describe: 用户配额管理页面页面样式 
 	author: lyn
 	create: 2016.04.08
 	version: 0.1
--->
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户配额管理页面</title>
-<%@ include file="/WEB-INF/jsp/head.jsp" %> 
+<%@ include file="/jsp/head.jsp" %> 
 <link href="${pageContext.request.contextPath}/static/css/platform/userquotas.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.responsive.css" rel="stylesheet">
 
 </head>
 <body>
-	<%@ include file="/WEB-INF/jsp/nav.jsp" %>
+	<%@ include file="/jsp/nav.jsp" %>
 	<div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12 page-div">
@@ -25,7 +25,12 @@
         </div>
         <div class="row">
                 <a href="#" id="bulk" class="right" style="margin-right:20px;">批量操作</a>
+                <a id="bulk_cancel" class="right display-none" style="margin-right:20px;">取消</a>
+                <a data-toggle="modal" id="bulk_up" class="right display-none" style="margin-right:20px;" onclick="bulkUp(this);">升级</a>
+                <a data-toggle="modal" id="bulk_set" class="right display-none" style="margin-right:20px;" onclick="bulkSet(this);">设置</a>
         </div>
+        <form id="userQuotasForm" action="${ctx }/platform/getUserQuotasList" method="post" enctype="multipart/form-data">
+		</form>
         <div class="table-div" id="detail-info">
 	        <div class="dataTable_wrapper">
                  <table class="table table-striped table-hover" id="dataTables-example">
@@ -41,91 +46,32 @@
 			        	</tr>
 			        </thead>
 			        <tbody>
+			        <c:forEach items="${userQuotasList }" var="c">
 			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
+			        		<td><input type="checkbox" value="${c.id }"></td>
+			        		<td><a href="#quotas_info_div" data-toggle="modal">${c.username }</a></td>
+	                        <td><a href="#quotas_info_div" data-toggle="modal">${c.telphone }</a></td>
+	                        <td><a href="#quotas_info_div" data-toggle="modal">${c.suppliername }</a></td>
+	                        <td>${c.rolename }</td>
+	                        <td>
+	                        	<a href="#quotas_info_div" data-toggle="modal">高级查询 配额${c.high_quotas }-已分配${c.h_deal_quotas }-剩余${c.h_left_quotas } 
+		                        <br/>已分配${c.h_deal_quotas }-已使用${c.h_use_quotas }-未使用${c.h_unuse_quotas }
+		                        <br/>普通查询 配额${c.comm_quotas }-已分配${c.c_deal_quotas }-剩余${c.c_left_quotas } 
+		                        <br/>已分配${c.c_deal_quotas }-已使用${c.c_use_quotas }-未使用${c.c_unuse_quotas }</a>
+	                        </td>
+	                        <td>
+		                        <a data-toggle="modal" class="td-a1" onclick="setUserQuotas(this,${c.id });">设置</a>
+		                        <a data-toggle="modal" class="td-a1" onclick="upUserQuotas(this,${c.id });">升级</a>
+		                        <a class="td-a1">取消</a>
+	                        </td>
 			        	</tr>
-			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
-			        	</tr>
-			        	<tr>
-			        		<td><input type="checkbox"></td>
-			        		<td><a href="#quotas_info_div" data-toggle="modal">5625@163.com</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">1378932964</a></td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">康众汽配</a></td>
-	                        <td>供应商根管理员</td>
-	                        <td><a href="#quotas_info_div" data-toggle="modal">高级查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 <br/>已分配80-已使用40-未使用40</a></td>
-	                        <td><a href="#quotas_set_div" data-toggle="modal" id="setting" class="td-a1">设置</a><a href="#quotas_detail_div" data-toggle="modal" id="update" class="td-a1">升级</a><a id="cancel" class="td-a1">取消</a></td>
-			        	</tr>
+			        </c:forEach>
 			        </tbody>
 			      </table>
 	        </div>
 	    </div>
+	    <form id="setUserQuotas" action="${ctx }/platform/getUserQuotasByKeys" method="post" enctype="multipart/form-data">
+		</form>
         <!--点击设置弹出  ---- 配额设置        begin-->
 	    <div id="quotas_set_div" class="modal fade">
             <div class="modal-dialog" style="width: 70%;">
@@ -146,20 +92,8 @@
 								            <th>操作</th>
 							        	</tr>
 			                        </thead>
-			                        <tbody>
-			                            <tr class="success">
-			                                <td>5651@163.com</td>
-					                        <td>1378932964</td>
-					                        <td>康众汽配</td>
-					                        <td>
-					                        	<select id="sel_type" class="select-css left margin">
-								                    <option value="">高级查询</option>
-								                    <option value="">普通查询</option>
-							                	</select>
-							                </td>
-					                        <td><span class="left">设置配额</span><input class="form-control form-group-input left" id="contact_user" type="text" placeholder="配额"><br/><span class="left">配额100-已分配80-剩余20 已分配80-已使用40-未使用40</span></td>
-					                        <td><a id="save" name="" class="td-a2">确定</a><a id="cancel" class="td-a1" data-dismiss="modal" aria-label="Close">取消</a></td>
-							        	</tr>
+			                        <tbody id="setQuotaTable">
+			                        <!-- 配额信息展示  -->
 			                        </tbody>
 			                    </table>
 			                </div>
@@ -170,6 +104,8 @@
             </div>
         </div>
         <!--点击设置弹出  ---- 配额设置        end-->
+        <form id="upUserQuotas" action="${ctx }/platform/getUserQuotasUpByKeys" method="post" enctype="multipart/form-data">
+		</form>
         <!--点击设置弹出  ---- 配额升级信息      begin-->
         <div id="quotas_detail_div" class="modal fade">
             <div class="modal-dialog" style="width: 70%;">
@@ -189,14 +125,8 @@
 								            <th>当前配额</th>
 							        	</tr>
 			                        </thead>
-			                        <tbody>
-			                            <tr class="success">
-			                                <td>5651@163.com</td>
-					                        <td>1378932964</td>
-					                        <td>康众汽配</td>
-					                        <td>20元高级查询配额10套餐</td>
-					                        <td>高级查询 配额110-已分配80-剩余30 已分配80-已使用40-未使用40<br/>普通查询 配额100-已分配80-剩余20 已分配80-已使用40-未使用40</td>
-							        	</tr>
+			                        <tbody id="quotasUpTable">
+			                        <!-- 配额升级信息展示  -->
 			                        </tbody>
 			                    </table>
 			                </div>

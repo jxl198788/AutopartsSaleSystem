@@ -11,8 +11,9 @@
 	<%@ include file="/jsp/nav.jsp" %>
 	 <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12 ">
                     <h1 class="page-header">我的工作台</h1>
+                    <label  for="searched_content">搜索:</label><input type="text" name="serch" id="serchID" title="搜索！"  />
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -117,7 +118,7 @@
             </div>
             <!-- /.panel-body -->
         </div>
-
+		<div class="pagebox"  style="font-size:20px;"  ><a  title="Total record">&nbsp;<b>首页</b> </a>&nbsp;&nbsp;&nbsp;<b >1</b>&nbsp;<a  href="#">2</a>&nbsp;<a  href="#">3</a>&nbsp;<a  href="#">4</a>&nbsp;<a  href="#">5</a>&nbsp;<a  href="#">6</a>&nbsp;<a  href="#">7</a>&nbsp;<a  href="#">8</a>&nbsp;<a  href="#">9</a>&nbsp;<a  href="#">10</a>&nbsp;<a  href="#">下一页</a>&nbsp;<a  href="#">尾页</a>&nbsp;&nbsp;&nbsp;<b >每页显示</b>&nbsp;&nbsp;<b >条</b>&nbsp;&nbsp;&nbsp;<b >总计20条记录</b></div>
         </div>
         <!-- /#page-wrapper -->
 </body>
