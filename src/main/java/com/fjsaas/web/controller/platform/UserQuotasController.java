@@ -118,8 +118,10 @@ public class UserQuotasController {
 			reqBean.setSupplierid(id);
 			List<UserQuotas> userQuotasList = quotaService.getTreeDataByKey(reqBean);
 			if (userQuotasList.size() > 0) {
+				System.out.println("供应商跟管理员:"+userQuotasList.size());
 				for (int k = 0; k < userQuotasList.size(); k++) {
 					UserQuotas userquota = userQuotasList.get(k);
+					System.out.println("供应商跟管理员"+k+":"+userquota.getSuppliername());
 					Tree tree = new Tree();//供应商跟管理员
 					tree.setId(userquota.getSupplierid());
 					tree.setText(userquota.getSuppliername()+"（高级查询 配额"+userquota.getHigh_quotas()+"-已分配"+userquota.getH_deal_quotas()+"-剩余"+userquota.getH_left_quotas()+" 已分配"+userquota.getH_deal_quotas()+"-已使用"+userquota.getH_use_quotas()+"-未使用"+userquota.getH_unuse_quotas()+"<br/><label>普通查询 配额"+userquota.getComm_quotas()+"-已分配"+userquota.getC_deal_quotas()+"-剩余"+userquota.getC_left_quotas()+" 已分配"+userquota.getC_deal_quotas()+"-已使用"+userquota.getC_use_quotas()+"-未使用"+userquota.getC_unuse_quotas()+"）<label>");
@@ -127,10 +129,13 @@ public class UserQuotasController {
 					List<Tree> treetwo = new ArrayList<Tree>();
 					UserQuotas reqBean2 = new UserQuotas();
 					reqBean2.setParent_id(userquota.getSupplierid());
+					System.out.println("userquota.getSupplierid():"+userquota.getSupplierid()+"---reqBean2.getParent_id():"+reqBean2.getParent_id());
 					List<UserQuotas> userQuotasList1 = quotaService.getTreeDataByKey(reqBean2);
 					if (userQuotasList1.size() > 0) {
+						System.out.println("供应商:"+userQuotasList1.size());
 						for (int m = 0; m < userQuotasList1.size(); m++) {
 							UserQuotas userquota2 = userQuotasList1.get(m);
+							System.out.println("供应商"+m+":"+userquota2.getSuppliername());
 							Tree tree2 = new Tree();
 							tree2.setId(userquota2.getSupplierid());
 							tree2.setText(userquota2.getSuppliername()+"（高级查询 配额"+userquota2.getHigh_quotas()+"-已分配"+userquota2.getH_deal_quotas()+"-剩余"+userquota2.getH_left_quotas()+" 已分配"+userquota2.getH_deal_quotas()+"-已使用"+userquota2.getH_use_quotas()+"-未使用"+userquota2.getH_unuse_quotas()+"<br/><label>普通查询 配额"+userquota2.getComm_quotas()+"-已分配"+userquota2.getC_deal_quotas()+"-剩余"+userquota2.getC_left_quotas()+" 已分配"+userquota2.getC_deal_quotas()+"-已使用"+userquota2.getC_use_quotas()+"-未使用"+userquota2.getC_unuse_quotas()+"）<label>");
@@ -140,8 +145,10 @@ public class UserQuotasController {
 							reqBean3.setParent_id(userquota2.getSupplierid());
 							List<UserQuotas> userQuotasList3 = quotaService.getTreeDataByKey(reqBean3);
 							if (userQuotasList3.size() > 0) {
+								System.out.println("二级分销商:"+userQuotasList3.size());
 								for (int n = 0; n < userQuotasList3.size(); n++) {
 									UserQuotas userquota3 = userQuotasList3.get(n);
+									System.out.println("供应商跟管理员"+n+":"+userquota3.getSuppliername());
 									Tree tree3 = new Tree();
 									tree3.setId(userquota3.getSupplierid());
 									tree3.setText(userquota3.getSuppliername()+"（高级查询 配额"+userquota3.getHigh_quotas()+"-已分配"+userquota3.getH_deal_quotas()+"-剩余"+userquota3.getH_left_quotas()+" 已分配"+userquota3.getH_deal_quotas()+"-已使用"+userquota3.getH_use_quotas()+"-未使用"+userquota3.getH_unuse_quotas()+"<br/><label>普通查询 配额"+userquota3.getComm_quotas()+"-已分配"+userquota3.getC_deal_quotas()+"-剩余"+userquota3.getC_left_quotas()+" 已分配"+userquota3.getC_deal_quotas()+"-已使用"+userquota3.getC_use_quotas()+"-未使用"+userquota3.getC_unuse_quotas()+"）<label>");
@@ -151,8 +158,10 @@ public class UserQuotasController {
 									reqBean4.setParent_id(userquota3.getSupplierid());
 									List<UserQuotas> userQuotasList4 = quotaService.getTreeDataByKey(reqBean4);
 									if (userQuotasList4.size() > 0) {
+										System.out.println("维修厂:"+userQuotasList4.size());
 										for (int j = 0; j < userQuotasList4.size(); j++) {
 											UserQuotas userquota4 = userQuotasList4.get(j);
+											System.out.println("维修厂"+j+":"+userquota4.getSuppliername());
 											Tree tree4 = new Tree();
 											tree4.setId(userquota4.getSupplierid());
 											tree4.setText(userquota4.getSuppliername()+"（高级查询 配额"+userquota4.getHigh_quotas()+"-已分配"+userquota4.getH_deal_quotas()+"-剩余"+userquota4.getH_left_quotas()+" 已分配"+userquota4.getH_deal_quotas()+"-已使用"+userquota4.getH_use_quotas()+"-未使用"+userquota4.getH_unuse_quotas()+"<br/><label>普通查询 配额"+userquota4.getComm_quotas()+"-已分配"+userquota4.getC_deal_quotas()+"-剩余"+userquota4.getC_left_quotas()+" 已分配"+userquota4.getC_deal_quotas()+"-已使用"+userquota4.getC_use_quotas()+"-未使用"+userquota4.getC_unuse_quotas()+"）<label>");
@@ -162,8 +171,10 @@ public class UserQuotasController {
 											reqBean5.setSupplierid(userquota4.getSupplierid());
 											List<UserQuotas> userQuotasList5 = quotaService.getTreeUserByKey(reqBean5);
 											if (userQuotasList5.size() > 0) {
+												System.out.println("个体用户:"+userQuotasList5.size());
 												for (int i = 0; i < userQuotasList5.size(); i++) {
 													UserQuotas userquota5 = userQuotasList5.get(i);
+													System.out.println("个体用户"+j+":"+userquota5.getUsername());
 													Tree tree5 = new Tree();
 													tree5.setId(userquota5.getSupplierid());
 													tree5.setText(userquota5.getUsername()+" "+userquota5.getTelphone()+" 高级查询使用"+userquota5.getHigh_quotas()+"次 普通查询使用"+userquota5.getComm_quotas()+"次");

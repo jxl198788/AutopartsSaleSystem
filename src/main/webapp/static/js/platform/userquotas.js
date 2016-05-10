@@ -319,13 +319,10 @@ function showTreeData(obj,id){
 		type:"get",
 		url:"getTreeDataByKey/"+id,
 		success:function(data){
-//			alert(JSON.stringify(data.treedata));
 			$('#quotas_info').tree({//树结构初始化
 				  data:data.treedata,
-				  method:'get',
 				  animate:true,
 				  loader:function(param,success,error){
-					  obj.href='#quotas_info_div';
 				  }
 			});
 		},
@@ -334,6 +331,7 @@ function showTreeData(obj,id){
 		},
 		dataType:"json"
 	});
+	obj.href='#quotas_info_div';
 }
 
 //input的text输入框数字判断

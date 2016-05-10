@@ -278,19 +278,19 @@
 			t1.suppiler_id supplierid,
 			t2.name suppliername,
 			t4.name rolename,
-			sum(case when t6.type = 1 then t5.total_quota else 0 END) high_quotas,
-			sum(case when t6.type = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
-			sum(case when t6.type = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
-			sum(case when t6.type = 1 then t5.used_quato else 0 END) h_use_quotas,
-			sum(case when t6.type = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
-			sum(case when t6.type = 0 then t5.total_quota else 0 END) comm_quotas,
-			sum(case when t6.type = 0 then t5.distribute_quota else 0 END) c_deal_quotas,
-			sum(case when t6.type = 0 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
-			sum(case when t6.type = 0 then t5.used_quato else 0 END) c_use_quotas,
-			sum(case when t6.type = 0 then t5.usable_quota else 0 END) c_unuse_quotas
+			sum(case when t6.percode = 1 then t5.total_quota else 0 END) high_quotas,
+			sum(case when t6.percode = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
+			sum(case when t6.percode = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
+			sum(case when t6.percode = 1 then t5.used_quato else 0 END) h_use_quotas,
+			sum(case when t6.percode = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
+			sum(case when t6.percode = 0 then t5.total_quota else 0 END) comm_quotas,
+			sum(case when t6.percode = 0 then t5.distribute_quota else 0 END) c_deal_quotas,
+			sum(case when t6.percode = 0 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
+			sum(case when t6.percode = 0 then t5.used_quato else 0 END) c_use_quotas,
+			sum(case when t6.percode = 0 then t5.usable_quota else 0 END) c_unuse_quotas
 	from ass_user t1
 	left join ass_supplier t2 on t1.suppiler_id = t2.id
-	left join ass_user_role t3 on t1.id = t3.user_id
+	inner join ass_user_role t3 on t1.id = t3.user_id and t3.role_id = 1 #注释：仅查看为供应商管理员角色的汽配商信息
 	left join ass_role t4 on t3.role_id = t4.id 
 	left join ass_quota t5 on t2.id = t5.supplier_id
 	left join ass_permission t6 on t5.permission_id = t6.id
@@ -313,16 +313,16 @@
 			t1.telphone,
 			t1.suppiler_id supplierid,
 			t2.name suppliername,
-			sum(case when t6.type = 1 then t5.total_quota else 0 END) high_quotas,
-			sum(case when t6.type = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
-			sum(case when t6.type = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
-			sum(case when t6.type = 1 then t5.used_quato else 0 END) h_use_quotas,
-			sum(case when t6.type = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
-			sum(case when t6.type = 0 then t5.total_quota else 0 END) comm_quotas,
-			sum(case when t6.type = 0 then t5.distribute_quota else 0 END) c_deal_quotas,
-			sum(case when t6.type = 0 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
-			sum(case when t6.type = 0 then t5.used_quato else 0 END) c_use_quotas,
-			sum(case when t6.type = 0 then t5.usable_quota else 0 END) c_unuse_quotas
+			sum(case when t6.percode = 1 then t5.total_quota else 0 END) high_quotas,
+			sum(case when t6.percode = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
+			sum(case when t6.percode = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
+			sum(case when t6.percode = 1 then t5.used_quato else 0 END) h_use_quotas,
+			sum(case when t6.percode = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
+			sum(case when t6.percode = 0 then t5.total_quota else 0 END) comm_quotas,
+			sum(case when t6.percode = 0 then t5.distribute_quota else 0 END) c_deal_quotas,
+			sum(case when t6.percode = 0 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
+			sum(case when t6.percode = 0 then t5.used_quato else 0 END) c_use_quotas,
+			sum(case when t6.percode = 0 then t5.usable_quota else 0 END) c_unuse_quotas
 	from ass_user t1
 	left join ass_supplier t2 on t1.suppiler_id = t2.id
 	left join ass_quota t5 on t2.id = t5.supplier_id
@@ -347,16 +347,16 @@
 			t1.telphone,
 			t1.suppiler_id supplierid,
 			t2.name suppliername,
-			sum(case when t6.type = 1 then t5.total_quota else 0 END) high_quotas,
-			sum(case when t6.type = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
-			sum(case when t6.type = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
-			sum(case when t6.type = 1 then t5.used_quato else 0 END) h_use_quotas,
-			sum(case when t6.type = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
-			sum(case when t6.type = 0 then t5.total_quota else 0 END) comm_quotas,
-			sum(case when t6.type = 0 then t5.distribute_quota else 0 END) c_deal_quotas,
-			sum(case when t6.type = 0 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
-			sum(case when t6.type = 0 then t5.used_quato else 0 END) c_use_quotas,
-			sum(case when t6.type = 0 then t5.usable_quota else 0 END) c_unuse_quotas
+			sum(case when t6.percode = 1 then t5.total_quota else 0 END) high_quotas,
+			sum(case when t6.percode = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
+			sum(case when t6.percode = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
+			sum(case when t6.percode = 1 then t5.used_quato else 0 END) h_use_quotas,
+			sum(case when t6.percode = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
+			sum(case when t6.percode = 0 then t5.total_quota else 0 END) comm_quotas,
+			sum(case when t6.percode = 0 then t5.distribute_quota else 0 END) c_deal_quotas,
+			sum(case when t6.percode = 0 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
+			sum(case when t6.percode = 0 then t5.used_quato else 0 END) c_use_quotas,
+			sum(case when t6.percode = 0 then t5.usable_quota else 0 END) c_unuse_quotas
 	from ass_user t1
 	left join ass_supplier t2 on t1.suppiler_id = t2.id
 	left join ass_quota t5 on t2.id = t5.supplier_id
@@ -434,20 +434,20 @@
 	</insert>
 	<select id="getTreeDataByKey" resultMap="userQuotas" parameterType="UserQuotas">
 	select 
-			t1.supplier_id,
+			t1.supplier_id supplierid,
 			t1.name suppliername,
 			t1.parent_id,
 			t2.group_id,
-			sum(case when t6.type = 1 then t5.total_quota else 0 END) high_quotas,
-			sum(case when t6.type = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
-			sum(case when t6.type = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
-			sum(case when t6.type = 1 then t5.used_quato else 0 END) h_use_quotas,
-			sum(case when t6.type = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
-			sum(case when t6.type = 0 then t5.total_quota else 0 END) comm_quotas,
-			sum(case when t6.type = 0 then t5.distribute_quota else 0 END) c_deal_quotas,
-			sum(case when t6.type = 0 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
-			sum(case when t6.type = 0 then t5.used_quato else 0 END) c_use_quotas,
-			sum(case when t6.type = 0 then t5.usable_quota else 0 END) c_unuse_quotas
+			sum(case when t6.percode = 1 then t5.total_quota else 0 END) high_quotas,
+			sum(case when t6.percode = 1 then t5.distribute_quota else 0 END) h_deal_quotas,
+			sum(case when t6.percode = 1 then t5.total_quota - t5.distribute_quota else 0 END) h_left_quotas,
+			sum(case when t6.percode = 1 then t5.used_quato else 0 END) h_use_quotas,
+			sum(case when t6.percode = 1 then t5.usable_quota else 0 END) h_unuse_quotas,
+			sum(case when t6.percode = 0 then t5.total_quota else 0 END) comm_quotas,
+			sum(case when t6.percode = 0 then t5.distribute_quota else 0 END) c_deal_quotas,
+			sum(case when t6.percode = 0 then t5.total_quota - t5.distribute_quota else 0 END) c_left_quotas,
+			sum(case when t6.percode = 0 then t5.used_quato else 0 END) c_use_quotas,
+			sum(case when t6.percode = 0 then t5.usable_quota else 0 END) c_unuse_quotas
 	from ass_supplier_relative t1
 	left join ass_supplier t2 on t1.supplier_id = t2.id
 	left join ass_quota t5 on t1.supplier_id = t5.supplier_id

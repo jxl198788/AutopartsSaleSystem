@@ -1,11 +1,21 @@
 <%--describe: 用户配额管理页面页面样式 
+	权限：仅平台业务员可进入此页面，仅对供应商管理员角色的汽配商进行操作
 	author: lyn
 	create: 2016.04.08
 	version: 0.1
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.fjsaas.web.bean.User"%>
+<%@ page import="com.fjsaas.web.bean.Role"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.fjsaas.web.utils.session.SessionProvider"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<%
+	User user = SessionProvider.getCurrentUser();
+	String username = user.getUsername();
+	//System.out.println("session-----username:"+username);
+%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户配额管理页面</title>
@@ -13,7 +23,6 @@
 <link href="${pageContext.request.contextPath}/static/css/platform/userquotas.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.responsive.css" rel="stylesheet">
-
 </head>
 <body>
 	<%@ include file="/jsp/nav.jsp" %>
@@ -54,7 +63,7 @@
 	                        <td><a href="#quotas_info_div" data-toggle="modal">${c.suppliername }</a></td>
 	                        <td>${c.rolename }</td>
 	                        <td>
-	                        	<a data-toggle="modal" onclick="showTreeData(this,${c.id });">高级查询 配额${c.high_quotas }-已分配${c.h_deal_quotas }-剩余${c.h_left_quotas } 
+	                        	<a data-toggle="modal" onclick="showTreeData(this,${c.supplierid });">高级查询 配额${c.high_quotas }-已分配${c.h_deal_quotas }-剩余${c.h_left_quotas } 
 		                        <br/>已分配${c.h_deal_quotas }-已使用${c.h_use_quotas }-未使用${c.h_unuse_quotas }
 		                        <br/>普通查询 配额${c.comm_quotas }-已分配${c.c_deal_quotas }-剩余${c.c_left_quotas } 
 		                        <br/>已分配${c.c_deal_quotas }-已使用${c.c_use_quotas }-未使用${c.c_unuse_quotas }</a>
