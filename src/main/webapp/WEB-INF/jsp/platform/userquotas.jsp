@@ -54,7 +54,7 @@
 	                        <td><a href="#quotas_info_div" data-toggle="modal">${c.suppliername }</a></td>
 	                        <td>${c.rolename }</td>
 	                        <td>
-	                        	<a href="#quotas_info_div" data-toggle="modal">高级查询 配额${c.high_quotas }-已分配${c.h_deal_quotas }-剩余${c.h_left_quotas } 
+	                        	<a data-toggle="modal" onclick="showTreeData(this,${c.id });">高级查询 配额${c.high_quotas }-已分配${c.h_deal_quotas }-剩余${c.h_left_quotas } 
 		                        <br/>已分配${c.h_deal_quotas }-已使用${c.h_use_quotas }-未使用${c.h_unuse_quotas }
 		                        <br/>普通查询 配额${c.comm_quotas }-已分配${c.c_deal_quotas }-剩余${c.c_left_quotas } 
 		                        <br/>已分配${c.c_deal_quotas }-已使用${c.c_use_quotas }-未使用${c.c_unuse_quotas }</a>
@@ -62,7 +62,6 @@
 	                        <td>
 		                        <a data-toggle="modal" class="td-a1" onclick="setUserQuotas(this,${c.id });">设置</a>
 		                        <a data-toggle="modal" class="td-a1" onclick="upUserQuotas(this,${c.id });">升级</a>
-		                        <a class="td-a1">取消</a>
 	                        </td>
 			        	</tr>
 			        </c:forEach>

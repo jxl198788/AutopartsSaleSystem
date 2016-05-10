@@ -34,11 +34,6 @@ var treedata = [{
 //页面初始化
 $(function(){
 	tableSet('#dataTables-example');//表格属性设置
-	$('#quotas_info').tree({//树结构初始化
-        data:treedata,
-        method:'get',
-        animate:true
-	});
 });
 
 //表格属性设置
@@ -94,45 +89,47 @@ function bulkSet(obj){
 	});
 	ids = ids.substring(0,ids.length-1);
 	var supplierids = "";
-	$.ajax({
-		type:"post",
-		url:"getUserQuotasByKeys/"+ids,
-		success:function(data){
-			setUserQuotas = data.setUserQuotas;
-			size = data.size;
-			var str = "";
-			for (var i = 0; i < setUserQuotas.length; i++) {
-				var obj = setUserQuotas[i];
-				supplierids = supplierids + obj.supplierid + ",";
-				str += '<tr class="success">';
-				str +='<td>'+obj.username+'</td>';
-				str +='<td>'+obj.telphone+'</td>';
-				str +='<td>'+obj.suppliername+'</td>';
-				str +='<td>';
-				str +='<select id="types" name="types" class="select-css left margin" onchange="changeQuotas(this,'+obj.id+');">';
-				str +='<option value="1">高级查询</option>';
-				str +='<option value="2">普通查询</option>';
-				str +='</select>';
-				str +='</td>';
-				str +='<td>';
-//				str +='<span class="left">设置配额</span>';
-				str +='<input class="form-control form-group-input left" id="set_quotas" name="set_quotas" type="text" placeholder="设置配额">';
-				str +='<span id="high_quotas'+obj.id+'" class="left" style="margin-left:5px">配额'+obj.high_quotas+'-已分配'+obj.h_deal_quotas+'-剩余'+obj.h_left_quotas+' 已分配'+obj.h_deal_quotas+'-已使用'+obj.h_use_quotas+'-未使用'+obj.h_unuse_quotas+'</span>';
-				str +='<span id="comm_quotas'+obj.id+'" class="left display-none" style="margin-left:5px;">配额'+obj.comm_quotas+'-已分配'+obj.c_deal_quotas+'-剩余'+obj.c_left_quotas+' 已分配'+obj.c_deal_quotas+'-已使用'+obj.c_use_quotas+'-未使用'+obj.c_unuse_quotas+'</span>';
-				str +='</td>';
-				str +='<td></td>';
-				str +='</tr>';
-			}
-			supplierids = supplierids.substring(0,supplierids.length-1);
-			str +='<tr><td align="center" colspan="7"><button type="button" class="btn btn-success" onclick="updateQuotasByKeys('+"'"+supplierids+"'"+');">确认</button><button type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close" style="margin-left:20px;">取消</button></td></tr>';
-			$("#setQuotaTable").html(str);
-		},
-		error:function(data){
-			alert("error:【"+JSON.stringify(data)+"】");
-		},
-		dataType:"json"
-	});
-	obj.href="#quotas_set_div";
+	if(ids!=""){
+		$.ajax({
+			type:"post",
+			url:"getUserQuotasByKeys/"+ids,
+			success:function(data){
+				setUserQuotas = data.setUserQuotas;
+				size = data.size;
+				var str = "";
+				for (var i = 0; i < setUserQuotas.length; i++) {
+					var obj = setUserQuotas[i];
+					supplierids = supplierids + obj.supplierid + ",";
+					str += '<tr class="success">';
+					str +='<td>'+obj.username+'</td>';
+					str +='<td>'+obj.telphone+'</td>';
+					str +='<td>'+obj.suppliername+'</td>';
+					str +='<td>';
+					str +='<select id="types" name="types" class="select-css left margin" onchange="changeQuotas(this,'+obj.id+');">';
+					str +='<option value="1">高级查询</option>';
+					str +='<option value="0">普通查询</option>';
+					str +='</select>';
+					str +='</td>';
+					str +='<td>';
+	//				str +='<span class="left">设置配额</span>';
+					str +='<input class="form-control form-group-input left" id="set_quotas" name="set_quotas" type="text" placeholder="设置配额">';
+					str +='<span id="high_quotas'+obj.id+'" class="left" style="margin-left:5px">配额'+obj.high_quotas+'-已分配'+obj.h_deal_quotas+'-剩余'+obj.h_left_quotas+' 已分配'+obj.h_deal_quotas+'-已使用'+obj.h_use_quotas+'-未使用'+obj.h_unuse_quotas+'</span>';
+					str +='<span id="comm_quotas'+obj.id+'" class="left display-none" style="margin-left:5px;">配额'+obj.comm_quotas+'-已分配'+obj.c_deal_quotas+'-剩余'+obj.c_left_quotas+' 已分配'+obj.c_deal_quotas+'-已使用'+obj.c_use_quotas+'-未使用'+obj.c_unuse_quotas+'</span>';
+					str +='</td>';
+					str +='<td></td>';
+					str +='</tr>';
+				}
+				supplierids = supplierids.substring(0,supplierids.length-1);
+				str +='<tr><td align="center" colspan="7"><button type="button" class="btn btn-success" onclick="updateQuotasByKeys('+"'"+supplierids+"'"+');">确认</button><button type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close" style="margin-left:20px;">取消</button></td></tr>';
+				$("#setQuotaTable").html(str);
+			},
+			error:function(data){
+				alert("error:【"+JSON.stringify(data)+"】");
+			},
+			dataType:"json"
+		});
+		obj.href="#quotas_set_div";
+	}
 }
 
 //批量升级查看操作
@@ -142,35 +139,38 @@ function bulkUp(obj){
 		str=str+$(this).val()+",";//选中的值 
 	});
 	str = str.substring(0,str.length-1);
-	$.ajax({
-		type:"post",
-		url:"getUserQuotasByKeys/"+str,
-		success:function(data){
-			var setUserQuotas = data.setUserQuotas;
-			var str = "";
-			for (var i = 0; i < setUserQuotas.length; i++) {
-				var obj = setUserQuotas[i];
-				str += '<tr class="success">';
-				str +='<td>'+obj.username+'</td>';
-				str +='<td>'+obj.telphone+'</td>';
-				str +='<td>'+obj.suppliername+'</td>';
-				str +='<td></td>';//“20元高级查询配额10套餐”，这个暂时不做展示，等购买配额的弄好再做处理
-				str +='<td>';
-				str +='高级查询 配额'+obj.high_quotas+'-已分配'+obj.h_deal_quotas+'-剩余'+obj.h_left_quotas+' 已分配'+obj.h_deal_quotas+'-已使用'+obj.h_use_quotas+'-未使用'+obj.h_unuse_quotas;
-				str +='<br/>普通查询 配额'+obj.comm_quotas+'-已分配'+obj.c_deal_quotas+'-剩余'+obj.c_left_quotas+' 已分配'+obj.c_deal_quotas+'-已使用'+obj.c_use_quotas+'-未使用'+obj.c_unuse_quotas;
-				str +='</td>';
-				str +='</tr>';
-			}
-			$("#quotasUpTable").html(str);
-		},
-		error:function(data){
-			alert("error:【"+JSON.stringify(data)+"】");
-		},
-		dataType:"json"
-	});
-	obj.href="#quotas_detail_div";
+	if(str!=""){
+		$.ajax({
+			type:"post",
+			url:"getUserQuotasByKeys/"+str,
+			success:function(data){
+				var setUserQuotas = data.setUserQuotas;
+				var str = "";
+				for (var i = 0; i < setUserQuotas.length; i++) {
+					var obj = setUserQuotas[i];
+					str += '<tr class="success">';
+					str +='<td>'+obj.username+'</td>';
+					str +='<td>'+obj.telphone+'</td>';
+					str +='<td>'+obj.suppliername+'</td>';
+					str +='<td></td>';//“20元高级查询配额10套餐”，这个暂时不做展示，等购买配额的弄好再做处理
+					str +='<td>';
+					str +='高级查询 配额'+obj.high_quotas+'-已分配'+obj.h_deal_quotas+'-剩余'+obj.h_left_quotas+' 已分配'+obj.h_deal_quotas+'-已使用'+obj.h_use_quotas+'-未使用'+obj.h_unuse_quotas;
+					str +='<br/>普通查询 配额'+obj.comm_quotas+'-已分配'+obj.c_deal_quotas+'-剩余'+obj.c_left_quotas+' 已分配'+obj.c_deal_quotas+'-已使用'+obj.c_use_quotas+'-未使用'+obj.c_unuse_quotas;
+					str +='</td>';
+					str +='</tr>';
+				}
+				$("#quotasUpTable").html(str);
+			},
+			error:function(data){
+				alert("error:【"+JSON.stringify(data)+"】");
+			},
+			dataType:"json"
+		});
+		obj.href="#quotas_detail_div";
+	}
 }
 
+//批量查询权限切换
 function changeQuotas(obj,userid){
 	if(obj.value==1){//高级查询
 		$("#high_quotas"+userid).css("display","block");
@@ -181,6 +181,7 @@ function changeQuotas(obj,userid){
 	}
 }
 
+//单个查询时权限切换
 function changeQuota(obj){
 	if(obj.value==1){//高级查询
 		$("#high_quotas").css("display","block");
@@ -192,7 +193,6 @@ function changeQuota(obj){
 }
 //根据用户id显示配额情况
 function setUserQuotas(e,id){
-	alert(id);
 	$.ajax({
 		type:"post",
 		url:"getUserQuotasByKey/"+id,
@@ -206,7 +206,7 @@ function setUserQuotas(e,id){
 			str +='<td>';
 			str +='<select id="type" name="type" class="select-css left margin" onchange="changeQuota(this);">';
 			str +='<option value="1">高级查询</option>';
-			str +='<option value="2">普通查询</option>';
+			str +='<option value="0">普通查询</option>';
 			str +='</select>';
 			str +='</td>';
 			str +='<td>';
@@ -234,19 +234,21 @@ function setUserQuotas(e,id){
 function saveQuotas(supplierid){
 	var type = $("#type").val();
 	var setquota = $("#set_quota").val();
-	if(confirm("您确定要执行此操作吗？")){
-		$.ajax({
-			type:"post",
-			url:"updateUserQuotaByKey/"+type+"/"+supplierid+"/"+setquota,
-			success:function(data){
-				alert(data.result);
-				$("#userQuotasForm").submit();
-			},
-			error:function(data){
-				alert("error:【"+JSON.stringify(data)+"】");
-			},
-			dataType:"json"
-		});
+	if(isNum(setquota)){//判断配额输入框是否输入格式有没有错
+		if(confirm("您确定要执行此操作吗？")){
+			$.ajax({
+				type:"post",
+				url:"updateUserQuotaByKey/"+type+"/"+supplierid+"/"+setquota,
+				success:function(data){
+					alert(data.result);
+					$("#userQuotasForm").submit();
+				},
+				error:function(data){
+					alert("error:【"+JSON.stringify(data)+"】");
+				},
+				dataType:"json"
+			});
+		}
 	}
 }
 
@@ -280,27 +282,74 @@ function upUserQuotas(obj,id){
 
 //批量设置配额
 function updateQuotasByKeys(supplierids){
-	alert(supplierids);
 	var types = "";
 	var setquotas = "";
+	var isnum = true;
 	$("select[name=types]").each(function(){//同name的select的标签个数
 		types = types + $(this).val() + ",";
 	});
 	$("input[name=set_quotas]").each(function(){//同name的input的标签个数
+		isnum = isNum($(this).val());
+		if(isnum==false){
+			return false;
+		}
 		setquotas = setquotas + $(this).val() + ",";
 	});
-	if(confirm("您确定要执行此操作吗？")){
-		$.ajax({
-			type:"post",
-			url:"updateUserQuotaByKeys/"+types+"/"+supplierids+"/"+setquotas,
-			success:function(data){
-				alert(data.result);
-				$("#userQuotasForm").submit();
-			},
-			error:function(data){
-				alert("error:【"+JSON.stringify(data)+"】");
-			},
-			dataType:"json"
-		});
+	if(isnum==true){
+		if(confirm("您确定要执行此操作吗？")){
+			$.ajax({
+				type:"post",
+				url:"updateUserQuotaByKeys/"+types+"/"+supplierids+"/"+setquotas,
+				success:function(data){
+					alert(data.result);
+					$("#userQuotasForm").submit();
+				},
+				error:function(data){
+					alert("error:【"+JSON.stringify(data)+"】");
+				},
+				dataType:"json"
+			});
+		}
+	}
+}
+
+//树结构弹出
+function showTreeData(obj,id){
+	$.ajax({
+		type:"get",
+		url:"getTreeDataByKey/"+id,
+		success:function(data){
+//			alert(JSON.stringify(data.treedata));
+			$('#quotas_info').tree({//树结构初始化
+				  data:data.treedata,
+				  method:'get',
+				  animate:true,
+				  loader:function(param,success,error){
+					  obj.href='#quotas_info_div';
+				  }
+			});
+		},
+		error:function(data){
+			alert("error:【"+JSON.stringify(data)+"】");
+		},
+		dataType:"json"
+	});
+}
+
+//input的text输入框数字判断
+function isNum(num){
+	var msg = "";
+	if(num.length>20){
+		msg="配额的数据长度不能超出20位";
+		alert(msg);
+		return false;
+	}
+	msg="配额只能输入整数！";
+	var exp = new RegExp("^\\d+?$");
+	if(exp.test(num)){
+		return true;
+	}else{
+		alert(msg);
+		return false;
 	}
 }
