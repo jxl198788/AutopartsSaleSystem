@@ -93,4 +93,8 @@ body{
 }
 
 .table-div{ margin-top:-25px;}
-.page-div{ margin:-15px 0 0 0;}
+.page-div{ margin:-s15px 0 0 0;}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+padding:0 0 0 0;
+}

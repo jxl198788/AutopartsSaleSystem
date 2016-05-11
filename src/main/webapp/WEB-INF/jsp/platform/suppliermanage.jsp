@@ -5,10 +5,14 @@
 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.fjsaas.web.bean.User"%>
+<%@ page import="com.fjsaas.web.bean.Role"%>
+<%@ page import="java.util.List"%>
+<%@page import="com.fjsaas.web.utils.session.SessionProvider"%>
 <%
-	//User user = (User)request.getSession().getAttribute("user");
-	//String uname = user.getUsername();//登录用户名
-	//String is_root = user.getIsRoot();//是否为根管理员
+	User user = SessionProvider.getCurrentUser();
+	String clientname = user.getUsername();//登录用户名
+	int clientid = user.getId();//登录用户id
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,19 +20,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>供应商管理页面</title>
 <%@ include file="/jsp/head.jsp" %>  
-<link href="${pageContext.request.contextPath}/static/css/platform/suppliermanage.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/static/bootstrap/dataTables.responsive.css" rel="stylesheet">
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/bootstrap/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/bootstrap/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/json.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/jquery/json2.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/common/city.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/platform/suppliermanage.js"></script>
+<link href="${ctx}/static/css/platform/suppliermanage.css" rel="stylesheet">
+<script type="text/javascript" src="${ctx}/static/bootstrap/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/jquery/json.js"></script>
+<script type="text/javascript" src="${ctx}/static/jquery/json2.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/common/city.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/platform/suppliermanage.js"></script>
 <script type="text/javascript">
-var path = "${pageContext.request.contextPath}";
-<%-- var uname = "<%=uname%>";
-var is_root = "<%=is_root%>"; --%>
+var path = "${ctx}";
+var clientname = "<%=clientname%>";
+var clientid = "<%=clientid%>";
 </script>
 </head>
 <body style="height:100%">
@@ -103,7 +104,7 @@ var is_root = "<%=is_root%>"; --%>
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div2">
 					                <label class="left panel-body-label2">汽配商域名</label>
-					                <input class="form-control form-group-input left" id="domain_name" name="domain_name" type="text" placeholder="汽配商域名" disabled>
+					                <input class="form-control form-group-input left" style="width:160px;margin:-5px 0 0 10px;" id="domain_name" name="domain_name" type="text" placeholder="汽配商域名" disabled>.inquiry.com
 					            <br/></div><br/>
 					            <div class="form-group panel-body-div2">
 					                <label class="left panel-body-label2">汽配商名称</label>

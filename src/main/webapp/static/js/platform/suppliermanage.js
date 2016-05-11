@@ -14,7 +14,7 @@ function doChangeStatus(id,option){//option：0 or 1
 		$.ajax({
 			type:"post",
 			url:"updateUserStatusById/"+id,
-			data:{locked:option},
+			data:{locked:option,clientid:clientid},
 			success:function(data){
 //				alert("success:【"+JSON.stringify(data)+"】");
 				alert(data.imsg);
@@ -67,11 +67,7 @@ function toForm(obj,id,supplierid){
 			$("#town").combobox('setValue', data.supplier.town);
 			$("#addr").val(data.supplier.addr);
 			$("#linkman").val(data.supplier.linkman);
-			//if(is_root==1){//登录用户为根管理员，“修改”按钮才有效
-				$("#update").attr("disabled",false);
-//			}else{
-//				$("#update").attr("disabled",true);
-//			}
+			$("#update").attr("disabled",false);
 		},
 		error:function(data){
 			alert("error:【"+JSON.stringify(data)+"】");
@@ -113,7 +109,7 @@ function submitDetail(){
 		$.ajax({
 			type:"post",
 			url:"updateSupplierById/"+userId+"/"+supplierId,
-			data:{username:username,telphone:telphone,domain_name:domain_name,suppliername:suppliername,filepath:filepath,province:province,city:city,town:town,addr:addr,linkman:linkman},
+			data:{clientid:clientid,username:username,telphone:telphone,domain_name:domain_name,suppliername:suppliername,filepath:filepath,province:province,city:city,town:town,addr:addr,linkman:linkman},
 			success:function(data){
 				$("#suppliersForm").submit();
 				if(data.imsg!=null&&data.imsg!=""){
