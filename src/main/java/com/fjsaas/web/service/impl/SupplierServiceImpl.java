@@ -99,7 +99,16 @@ public class SupplierServiceImpl implements SupplierService {
 	public Integer updateDomainById(Supplier supplier){
 		return supplierDao.updateDomainById(supplier);
 	}
-	
+
+	/**
+	 * 插入数据库
+	 * 
+	 * @return
+	 */
+	public Integer addDomain(Supplier supplier) {
+		return supplierDao.addDomain(supplier);
+	}
+
 	/**
 	 * 根据主键激活、锁定供应商信息
 	 * add by lyn 2016.04.27
@@ -114,8 +123,8 @@ public class SupplierServiceImpl implements SupplierService {
 	 * 
 	 * @return
 	 */
-	public Integer deleteById(Integer id) {
-		return supplierDao.deleteById(id);
+	public Integer deleteById(Supplier supplier) {
+		return supplierDao.deleteById(supplier);
 	}
 	//add by lyn --------------------------------------------end
 

@@ -64,6 +64,7 @@ public class SupplierManage {
 		String town = request.getParameter("town");
 		String addr = request.getParameter("addr");
 		String linkman = request.getParameter("linkman");
+		int clientid = Integer.parseInt(request.getParameter("clientid"));//登录用户id
 		if(!Function.equalsNull(filepath)){//Function.equalsNull判断是否为空的公用方法
 			ImageUpload.upload(request, filepath);//图片上传，返回说明信息
 		}
@@ -80,10 +81,14 @@ public class SupplierManage {
 		supplier.setAddr(addr);
 		supplier.setLinkman(linkman);
 		supplier.setUpdateDate(new Date());//修改时间
-//		supplier.setUpdatorId();//修改人：获取登录用户id
+		supplier.setUpdatorId(clientid);//修改人：获取登录用户id
 		int flag1 = supplierService.updateSupplierById(supplier);//修改该供应商的数据库信息
 		int flag2 = supplierService.updateUserById(supplier);
 		int flag3 = supplierService.updateDomainById(supplier);
+		if(flag3==0){
+			flag3 = supplierService.addDomain(supplier);
+		}
+//		System.out.println("flag1:"+flag1+"flag2:"+flag2+"flag3"+flag3);
 		String msg = "修改"+(flag1==1&&flag2==1&&flag3==1?"成功！":"失败！");
 		jsonObject.put("imsg", msg);
 		ResponseUtils.renderJson(response, jsonObject.toJSONString());
@@ -94,8 +99,10 @@ public class SupplierManage {
 		JSONObject jsonObject = new JSONObject();
 		Supplier supplier = new Supplier();
 		String islocked = request.getParameter("locked");
+		int clientid = Integer.parseInt(request.getParameter("clientid"));//登录用户id
 		supplier.setId(id);
 		supplier.setUserlocked(Integer.parseInt(islocked));
+		supplier.setUpdatorId(clientid);//修改人：获取登录用户id
 		int flag = supplierService.updateUserStatusById(supplier);//修改该供应商的数据库信息
 		String msg = (islocked.equals("0")?"激活":"锁定") + (flag==1?"成功！":"失败！");
 		jsonObject.put("imsg", msg);
@@ -105,7 +112,11 @@ public class SupplierManage {
 	@RequestMapping("deleteById/{id}")//根据id删除供应商
 	public void deleteById(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response){
 		JSONObject jsonObject = new JSONObject();
-		int flag = supplierService.deleteById(id);//修改该供应商的数据库信息
+		Supplier supplier = new Supplier();
+		int clientid = Integer.parseInt(request.getParameter("clientid"));//登录用户id
+		supplier.setId(id);
+		supplier.setUpdatorId(clientid);//修改人：获取登录用户id
+		int flag = supplierService.deleteById(supplier);//修改该供应商的数据库信息
 		String msg = "删除"+(flag==1?"成功！":"失败！");
 		jsonObject.put("imsg", msg);
 		ResponseUtils.renderJson(response, jsonObject.toJSONString());

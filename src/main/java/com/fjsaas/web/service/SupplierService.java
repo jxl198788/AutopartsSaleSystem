@@ -88,6 +88,13 @@ public interface SupplierService {
 	public Integer updateSupplierById(Supplier supplier);
 	public Integer updateUserById(Supplier supplier);
 	public Integer updateDomainById(Supplier supplier);
+	/**
+	 * 域名分配插入
+	 * 
+	 * @return
+	 */
+	public Integer addDomain(Supplier supplier);
+
 
 	/**
 	 * 根据主键激活、锁定供应商信息
@@ -101,6 +108,6 @@ public interface SupplierService {
 	 * 
 	 * @return
 	 */
-	public Integer deleteById(Integer id);
+	public Integer deleteById(Supplier supplier);
 //add by lyn --------------------------------------------end
 }

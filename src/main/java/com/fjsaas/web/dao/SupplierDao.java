@@ -87,6 +87,11 @@ public interface SupplierDao {
 	public Integer updateDomainById(Supplier supplier);
 
 	/**
+	 * 添加域名
+	 * @param domain
+	 */
+	public Integer addDomain(Supplier supplier);
+	/**
 	 * 根据主键激活、锁定供应商信息
 	 * add by lyn 2016.04.27
 	 * @return
@@ -97,7 +102,7 @@ public interface SupplierDao {
 	 * 根据主键删除
 	 * @param id
 	 */
-	public Integer deleteById(Integer id);
+	public Integer deleteById(Supplier supplier);
 
 	//add by lyn --------------------------------------------end
 }
