@@ -418,8 +418,8 @@
 		FROM ass_user t1
 		LEFT JOIN ass_supplier t2 ON t1.suppiler_id = t2.id
 		LEFT JOIN ass_domain t3 ON t2.id = t3.supplier_id
-		LEFT JOIN ass_user_role t4 ON t1.id = t4.user_id
-		LEFT JOIN ass_role t5 ON t4.role_id = t5.id
+		INNER JOIN ass_user_role t4 ON t1.id = t4.user_id and t4.role_id = 3 #注释：仅查看为供应商根管理员角色的汽配商信息
+		LEFT JOIN ass_role t5 ON t4.role_id = t5.id 
 		WHERE
 			 t1.is_del=0
 	</select>
@@ -441,9 +441,6 @@
 		UPDATE ass_supplier
 		<set>
 			<trim suffixOverrides=",">
-				<if test="id != null">
-					id = #{id},
-				</if>
 				<if test="suppliername != null">
 					name = #{suppliername},
 				</if>
@@ -465,9 +462,7 @@
 				<if test="linkman != null">
 					linkman = #{linkman},
 				</if>
-				<if test="updateDate != null">
-					update_date = #{updateDate},
-				</if>
+					update_date = SYSDATE(),
 				<if test="updatorId != null">
 					updator_id = #{updatorId},
 				</if>
@@ -481,18 +476,13 @@
 		UPDATE ass_user
 		<set>
 			<trim suffixOverrides=",">
-				<if test="id != null">
-					id = #{id},
-				</if>
 				<if test="username != null">
 					username = #{username},
 				</if>
 				<if test="telphone != null">
 					telphone = #{telphone},
 				</if>
-				<if test="updateDate != null">
-					update_date = #{updateDate},
-				</if>
+					update_date = SYSDATE(),
 				<if test="updatorId != null">
 					updator_id = #{updatorId},
 				</if>
@@ -509,9 +499,7 @@
 				<if test="domain_name != null">
 					domain_name = #{domain_name},
 				</if>
-				<if test="updateDate != null">
-					update_date = #{updateDate},
-				</if>
+					update_date = SYSDATE(),
 				<if test="updatorId != null">
 					updator_id = #{updatorId},
 				</if>
@@ -520,15 +508,81 @@
 		WHERE 
 		supplier_id = #{supplierid};
 	</update>
-	
+	<!-- 新增域名信息 -->
+	<insert id="addDomain" parameterType="Supplier">
+		INSERT INTO ass_domain
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="supplierid != null">
+					supplier_id,
+				</if>
+				<if test="id != null">
+					user_id,
+				</if>
+				<if test="domain_name != null">
+					domain_name,
+				</if>
+					status,				
+					create_date,
+				<if test="updatorId != null">
+					creator_id,
+				</if>
+					is_del,
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+					<if test="supplierid != null">
+						#{supplierid},
+					</if>
+					<if test="id != null">
+						#{id},
+					</if>
+					<if test="domain_name != null">
+						#{domain_name},
+					</if>
+						1,	
+						SYSDATE(),
+					<if test="updatorId != null">
+						#{updatorId},
+					</if>
+					<if test="isDel != null">
+						#{isDel},
+					</if>
+					<if test="isDel == null">
+						0,
+					</if>
+					
+		</trim>
+	</insert>
 	<!-- 根据id激活、锁定该用户对应的供应商信息 -->
 	<update id="updateUserStatusById" parameterType="Supplier">
-		UPDATE ass_user set locked = #{userlocked} WHERE id=#{id}
+		UPDATE ass_user 
+		<set>
+			<trim suffixOverrides=",">
+				<if test="userlocked != null">
+					locked = #{userlocked},
+				</if>
+					update_date = SYSDATE(),
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+			</trim>
+		</set>
+		WHERE id=#{id}
 	</update>
 	
 	<!-- 根据id删除 -->
-	<update id="deleteById" parameterType="hashMap">
-		UPDATE ass_user set is_del = 1 where id=#{id}
+	<update id="deleteById" parameterType="Supplier">
+		UPDATE ass_user 
+		<set>
+			<trim suffixOverrides=","> 
+					is_del = 1,
+					update_date = SYSDATE(),
+				<if test="updatorId != null">
+					updator_id = #{updatorId},
+				</if>
+			</trim>
+		</set>
+		where id=#{id}
 	</update>
 	<!-- 新增sql语句 add by lyn end-->
 </mapper>
