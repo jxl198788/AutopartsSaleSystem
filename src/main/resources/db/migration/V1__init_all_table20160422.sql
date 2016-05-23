@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/5/4 14:39:38                            */
+/* Created on:     2016/5/12 16:50:09                           */
 /*==============================================================*/
 
 
@@ -32,6 +32,8 @@ drop table if exists ass_productCode_OE;
 
 drop table if exists ass_quota;
 
+drop table if exists ass_quota_order;
+
 drop table if exists ass_role;
 
 drop table if exists ass_role_permission;
@@ -57,6 +59,8 @@ drop table if exists ass_type_oe;
 drop table if exists ass_user;
 
 drop table if exists ass_user_role;
+
+drop table if exists ass_information;
 
 /*==============================================================*/
 /* Table: ass_OE                                                */
@@ -106,8 +110,7 @@ alter table ass_brand comment '汽车生产商';
 create table ass_domain
 (
    id                   int not null auto_increment comment 'id',
-   supplier_id          int not null comment '企业id',
-   user_id              int comment '根管理员id',
+   supplier_id          int not null comment '根企业id',
    domain_name          varchar(80) not null comment '域名',
    status               char(1) not null comment '状态',
    create_date          datetime,
@@ -180,8 +183,9 @@ create table ass_mapping_index
    oe_code              varchar(80) comment 'oe码',
    auto_type_id         int comment '车型id',
    part_sort_id         int comment '配件分类id',
-   status               char(1) comment '状态 0：新增 1：修改 2：禁用',
-   supplier_id          int comment '企业id',
+   status               char(1) not null comment '状态 0：新增 1：修改 2：禁用',
+   supplier_id          int not null comment '企业id',
+   root_supplier_id     int not null comment '根企业id',
    mapping_id           int comment '导入映射表id',
    image_url            varchar(255) comment '图片地址',
    create_date          datetime,
@@ -266,11 +270,12 @@ create table ass_permission
 (
    id                   int not null auto_increment comment 'id',
    name                 varchar(40) not null comment '名称',
-   type                 varchar(32) not null comment '权限类型',
+   type                 varchar(32) not null comment '''类型   0：菜单栏 1：菜单 2：权限 3：根节点',
    url                  varchar(80) comment 'url地址',
    percode              varchar(255) comment '权限代码字符串',
-   parentid             int comment '父节点id',
-   parentids            varchar(255) comment '父结点id列表串',
+   parent_id            int comment '父节点id',
+   parent_ids           varchar(255) comment '父结点id列表串',
+   sort                 int,
    create_date          datetime,
    creator_id           int,
    update_date          datetime,
@@ -355,6 +360,7 @@ create table ass_quota
    used_quato           int not null default 0 comment '已使用配额',
    distribute_quota     int not null default 0 comment '已分配配额',
    supplier_id          int not null comment '公司id',
+   root_supplier_id     int not null comment '根公司id',
    permission_id        int not null comment '权限id',
    create_date          datetime,
    creator_id           int,
@@ -365,6 +371,26 @@ create table ass_quota
 );
 
 alter table ass_quota comment '配额';
+
+/*==============================================================*/
+/* Table: ass_quota_order                                       */
+/*==============================================================*/
+create table ass_quota_order
+(
+   id                   int not null comment 'id',
+   quota_id             int not null comment '配额id',
+   budget_quota         int not null comment '预算配额',
+   actual_quota         int comment '实际配额',
+   status               char(1) not null comment '状态 0：提交申请 1：申请已通过 2：申请已拒绝',
+   review_info          varchar(255) comment '审核信息',
+   create_id            int comment '申请用户id',
+   create_date          datetime comment '申请时间',
+   update_id            int comment '审核用户id',
+   update_date          datetime comment '审核时间',
+   primary key (id)
+);
+
+alter table ass_quota_order comment '配额订单';
 
 /*==============================================================*/
 /* Table: ass_role                                              */
@@ -456,6 +482,7 @@ create table ass_supplier_epc
    size                 varchar(80) comment '规格',
    part_sort_id         int comment '汽车配件分类id',
    supplier_id          int comment '企业id',
+   root_supplier_id     int comment '根企业id',
    type_id              int comment '车型id',
    status               char(1) comment '状态',
    platform_status      char(1) comment '平台状态',
@@ -478,15 +505,16 @@ create table ass_supplier_mapping
    id                   int not null auto_increment comment 'id',
    product_brand        varchar(80) comment '配件品牌',
    product_name         varchar(40) comment '配件名称',
-   product_code         varchar(80) comment '配件编码',
+   product_code         varchar(80) not null comment '配件编码',
    reference_code       varchar(80) comment '参照编码',
    reference_brand      varchar(80) comment '参照品牌',
    oe_code              varchar(80) comment 'oe码',
    first_price          float comment '一级价格',
    second_price         float comment '二级价格',
    third_price          float comment '三级价格',
-   status               char(1) comment '状态 0：新增 1：修改 2：禁用',
-   supplier_id          int comment '企业id',
+   status               char(1) not null comment '状态 0：新增 1：修改 2：禁用',
+   supplier_id          int not null comment '企业id',
+   root_supplier_id     int not null comment '根企业id',
    create_date          datetime,
    creator_id           int,
    update_date          datetime,
@@ -506,6 +534,9 @@ create table ass_supplier_relative
    name                 varchar(40) comment '名称',
    supplier_id          int comment '公司id',
    parent_id            int comment '父节点id  0：根节点',
+   parent_ids           varchar(255) comment '父结点id列表串',
+   root_supplier_id     int comment '根供应商id',
+   sort                 int,
    create_date          datetime,
    creator_id           int,
    update_date          datetime,
@@ -546,16 +577,16 @@ create table ass_task
    id                   int not null auto_increment comment 'id',
    code                 varchar(255) comment '编号',
    title                varchar(40) comment '主题',
-   submit_user_id       int comment '提交用户id',
-   submit_date          datetime comment '提交任务时间',
-   role_id              int comment '审核角色id',
-   finish_user_id       int comment '审核用户id',
-   end_date             date comment '任务完成时间',
+   content              varchar(255) comment '内容',
+   review_supplier_id   int comment '审核公司id',
+   review_role_id       int comment '审核角色id',
+   type                 char(1) comment '任务类型 0：EPC审核 1：配额审核 ',
+   target_id            int comment '目标id',
    status               char(1) comment '任务状态 0：未完成 1：已完成',
-   create_date          datetime,
-   creator_id           int,
-   update_date          datetime,
-   updator_id           int,
+   create_date          datetime comment '提交任务时间',
+   creator_id           int comment '提交用户id',
+   update_date          datetime comment '审核/更新时间',
+   updator_id           int comment '审核/更新用户id',
    is_del               char(1) not null default '0',
    primary key (id)
 );
@@ -618,10 +649,11 @@ create table ass_user
    job                  varchar(20) comment '职位',
    email                varchar(80) not null comment '邮箱',
    address              varchar(255) comment '地址',
-   gruop                char(1) not null comment '用户类别 0：平台 1：企业',
+   group_id             char(1) not null comment '用户类别 0：平台 1：企业',
    is_root              char(1) not null comment '是否根管理员',
    suppiler_id          int comment '企业id',
    locked               char(1) not null default '0' comment '是否被锁定 0:未锁定 1:锁定',
+   is_activation        char(1) not null default '0' comment '是否激活 0：未激活 1:激活',
    salt                 varchar(11) comment '盐',
    create_date          datetime,
    creator_id           int,
@@ -651,14 +683,30 @@ create table ass_user_role
 
 alter table ass_user_role comment '用户角色表';
 
+/*==============================================================*/
+/* Table: ass_information                                                */
+/*==============================================================*/
+CREATE TABLE ass_information (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  news_content varchar(255) NOT NULL COMMENT '信息内容',
+  create_id int(11) NOT NULL COMMENT '创建者ID',
+  check_role int(11) NOT NULL COMMENT '审核者角色ID',
+  create_status char(1) DEFAULT '0' COMMENT '用户状态 0-未读 1-已读 2-删除',
+  check_status char(1) DEFAULT '0' COMMENT '审核状态 0-未读 1-已读 2-删除',
+  is_del char(1) NOT NULL DEFAULT '0' COMMENT '默认为0，1删除',
+  PRIMARY KEY (id)
+);
+  alter table ass_information comment '信息推送';
+
+
+
+
+
 alter table ass_OE add constraint FK_partSort_OE foreign key (part_sort_id)
       references ass_part_sort (id) on delete restrict on update restrict;
 
 alter table ass_domain add constraint FK_supplier_domain foreign key (supplier_id)
       references ass_supplier (id) on delete restrict on update restrict;
-
-alter table ass_domain add constraint FK_user_domain foreign key (user_id)
-      references ass_user (id) on delete restrict on update restrict;
 
 alter table ass_mapping_index add constraint FK_supplier_mappingIndex foreign key (supplier_id)
       references ass_supplier (id) on delete restrict on update restrict;
@@ -680,6 +728,9 @@ alter table ass_quota add constraint FK_FK_supplier_quota foreign key (supplier_
 
 alter table ass_quota add constraint FK_permission_quota foreign key (permission_id)
       references ass_permission (id) on delete restrict on update restrict;
+
+alter table ass_quota_order add constraint FK_quota_quotaOrder foreign key (quota_id)
+      references ass_quota (id) on delete restrict on update restrict;
 
 alter table ass_role_permission add constraint FK_permission_rolePermission foreign key (permission_id)
       references ass_permission (id) on delete restrict on update restrict;
@@ -705,13 +756,13 @@ alter table ass_supplier_mapping add constraint FK_supplier_mapping foreign key 
 alter table ass_supplier_relative add constraint FK_FK_quota foreign key (supplier_id)
       references ass_supplier (id) on delete restrict on update restrict;
 
-alter table ass_task add constraint FK_role_task foreign key (role_id)
+alter table ass_task add constraint FK_role_task foreign key (review_role_id)
       references ass_role (id) on delete restrict on update restrict;
 
-alter table ass_task add constraint FK_user_task foreign key (submit_user_id)
+alter table ass_task add constraint FK_user_task foreign key (creator_id)
       references ass_user (id) on delete restrict on update restrict;
 
-alter table ass_task add constraint FK_user_task2 foreign key (finish_user_id)
+alter table ass_task add constraint FK_user_task2 foreign key (updator_id)
       references ass_user (id) on delete restrict on update restrict;
 
 alter table ass_type add constraint FK_series_type foreign key (series_id)
