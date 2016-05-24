@@ -17,7 +17,7 @@ import com.fjsaas.web.service.InformationService;
 public class InformationServiceImpl implements InformationService {
 	
 	@Resource
-	private InformationDao dao;
+	private InformationDao dao;//链接数据库dao层
 
 	@Override
 	public Integer addInformation(Information information) {

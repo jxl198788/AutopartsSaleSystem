@@ -60,7 +60,7 @@ drop table if exists ass_user;
 
 drop table if exists ass_user_role;
 
-drop table if exists ass_information;
+drop table if exists ass_information; 
 
 /*==============================================================*/
 /* Table: ass_OE                                                */

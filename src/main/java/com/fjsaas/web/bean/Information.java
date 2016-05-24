@@ -14,7 +14,7 @@ public class Information implements Serializable {
 	private Integer checkRole;
 	private String createStatus;
 	private String checkStatus;
-	private String isdel;
+	private String isdel; //是否删除
 	
 	public Integer getId() {
 		return id;

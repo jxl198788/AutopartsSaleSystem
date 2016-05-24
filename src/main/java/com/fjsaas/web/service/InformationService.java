@@ -6,7 +6,7 @@ import java.util.Map;
 import com.fjsaas.web.bean.Information;
 
 public interface InformationService {
-	
+	//接口
 	public Integer addInformation(Information information);
 	
 	public List<Information> querStatusByUser(Integer userId);

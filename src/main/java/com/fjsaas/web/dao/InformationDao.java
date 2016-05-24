@@ -39,6 +39,6 @@ public interface InformationDao {
     
     public void allreadInformationByUser(Map<String,Object> map);
     
-    public void allreadInformationByCheck(Map<String,Object> map);
+    public void allreadInformationByCheck(Map<String,Object> map);//全部删除
     
 }

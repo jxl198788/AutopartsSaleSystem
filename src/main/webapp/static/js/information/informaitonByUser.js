@@ -7,7 +7,7 @@ $(function(){
 	initTable();//初始化表格数据
 	setInterval("showTime()", 5000); 
 });
-
+ 
 function showTime()
 {
 	url = path+"/information/loop.do";
